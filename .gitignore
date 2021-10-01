@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+/.vs
+/Test Environment/Test Environment/.vs/Test Environment/v16
