@@ -7,7 +7,12 @@ int main()
 {
 	Log::Init("log.txt");
 	CheckersGame game;
-	Log::Write("Game created");
+
+	game.GetChosenChecker(1, 1);
+	game.GetChosenChecker(7, 3);
+	game.GetChosenChecker(5, 5);
+
+	game.NewGame();
 
 	Log::Stop();
 }

@@ -63,5 +63,7 @@ protected:
 
 	GameInfo info;
 
+private:
+	void InitializeGame(CheckersGame*);
 };
 
