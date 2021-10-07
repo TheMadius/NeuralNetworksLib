@@ -45,7 +45,7 @@ public:
 
 	GameInfo GetInfo() const; //получить текущую информацию об игре
 
-	const Checker* GetChosenChecker() const; //получить выбранную шашку
+	const Checker* GetChosenChecker(int x, int y) const; //получить выбранную шашку
 
 	std::vector<const Checker*> GetCheckers() const; //все шашки на поле
 

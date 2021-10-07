@@ -18,7 +18,7 @@ void Log::Init(std::string fileName)
 void Log::Write(std::string data)
 {
 	logMutex.lock();
-	logVector.push_back(data);
+	logVector.insert(logVector.begin(), data);
 	logMutex.unlock();
 }
 
