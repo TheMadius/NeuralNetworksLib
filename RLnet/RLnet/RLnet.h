@@ -9,6 +9,9 @@ class QModel
 public:
 	QModel();
 	~QModel();
+	void predict(RowVector& input);
+	void explore(RowVector& input);
+	void train(RowVector& input, RowVector& output);
 private:
 	NeuralNetwork* model;
 };
