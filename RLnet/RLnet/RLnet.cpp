@@ -10,3 +10,18 @@ QModel::~QModel()
 	delete this->model;
 }
 
+void QModel::predict(RowVector& input)
+{
+	
+}
+
+void QModel::explore(RowVector& input)
+{
+
+}
+
+void QModel::train(RowVector& input, RowVector& output)
+{
+
+}
+
