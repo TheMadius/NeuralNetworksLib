@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include <vector>
+#include <string>
 
 enum class CheckerType
 {
