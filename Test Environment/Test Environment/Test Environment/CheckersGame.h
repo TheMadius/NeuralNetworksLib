@@ -15,6 +15,11 @@ enum class Team
 struct Coord
 {
 	Coord(int x, int y) : x(x), y(y) {}
+	Coord operator +(const Coord& other) const { return Coord(x + other.x, y + other.y); }
+	Coord operator -(const Coord& other) const { return *this + -other; }
+	Coord operator -() const { return Coord(-x, -y); }
+	Coord operator *(int k) const { return Coord(x * k, y * k); }
+	bool operator ==(const Coord& other) const { return x == other.x && y == other.y; }
 	int x, y;
 };
 
@@ -45,11 +50,11 @@ public:
 
 	GameInfo GetInfo() const; //получить текущую информацию об игре
 
-	const Checker* GetChosenChecker(int x, int y) const; //получить выбранную шашку
+	const Checker* GetChosenChecker() const; //получить выбранную шашку
 
 	std::vector<const Checker*> GetCheckers() const; //все шашки на поле
 
-	std::vector<Coord> GetPossibleMoves(const Checker* checker) const; //доступные клетки для хода шашки
+	std::vector<Coord> GetPossibleMoves(const Checker* checker); //доступные клетки для хода шашки
 
 	void Action(const Coord& coord); //нажатие на клетку
 
@@ -64,6 +69,18 @@ protected:
 	GameInfo info;
 
 private:
+
+	Checker* CheckerByCoords(const Coord& coord); //получить шашку по координатам
+
 	void InitializeGame(CheckersGame*);
+
+	std::vector<Coord> GetPossibleMovesRecursive(const Checker& checker, int dir);
+
+	void ChopCheckers(const Checker& checker, const Coord& coord, const std::vector<Coord>& moves);
+
+	bool CoordsInField(const Coord& coord);
+
+	bool CoordIsEmpty(const Coord& coord);
+
 };
 

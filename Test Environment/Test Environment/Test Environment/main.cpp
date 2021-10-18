@@ -8,9 +8,9 @@ int main()
 	Log::Init("log.txt");
 	CheckersGame game;
 
-	game.GetChosenChecker(1, 1);
-	game.GetChosenChecker(7, 3);
-	game.GetChosenChecker(5, 5);
+	game.CheckerByCoords(Coord(1, 1));
+	game.CheckerByCoords(Coord(7, 3));
+	game.CheckerByCoords(Coord(5, 5));
 
 	game.NewGame();
 
