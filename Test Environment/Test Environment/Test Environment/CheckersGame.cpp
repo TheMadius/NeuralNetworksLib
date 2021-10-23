@@ -57,7 +57,7 @@ void CheckersGame::NewGame()
 
 GameInfo CheckersGame::GetInfo() const
 {
-	return GameInfo();
+	return info;
 }
 
 const Checker* CheckersGame::GetChosenChecker() const
@@ -110,29 +110,31 @@ std::vector<Coord> CheckersGame::PossibleMoves(const Checker* checker)
 	if (chosenChecker == nullptr)
 		return vector<Coord>();
 
-	return GetPossibleMovesRecursive(*chosenChecker, 0);
+	return GetPossibleMovesRecursive(*chosenChecker, Coord(0, 0));
 }
 
-std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checker, int dir) //dir: 1-ru, 2-rd, 3-ld, 4-lu, 0-none
+std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checker, const Coord& dir) //dir: 1-ru, 2-rd, 3-ld, 4-lu, 0-none
 {
 	vector<Coord> ret;
 	int dy = (checker.team == Team::Black) ? (-1) : (1);
 	Coord lu = Coord(-1, dy), ru = Coord(1, dy), ld = Coord(-1, -dy), rd = Coord(1, -dy);
 
-	auto tryMove = [&](const Coord& coord, int dir)
+	auto tryMove = [&](const Coord& coord, const Coord& dir)
 	{
+		if (coord == -dir)
+			return;
 		if (!CoordIsEmpty(checker.coord + coord) && CoordsInField(checker.coord + coord))
 			if (CheckerByCoords(checker.coord + coord)->team != checker.team && CoordIsEmpty(checker.coord + coord * 2))
 			{
 				ret.push_back(checker.coord + coord * 2);
 				vector<Coord> tmp = GetPossibleMovesRecursive(
-					Checker(checker.coord + coord * 2, checker.type, checker.team), dir);
+					Checker(checker.coord + coord * 2, checker.type, checker.team), coord);
 				ret.insert(ret.end(), tmp.begin(), tmp.end());
 			}
 	};
 
 	//not chop moves
-	if (dir == 0)
+	if (dir == Coord(0, 0))
 	{
 		if (CoordIsEmpty(checker.coord + Coord(1, dy)))
 			ret.push_back(checker.coord + Coord(1, dy));
@@ -140,14 +142,10 @@ std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checke
 			ret.push_back(checker.coord + Coord(-1, dy));
 	}
 	//chop moves
-	if (dir != 3)
-		tryMove(ru, 1);
-	if (dir != 4)
-		tryMove(rd, 2);
-	if (dir != 1)
-		tryMove(ld, 3);
-	if (dir != 2)
-		tryMove(lu, 4);
+	tryMove(ru, dir);
+	tryMove(rd, dir);
+	tryMove(ld, dir);
+	tryMove(lu, dir);
 	return ret;
 }
 
@@ -159,19 +157,21 @@ void CheckersGame::ChopCheckers(const Checker& checker, const Coord& coord, cons
 	};
 
 	int dy = (checker.team == Team::Black) ? (-1) : (1);
-	int lastDir = 0;												//dir: 1-ru, 2-rd, 3-ld, 4-lu, 0-none
+	Coord lastDir = Coord(0, 0);
 	Coord tmp = coord, lu = Coord(-1, dy), ru = Coord(1, dy), ld = Coord(-1, -dy), rd = Coord(1, -dy);
 	vector<Checker*> delCheckers;
 
-	auto backStep = [&](const Coord& coord, int dir)
+	auto backStep = [&](const Coord& coord)
 	{
+		if (coord == -lastDir)
+			return false;
 		Checker* midChecker = CheckerByCoords(tmp + coord);
 		bool isMidEnemy = midChecker != nullptr && midChecker->team != checker.team;
 		if (isMidEnemy && (findMove(moves, tmp + coord * 2) || tmp + coord * 2 == checker.coord))
 		{
 			delCheckers.push_back(midChecker);
 			tmp = tmp + coord * 2;
-			lastDir = dir;
+			lastDir = coord;
 			return true;
 		}
 		return false;
@@ -184,13 +184,13 @@ void CheckersGame::ChopCheckers(const Checker& checker, const Coord& coord, cons
 	{
 		if (tmp == checker.coord)
 			break;
-		if (lastDir != 3 && backStep(ru, 1))
+		if (backStep(ru))
 			continue;
-		if (lastDir != 4 && backStep(rd, 2))
+		if (backStep(rd))
 			continue;
-		if (lastDir != 1 && backStep(ld, 3))
+		if (backStep(ld))
 			continue;
-		if (lastDir != 2 && backStep(lu, 4))
+		if (backStep(lu))
 			continue;
 		throw exception("Can't build chop checkers way");
 	}

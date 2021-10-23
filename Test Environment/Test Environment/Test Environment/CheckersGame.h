@@ -78,7 +78,7 @@ private:
 
 	void InitializeGame(CheckersGame*);
 
-	std::vector<Coord> GetPossibleMovesRecursive(const Checker& checker, int dir);
+	std::vector<Coord> GetPossibleMovesRecursive(const Checker& checker, const Coord& dir);
 
 	void ChopCheckers(const Checker& checker, const Coord& coord, const std::vector<Coord>& moves);
 
