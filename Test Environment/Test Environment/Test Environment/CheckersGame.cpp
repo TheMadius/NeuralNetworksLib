@@ -33,9 +33,9 @@ void CheckersGame::InitializeGame(CheckersGame* game)
 
 	//Add info about game
 	game->info.isEnd = false;
-	game->info.allCheckers = 32;
-	game->info.blackCheckers = 16;
-	game->info.whiteCheckers = 16;
+	game->info.allCheckers = 24;
+	game->info.blackCheckers = 12;
+	game->info.whiteCheckers = 12;
 	game->info.winner = Team::Black;
 	game->info.countMoves = 0;
 
@@ -57,7 +57,7 @@ void CheckersGame::NewGame()
 
 GameInfo CheckersGame::GetInfo() const
 {
-	return GameInfo();
+	return info;
 }
 
 const Checker* CheckersGame::GetChosenChecker() const
