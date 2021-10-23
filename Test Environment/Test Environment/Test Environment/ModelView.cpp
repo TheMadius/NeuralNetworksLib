@@ -44,6 +44,12 @@ void ModelView::LoadTexturesAndText()
 	windowGame->gameTextureAndText.txt->setCharacterSize(FONT_SIZE);
 	windowGame->gameTextureAndText.txt->setFillColor(TEXT_COLOR);
 	windowGame->gameTextureAndText.txt->setStyle(TEXT_TYPE);
+
+	windowGame->gameTextureAndText.txtInfo = new Text;
+	windowGame->gameTextureAndText.txtInfo->setFont(windowGame->gameTextureAndText.font);
+	windowGame->gameTextureAndText.txtInfo->setCharacterSize(FONT_SIZE);
+	windowGame->gameTextureAndText.txtInfo->setFillColor(TEXT_COLOR);
+	windowGame->gameTextureAndText.txtInfo->setStyle(TEXT_TYPE);
 }
 
 void ModelView::UpdateFromGame()
@@ -116,6 +122,15 @@ void ModelView::GameBoardUpdate()
 	//Отрисовка прямоугольника
 	windowGame->app->draw(rectangleBoardWhite);
 
+	//Создаем белый прямоугольник для текста
+	RectangleShape rectangleBoardWhiteInfo(Vector2f(330, 630));
+	//Перемещаем его в нижний ряд справа от многоугольникаa
+	rectangleBoardWhiteInfo.move((windowGame->gameBoard.cellSize * 9) + 50, (windowGame->gameBoard.cellSize / 2));
+	//Устанавливаем ему цвет
+	rectangleBoardWhiteInfo.setFillColor(WHITE);
+	//Отрисовка прямоугольника
+	windowGame->app->draw(rectangleBoardWhiteInfo);
+
 	//Создаем чёрный прямоугольник (5 и 10 зависимы и отвечают за размер рамки)
 	RectangleShape rectangleBoardBlack(Vector2f(windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10, windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10));
 	//Перемещаем его в нижний ряд справа от многоугольника
@@ -155,7 +170,38 @@ void ModelView::GameBoardUpdate()
 		windowGame->gameTextureAndText.txt->setString(ch);
 		windowGame->app->draw(*windowGame->gameTextureAndText.txt);
 	}
+	
+	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 250);
+	if (game->GetInfo().isEnd)
+	{
+		windowGame->gameTextureAndText.txtInfo->setString("Конец игры" );
+		windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 200);
+		windowGame->gameTextureAndText.txtInfo->setString((string)"Победитель:" + ((game->GetInfo().winner == Team::Black) ? "Чёрные" : "Белые"));
+		windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
+	}
+	else
+	{
+		windowGame->gameTextureAndText.txtInfo->setString("Идёт игра");
+	}
+	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
+	
 
+	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2));
+	windowGame->gameTextureAndText.txtInfo->setString("Шашек на доске: " + to_string(game->GetInfo().allCheckers));
+	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
+
+	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 50);
+	windowGame->gameTextureAndText.txtInfo->setString("Чёрных шашек на доске:" + to_string(game->GetInfo().blackCheckers));
+	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
+
+	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 100);
+	windowGame->gameTextureAndText.txtInfo->setString("Белых шашек на доске:" + to_string(game->GetInfo().whiteCheckers));
+	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
+
+	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 150);
+	windowGame->gameTextureAndText.txtInfo->setString("Всего перемещений:" + to_string(game->GetInfo().countMoves));
+	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
+	
 	//рисование определённых квадратов на поле и шашек
 
 	auto drawSprite = [&](Sprite& sprite, int x, int y)
@@ -205,6 +251,7 @@ void ModelView::GameBoardUpdate()
 				break;
 			}
 		}
+	
 }
 
 void ModelView::SelectСheckers()
