@@ -3,6 +3,7 @@
 #include <time.h>
 #include <iostream>
 #include <string>
+#include "CheckersGame.h"
 
 #define FILD_SIZE 8					// ‡ÁÏÂ Ë„Ó‚Ó„Ó ÔÓÎˇ
 #define CELL_SIZE 66				// –‡ÁÏÂ ˇ˜ÂÈÍË ÔË‚ˇÁ‡Ì Í ‡ÁÏÂÛ Í‡ÚËÌÍË (˜ÛÚ¸ ·ÓÎ¸¯Â ‰Îˇ ÒÓÁ‰‡ÌËˇ ÎËÌËÈ ÏÂÊ‰Û ˇ˜ÂÈÍ‡ÏË)
@@ -15,18 +16,12 @@
 
 using namespace sf;
 
-enum CellType						//“ËÔ˚ ˇ˜ÂÈÍË
+enum class CellType						//“ËÔ˚ ˇ˜ÂÈÍË
 {
-	Blue = 0,
-	White = 1,
-	Green = 2
-};
-
-enum CheckerTypeBoard				//“ËÔ˚ ¯‡¯ÍË
-{
-	BlackChecker = 2,
-	WhiteChecker = 1,
-	EmptyChecker = 0
+	Blue,
+	White,
+	Green,
+	Yellow
 };
 
 struct TextureAndText
@@ -40,17 +35,17 @@ struct TextureAndText
 	Texture black—hecker;
 	Texture white—hecker;
 
-	Sprite* whiteSprite;
-	Sprite* blueSprite;
-	Sprite* greenSprite;
-	Sprite* black—heckerSprite;
-	Sprite* white—heckerSprite;
+	Sprite whiteSprite;
+	Sprite blueSprite;
+	Sprite greenSprite;
+	Sprite black—heckerSprite;
+	Sprite white—heckerSprite;
 };
 
 struct Board
 {
-	int gridLogic[FILD_SIZE][FILD_SIZE];
-	int gridView[FILD_SIZE][FILD_SIZE];
+	const Checker* gridLogic[FILD_SIZE][FILD_SIZE];
+	CellType gridView[FILD_SIZE][FILD_SIZE];
 
 	int size = 8;					// –‡ÁÏÂ Ë„Ó‚Ó„Ó ÔÓÎˇ ‚ ÔÎ‡¯Í‡ı
 	int arraySize = size * size;	// –‡ÁÏÂ Ï‡ÒÒË‚‡ ÔÎ‡¯ÂÍ
@@ -71,20 +66,19 @@ struct WindowGame
 
 class ModelView
 {
-private:
-	WindowGame* game;
-
 public:
 	ModelView();
 
 	ModelView(std::string name, int windowHight, int windowWidth);
 
-	~ModelView()
-	{
-		free(game);
-	}
+	~ModelView() { free(windowGame); }
 
 	void Start();
+
+	void ConnectGame(CheckersGame* game) { this->game = game; };
+
+private:
+
 	void Events();
 
 	void Select—heckers();
@@ -92,4 +86,8 @@ public:
 	void GameBoardUpdate();
 	void LoadTexturesAndText();
 
+	void UpdateFromGame();
+
+	WindowGame* windowGame;
+	CheckersGame* game;
 };

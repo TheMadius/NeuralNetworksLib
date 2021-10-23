@@ -6,13 +6,14 @@ using namespace std;
 
 int main()
 {
-	
-	ModelView test;
-	test.Start();
 	Log::Init("log.txt");
 	CheckersGame game;
-
 	game.NewGame();
+
+	ModelView test;
+	test.ConnectGame(&game);
+	test.Start();
+
 
 	Log::Stop();
 }

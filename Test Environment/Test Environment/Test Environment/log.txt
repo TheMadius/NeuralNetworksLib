@@ -1,12 +1,68 @@
-0:3:416:	White checkers was added
-	Checkers total: 16
-0:3:416:	Black checkers was added
-	Checkers total: 32
-0:3:417:	Initialized game info
-0:3:417:	Game created
-0:3:418:	White checkers was added
-	Checkers total: 16
-0:3:418:	Black checkers was added
-	Checkers total: 32
-0:3:419:	Initialized game info
-0:3:419:	Game created
+0:0:93:	White checkers was added
+	Checkers total: 12
+0:0:94:	Black checkers was added
+	Checkers total: 24
+0:0:94:	Initialized game info
+0:0:94:	Game created
+0:0:94:	White checkers was added
+	Checkers total: 12
+0:0:95:	Black checkers was added
+	Checkers total: 24
+0:0:95:	Initialized game info
+0:0:95:	Game created
+0:1:366:	(4;3)
+0:1:367:	Pressed to (4;3)
+0:1:367:	Checker chosen (4;3)
+0:1:665:	(5;4)
+0:1:665:	Pressed to (5;4)
+0:1:666:	Checker moved to (5; 4)
+0:3:283:	(3;6)
+0:3:284:	Pressed to (3;6)
+0:3:284:	Checker chosen (3;6)
+0:3:537:	(4;5)
+0:3:537:	Pressed to (4;5)
+0:3:538:	Checker moved to (4; 5)
+0:6:958:	(5;6)
+0:6:959:	Pressed to (5;6)
+0:9:173:	(5;2)
+0:9:174:	Pressed to (5;2)
+0:9:174:	Checker chosen (5;2)
+0:9:365:	(4;3)
+0:9:366:	Pressed to (4;3)
+0:9:367:	Checker moved to (4; 3)
+0:14:259:	(2;7)
+0:14:259:	Pressed to (2;7)
+0:14:260:	Checker chosen (2;7)
+0:14:525:	(3;6)
+0:14:526:	Pressed to (3;6)
+0:14:526:	Checker moved to (3; 6)
+0:15:560:	(6;1)
+0:15:561:	Pressed to (6;1)
+0:15:562:	Checker chosen (6;1)
+0:15:797:	(5;2)
+0:15:797:	Pressed to (5;2)
+0:15:798:	Checker moved to (5; 2)
+0:16:369:	(3;6)
+0:16:370:	Pressed to (3;6)
+0:16:371:	Checker chosen (3;6)
+0:16:574:	(2;5)
+0:16:575:	Pressed to (2;5)
+0:16:575:	Checker moved to (2; 5)
+0:17:591:	(6;3)
+0:17:591:	Pressed to (6;3)
+0:17:592:	Checker chosen (6;3)
+0:17:812:	(7;4)
+0:17:812:	Pressed to (7;4)
+0:17:813:	Checker moved to (7; 4)
+0:18:543:	(1;8)
+0:18:543:	Pressed to (1;8)
+0:18:544:	Checker chosen (1;8)
+0:18:795:	(2;7)
+0:18:796:	Pressed to (2;7)
+0:18:797:	Checker moved to (2; 7)
+0:19:368:	(5;4)
+0:19:369:	Pressed to (5;4)
+0:19:370:	Checker chosen (5;4)
+0:23:616:	(1;8)
+0:23:616:	Pressed to (1;8)
+0:23:632:	Checker moved to (1; 8)

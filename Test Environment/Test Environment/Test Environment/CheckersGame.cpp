@@ -4,13 +4,15 @@
 using namespace std;
 
 void CheckersGame::InitializeGame(CheckersGame* game) {
+	game->turn = Team::White;
 	game->chosenChecker = nullptr;
 
 	game->checkers.clear();
 	//Add white checkers
-	for (int i = 0; i < 16; i++) {
-		game->checkers.push_back(Checker(Coord(i / 8 + 1, i % 8 + 1), CheckerType::Checker, Team::White));
-	}
+	for (int i = 1; i <= 8; i++)
+		for (int j = 1; j <= 3; j++)
+			if ((i + j) % 2 != 0)
+				game->checkers.push_back(new Checker(Coord(i, j), CheckerType::Checker, Team::White));
 
 	//Logging part
 	Log::Write("White checkers was added\n\tCheckers total: " + std::to_string(checkers.size()));
@@ -18,9 +20,10 @@ void CheckersGame::InitializeGame(CheckersGame* game) {
 
 
 	//Add black checkers
-	for (int i = 0; i < 16; i++) {
-		game->checkers.push_back(Checker(Coord(8 - i / 8, i % 8 + 1), CheckerType::Checker, Team::Black));
-	}
+	for (int i = 1; i <= 8; i++)
+		for (int j = 6; j <= 8; j++)
+			if ((i + j) % 2 != 0)
+				game->checkers.push_back(new Checker(Coord(i, j), CheckerType::Checker, Team::Black));
 
 	//logging part
 	Log::Write("Black checkers was added\n\tCheckers total: " + std::to_string(checkers.size()));
@@ -65,24 +68,28 @@ Checker* CheckersGame::CheckerByCoords(const Coord& coord)
 	bool isFound = false;
 
 	//Logging part
-	Log::Write("Called checker getter");
-	Log::Write("Position: x=" + std::to_string(coord.x) + "; y=" + std::to_string(coord.y));
+	//Log::Write("Called checker getter");
+	//Log::Write("Position: x=" + std::to_string(coord.x) + "; y=" + std::to_string(coord.y));
 	//Logging part end
 
-	for (int i = 0; i < this->checkers.size(); i++) {
-		if (this->checkers[i].coord.x == coord.x && this->checkers[i].coord.y == coord.y) {
+	for (int i = 0; i < this->checkers.size(); i++) 
+	{
+		if (checkers[i] == nullptr)
+			continue;
+		if (checkers[i]->coord.x == coord.x && checkers[i]->coord.y == coord.y) 
+		{
 
 			//Logging part
-			string team = (this->checkers[i].team == Team::Black) ? "Black" : "White";
-			Log::Write("Checker was found. Team: " + team);
+			string team = (this->checkers[i]->team == Team::Black) ? "Black" : "White";
+			//Log::Write("Checker was found. Team: " + team);
 			//Logging part end
 
-			return &(this->checkers[i]);
+			return checkers[i];
 		}
 	}
 
 	//Logging part
-	Log::Write("Checker not found");
+	//Log::Write("Checker not found");
 	//Logging part end
 
 	return nullptr;
@@ -94,7 +101,7 @@ std::vector<const Checker*> CheckersGame::GetCheckers() const
 {
 	vector<const Checker*> ret;
 	for (int i = 0; i < checkers.size(); i++)
-		ret.push_back(&checkers[i]);
+		ret.push_back(checkers[i]);
 	return ret;
 }
 
@@ -120,16 +127,16 @@ std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checke
 			ret.push_back(checker.coord + Coord(-1, dy));
 	}
 	//chop moves
-	if (!CoordIsEmpty(checker.coord + right))
-		if (CheckerByCoords(checker.coord + right)->team != checker.team && CoordsInField(checker.coord + right * 2))
+	if (!CoordIsEmpty(checker.coord + right) && CoordsInField(checker.coord + right))
+		if (CheckerByCoords(checker.coord + right)->team != checker.team && CoordIsEmpty(checker.coord + right * 2))
 		{
 			ret.push_back(checker.coord + right * 2);
 			vector<Coord> tmp = GetPossibleMovesRecursive(
 				Checker(checker.coord + right * 2, checker.type, checker.team), (dy == 1) ? (1) : (2));
 			ret.insert(ret.end(), tmp.begin(), tmp.end());
 		}
-	if (!CoordIsEmpty(checker.coord + left))
-		if (CheckerByCoords(checker.coord + left)->team != checker.team && CoordsInField(checker.coord + left * 2))
+	if (!CoordIsEmpty(checker.coord + left) && CoordsInField(checker.coord + left))
+		if (CheckerByCoords(checker.coord + left)->team != checker.team && CoordIsEmpty(checker.coord + left * 2))
 		{
 			ret.push_back(checker.coord + left * 2);
 			vector<Coord> tmp = GetPossibleMovesRecursive(
@@ -145,42 +152,41 @@ void CheckersGame::ChopCheckers(const Checker& checker, const Coord& coord, cons
 	{
 		return find(vect.begin(), vect.end(), coord) != vect.end();
 	};
-	auto checkerIndex = [](const vector<Checker>& vect, const Checker& checker)
-	{
-		return (int)(find(vect.begin(), vect.end(), checker) - vect.begin());
-	};
 
 	int dy = (checker.team == Team::Black) ? (-1) : (1);
 	Coord tmp = coord, left = Coord(-1, dy), right = Coord(1, dy);
-	vector<int> delIndexes;
+	vector<Checker*> delCheckers;
 
 	if (abs((coord - checker.coord).x) == 1)
 		return;
 
 	while (true)
 	{
-		if (tmp == coord)
+		if (tmp == checker.coord)
 			break;
-		const Checker* midChecker = CheckerByCoords(tmp + right);
+		Checker* midChecker = CheckerByCoords(tmp - right);
 		bool isMidEnemy = midChecker != nullptr && midChecker->team != checker.team;
-		if (isMidEnemy && findMove(moves, tmp + right * 2))
+		if (isMidEnemy && (findMove(moves, tmp - right * 2) || tmp - right * 2 == checker.coord))
 		{
-			delIndexes.push_back(checkerIndex(checkers, *midChecker));
-			tmp = tmp + right * 2;
+			delCheckers.push_back(midChecker);
+			tmp = tmp - right * 2;
 			continue;
 		}
-		midChecker = CheckerByCoords(tmp + left);
+		midChecker = CheckerByCoords(tmp - left);
 		isMidEnemy = midChecker != nullptr && midChecker->team != checker.team;
-		if (isMidEnemy && findMove(moves, tmp + left * 2))
+		if (isMidEnemy && (findMove(moves, tmp - left * 2) || tmp - left * 2 == checker.coord))
 		{
-			delIndexes.push_back(checkerIndex(checkers, *midChecker));
-			tmp = tmp + left * 2;
+			delCheckers.push_back(midChecker);
+			tmp = tmp - left * 2;
 			continue;
 		}
 		throw exception("Can't build chop checkers way");
 	}
-	for (int i = 0; i < delIndexes.size(); i++)
-		checkers.erase(checkers.begin() + delIndexes[i] - i);
+	for (int i = 0; i < delCheckers.size(); i++)
+	{
+		*find(checkers.begin(), checkers.end(), delCheckers[i]) = nullptr;
+		delete delCheckers[i];
+	}
 }
 
 bool CheckersGame::CoordsInField(const Coord& coord)
@@ -190,7 +196,9 @@ bool CheckersGame::CoordsInField(const Coord& coord)
 
 bool CheckersGame::CoordIsEmpty(const Coord& coord)
 {
-	return CoordsInField(coord) && CheckerByCoords(coord) == nullptr;
+	if (!CoordsInField(coord))
+		return false;
+	return CheckerByCoords(coord) == nullptr;
 }
 
 void CheckersGame::Action(const Coord& coord)
@@ -199,7 +207,17 @@ void CheckersGame::Action(const Coord& coord)
 	if (chosenChecker == nullptr)
 	{
 		chosenChecker = CheckerByCoords(coord);
-		Log::Write("Checker chosen");
+		if (chosenChecker == nullptr)
+		{
+			Log::Write("Empty");
+			return;
+		}
+		if (chosenChecker->team != turn)
+		{
+			chosenChecker = nullptr;
+			return;
+		}
+		Log::Write("Checker chosen (" + to_string(chosenChecker->coord.x) + ";" + to_string(chosenChecker->coord.y) + ")");
 	}
 	else
 	{
@@ -208,7 +226,19 @@ void CheckersGame::Action(const Coord& coord)
 		{
 			ChopCheckers(*chosenChecker, coord, possibleMoves);
 			chosenChecker->coord = coord;
+			chosenChecker = nullptr;
 			Log::Write("Checker moved to (" + to_string(coord.x) + "; " + to_string(coord.y) + ")");
+			turn = (turn == Team::Black) ? (Team::White) : (Team::Black);
+		}
+		else
+		{
+			chosenChecker = CheckerByCoords(coord);
+			if (chosenChecker == nullptr)
+			{
+				Log::Write("Empty");
+				return;
+			}
+			Log::Write("Checker chosen (" + to_string(chosenChecker->coord.x) + ";" + to_string(chosenChecker->coord.y) + ")");
 		}
 	}
 }

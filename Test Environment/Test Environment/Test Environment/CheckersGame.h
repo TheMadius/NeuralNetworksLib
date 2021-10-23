@@ -66,9 +66,11 @@ protected:
 
 	Checker* chosenChecker;
 
-	std::vector<Checker> checkers;
+	std::vector<Checker*> checkers;
 
 	GameInfo info;
+
+	Team turn;
 
 private:
 
