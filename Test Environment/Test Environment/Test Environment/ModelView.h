@@ -74,7 +74,7 @@ public:
 
 	ModelView(std::string name, int windowHight, int windowWidth);
 
-	~ModelView() { free(windowGame); }
+	~ModelView() { delete windowGame; }
 
 	void Start();
 
