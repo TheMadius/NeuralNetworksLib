@@ -27,6 +27,7 @@ struct Coord
 struct Checker
 {
 	Checker(const Coord& coord, CheckerType type, Team team) : coord(coord), type(type), team(team) {}
+	bool operator ==(const Checker& other) const { return coord == other.coord && type == other.type && team == other.team;}
 	Coord coord;
 	CheckerType type;
 	Team team;

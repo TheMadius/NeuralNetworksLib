@@ -1,0 +1,8 @@
+﻿  CheckersGame.cpp
+D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(72,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(96,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(182,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Log.cpp
+  main.cpp
+  ModelView.cpp
+LINK : fatal error LNK1181: не удается открыть входной файл "sfml-graphics-d.lib"

@@ -7,16 +7,12 @@ using namespace std;
 int main()
 {
 	
-	ModelView test;
-	test.Start();
-	//Log::Init("log.txt");
-	//CheckersGame game;
+	//ModelView test;
+	//test.Start();
+	Log::Init("log.txt");
+	CheckersGame game;
 
-	//game.GetChosenChecker(1, 1);
-	//game.GetChosenChecker(7, 3);
-	//game.GetChosenChecker(5, 5);
+	game.NewGame();
 
-	//game.NewGame();
-
-	//Log::Stop();
+	Log::Stop();
 }

@@ -1,5 +1,4 @@
-﻿  main.cpp
-D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.h(2,10): fatal error C1083: Не удается открыть файл включение: SFML/Graphics.hpp: No such file or directory,
+﻿  CheckersGame.cpp
   ModelView.cpp
-D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.h(2,10): fatal error C1083: Не удается открыть файл включение: SFML/Graphics.hpp: No such file or directory,
   Создание кода...
+  Test Environment.vcxproj -> D:\NeuralNetworksLib\Test Environment\Test Environment\x64\Debug\Test Environment.exe
