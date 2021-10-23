@@ -1,89 +1,46 @@
 ﻿  CheckersGame.cpp
-  main.cpp
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(213,1): warning C4267: +=: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(221,36): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(222,31): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
   ModelView.cpp
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(102,147): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(110,147): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(102,78): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(110,78): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(104,97): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(104,59): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(111,172): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(112,97): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(112,59): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(119,172): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(111,106): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(119,106): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(113,94): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(113,58): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(130,71): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(130,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(134,72): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(134,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(141,61): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(141,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(145,61): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(145,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(163,128): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(163,86): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(177,126): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(177,84): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(187,181): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(187,135): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(195,181): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(195,135): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(207,152): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(207,123): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(213,151): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(213,122): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(219,160): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(219,131): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(226,160): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(226,131): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(121,94): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(121,58): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(138,71): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(138,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(142,72): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(142,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(149,61): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(149,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(153,61): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(153,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(163,25): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(163,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  main.cpp
   Создание кода
-  65 of 496 functions (13.1%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    10 functions had inline decision re-evaluated but remain unchanged
+  416 of 654 functions (63.6%) were compiled, the rest were copied from previous compilation.
+    97 functions were new in current compilation
+    26 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   Test Environment.vcxproj -> C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\x64\Release\Test Environment.exe
