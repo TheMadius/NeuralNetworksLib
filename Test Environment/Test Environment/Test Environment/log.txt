@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 0:0:229:	White checkers was added
 	Checkers total: 12
 0:0:230:	Black checkers was added
@@ -82,3 +83,17 @@
 0:11:47:	(3;4)
 0:11:48:	Pressed to (3;4)
 0:11:49:	Checker moved to (3; 4)
+=======
+0:0:19:	White checkers was added
+	Checkers total: 12
+0:0:19:	Black checkers was added
+	Checkers total: 24
+0:0:19:	Initialized game info
+0:0:19:	Game created
+0:0:20:	White checkers was added
+	Checkers total: 12
+0:0:20:	Black checkers was added
+	Checkers total: 24
+0:0:20:	Initialized game info
+0:0:20:	Game created
+>>>>>>> ab193254742483a270c4a7155330d08df11cc60d

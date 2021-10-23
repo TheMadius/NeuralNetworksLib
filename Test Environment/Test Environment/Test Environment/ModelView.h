@@ -28,6 +28,7 @@ struct TextureAndText
 {
 	Font font;
 	Text* txt;
+	Text* txtInfo;
 
 	Texture white;
 	Texture blue;
