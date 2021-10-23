@@ -59,10 +59,9 @@ void ModelView::UpdateFromGame()
 			windowGame->gameBoard.gridLogic[i][j] = nullptr;
 	vector<const Checker*> checkers = game->GetCheckers();
 	for (int i = 0; i < checkers.size(); i++)
-		if (checkers[i] != nullptr)
-			windowGame->gameBoard.gridLogic[checkers[i]->coord.x - 1][checkers[i]->coord.y - 1] = checkers[i];
+		windowGame->gameBoard.gridLogic[checkers[i]->coord.x - 1][checkers[i]->coord.y - 1] = checkers[i];
 
-	vector<Coord> moves = game->GetPossibleMoves(game->GetChosenChecker());
+	vector<Coord> moves = game->PossibleMoves(game->GetChosenChecker());
 	for (int i = 0; i < moves.size(); i++)
 		windowGame->gameBoard.gridView[moves[i].x - 1][moves[i].y - 1] = CellType::Green;
 	

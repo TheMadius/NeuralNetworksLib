@@ -56,7 +56,7 @@ public:
 
 	std::vector<const Checker*> GetCheckers() const; //все шашки на поле
 
-	std::vector<Coord> GetPossibleMoves(const Checker* checker); //доступные клетки для хода шашки
+	std::vector<Coord> PossibleMoves(const Checker* checker); //доступные клетки для хода шашки
 
 	void Action(const Coord& coord); //нажатие на клетку
 
@@ -70,7 +70,7 @@ protected:
 
 	GameInfo info;
 
-	Team turn;
+	Team turnTeam;
 
 private:
 
@@ -85,6 +85,14 @@ private:
 	bool CoordsInField(const Coord& coord);
 
 	bool CoordIsEmpty(const Coord& coord);
+
+	bool CheckEndGame();
+
+	void UpdateInfo();
+
+	void ChooseChecker(const Coord& coord);
+
+	void MakeTurn(const Coord& coord, const std::vector<Coord>& moves);
 
 };
 
