@@ -7,8 +7,8 @@ using namespace std;
 int main()
 {
 	
-	//ModelView test;
-	//test.Start();
+	ModelView test;
+	test.Start();
 	Log::Init("log.txt");
 	CheckersGame game;
 

@@ -1,95 +1,95 @@
-//#pragma once
-//#include "SFML/Graphics.hpp"
-//#include <time.h>
-//#include <iostream>
-//#include <string>
-//
-//#define FILD_SIZE 8					// размер игрового поля
-//#define CELL_SIZE 66				// Размер ячейки привязан к размеру картинки (чуть больше для создания линий между ячейками)
-//#define FONT_SIZE 24				// Размер шрифта
-//#define BLACK Color(0, 0, 0)		// Чёрный цвет
-//#define WHITE Color(255, 255, 255)	// Белый цвет
-//#define TEXT_TYPE Text::Bold		// Тип текста
-//#define TEXT_COLOR Color::Black		// Цвет текста
-//#define COUNT_CHECKER 12
-//
-//using namespace sf;
-//
-//enum CellType						//Типы ячейки
-//{
-//	Blue = 0,
-//	White = 1,
-//	Green = 2
-//};
-//
-//enum CheckerTypeBoard				//Типы шашки
-//{
-//	BlackChecker = 2,
-//	WhiteChecker = 1,
-//	EmptyChecker = 0
-//};
-//
-//struct TextureAndText
-//{
-//	Font font;
-//	Text* txt;
-//
-//	Texture white;
-//	Texture blue;
-//	Texture green;
-//	Texture blackСhecker;
-//	Texture whiteСhecker;
-//
-//	Sprite* whiteSprite;
-//	Sprite* blueSprite;
-//	Sprite* greenSprite;
-//	Sprite* blackСheckerSprite;
-//	Sprite* whiteСheckerSprite;
-//};
-//
-//struct Board
-//{
-//	int gridLogic[FILD_SIZE][FILD_SIZE];
-//	int gridView[FILD_SIZE][FILD_SIZE];
-//
-//	int size = 8;					// Размер игрового поля в плашках
-//	int arraySize = size * size;	// Размер массива плашек
-//	int fieldSize = 670;			// Размер игрового поля в пикселях
-//	int cellSize = 70;				// Размер плашки в пикселях
-//};
-//
-//struct WindowGame
-//{
-//	std::string name;
-//	int windowHight;
-//	int windowWidth;
-//	RenderWindow* app;
-//	Event e;
-//	Board gameBoard;
-//	TextureAndText gameTextureAndText;
-//};
-//
-//class ModelView
-//{
-//private:
-//	WindowGame* game;
-//
-//public:
-//	ModelView();
-//
-//	ModelView(std::string name, int windowHight, int windowWidth);
-//
-//	~ModelView()
-//	{
-//		free(game);
-//	}
-//
-//	void Start();
-//	void Events();
-//
-//	void SelectСheckers();
-//	void GameBoardInit();
-//	void GameBoardUpdate();
-//	void LoadTexturesAndText();
-//
-//};
+#pragma once
+#include "SFML/Graphics.hpp"
+#include <time.h>
+#include <iostream>
+#include <string>
+
+#define FILD_SIZE 8					// размер игрового поля
+#define CELL_SIZE 66				// Размер ячейки привязан к размеру картинки (чуть больше для создания линий между ячейками)
+#define FONT_SIZE 24				// Размер шрифта
+#define BLACK Color(0, 0, 0)		// Чёрный цвет
+#define WHITE Color(255, 255, 255)	// Белый цвет
+#define TEXT_TYPE Text::Bold		// Тип текста
+#define TEXT_COLOR Color::Black		// Цвет текста
+#define COUNT_CHECKER 12
+
+using namespace sf;
+
+enum CellType						//Типы ячейки
+{
+	Blue = 0,
+	White = 1,
+	Green = 2
+};
+
+enum CheckerTypeBoard				//Типы шашки
+{
+	BlackChecker = 2,
+	WhiteChecker = 1,
+	EmptyChecker = 0
+};
+
+struct TextureAndText
+{
+	Font font;
+	Text* txt;
+
+	Texture white;
+	Texture blue;
+	Texture green;
+	Texture blackСhecker;
+	Texture whiteСhecker;
+
+	Sprite* whiteSprite;
+	Sprite* blueSprite;
+	Sprite* greenSprite;
+	Sprite* blackСheckerSprite;
+	Sprite* whiteСheckerSprite;
+};
+
+struct Board
+{
+	int gridLogic[FILD_SIZE][FILD_SIZE];
+	int gridView[FILD_SIZE][FILD_SIZE];
+
+	int size = 8;					// Размер игрового поля в плашках
+	int arraySize = size * size;	// Размер массива плашек
+	int fieldSize = 670;			// Размер игрового поля в пикселях
+	int cellSize = 70;				// Размер плашки в пикселях
+};
+
+struct WindowGame
+{
+	std::string name;
+	int windowHight;
+	int windowWidth;
+	RenderWindow* app;
+	Event e;
+	Board gameBoard;
+	TextureAndText gameTextureAndText;
+};
+
+class ModelView
+{
+private:
+	WindowGame* game;
+
+public:
+	ModelView();
+
+	ModelView(std::string name, int windowHight, int windowWidth);
+
+	~ModelView()
+	{
+		free(game);
+	}
+
+	void Start();
+	void Events();
+
+	void SelectСheckers();
+	void GameBoardInit();
+	void GameBoardUpdate();
+	void LoadTexturesAndText();
+
+};
