@@ -1,6 +1,7 @@
 #include "CheckersGame.h"
 #include "Log.h"
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -107,13 +108,13 @@ std::vector<const Checker*> CheckersGame::GetCheckers() const
 
 std::vector<Coord> CheckersGame::PossibleMoves(const Checker* checker)
 {
-	if (chosenChecker == nullptr)
+	if (checker == nullptr)
 		return vector<Coord>();
 
-	return GetPossibleMovesRecursive(*chosenChecker, Coord(0, 0));
+	return GetPossibleMovesRecursive(*checker, Coord(0, 0));
 }
 
-std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checker, const Coord& dir) //dir: 1-ru, 2-rd, 3-ld, 4-lu, 0-none
+std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checker, const Coord& dir)
 {
 	vector<Coord> ret;
 	int dy = (checker.team == Team::Black) ? (-1) : (1);
