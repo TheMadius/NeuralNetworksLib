@@ -19,30 +19,26 @@ ModelView::ModelView(std::string name, int windowHight, int windowWidth)
 
 void ModelView::LoadTexturesAndText()
 {
-	//ñïðàéòû äëÿ èãðîâîé äîñêè
-	//windowGame->gameTextureAndText.whiteSprite = new Sprite[FILD_SIZE * (FILD_SIZE / 2)];
-	//windowGame->gameTextureAndText.blueSprite = new Sprite[FILD_SIZE * (FILD_SIZE / 2)];
-	//windowGame->gameTextureAndText.greenSprite = new Sprite[FILD_SIZE * FILD_SIZE];
+	windowGame->gameTextureAndText.font.loadFromFile("fonts\\CyrilicOld.TTF");
 
-	//ñïðàéòû äëÿ øàøåê
-	//windowGame->gameTextureAndText.blackÑheckerSprite = new Sprite[COUNT_CHECKER];
-	//windowGame->gameTextureAndText.whiteÑheckerSprite = new Sprite[COUNT_CHECKER];
+	windowGame->gameTextureAndText.white.loadFromFile("textures\\White.png");
+	windowGame->gameTextureAndText.blue.loadFromFile("textures\\Blue.png");
+	windowGame->gameTextureAndText.green.loadFromFile("textures\\Green.JPG");
+	windowGame->gameTextureAndText.yellow.loadFromFile("textures\\Yellow.png");
+	
+	windowGame->gameTextureAndText.blackÑhecker.loadFromFile("textures\\blackCh.png");
+	windowGame->gameTextureAndText.whiteÑhecker.loadFromFile("textures\\whiteCh.png");
 
-	windowGame->gameTextureAndText.font.loadFromFile("..\\Debug\\fonts\\CyrilicOld.TTF");
-	windowGame->gameTextureAndText.white.loadFromFile("..\\Debug\\textures\\White.png");
-	windowGame->gameTextureAndText.blue.loadFromFile("..\\Debug\\textures\\Blue.png");
-	windowGame->gameTextureAndText.green.loadFromFile("..\\Debug\\textures\\Green.JPG");
-	windowGame->gameTextureAndText.blackÑhecker.loadFromFile("..\\Debug\\textures\\blackCh.png");
-	windowGame->gameTextureAndText.whiteÑhecker.loadFromFile("..\\Debug\\textures\\whiteCh.png");
-
+	
 	windowGame->gameTextureAndText.whiteSprite.setTexture(windowGame->gameTextureAndText.white);
 	windowGame->gameTextureAndText.blueSprite.setTexture(windowGame->gameTextureAndText.blue);
 	windowGame->gameTextureAndText.greenSprite.setTexture(windowGame->gameTextureAndText.green);
+	windowGame->gameTextureAndText.yellowSprite.setTexture(windowGame->gameTextureAndText.yellow);
 	
 	windowGame->gameTextureAndText.blackÑheckerSprite.setTexture(windowGame->gameTextureAndText.blackÑhecker);
 	windowGame->gameTextureAndText.whiteÑheckerSprite.setTexture(windowGame->gameTextureAndText.whiteÑhecker);
 
-	//Òåêñò
+
 	windowGame->gameTextureAndText.txt = new Text;
 	windowGame->gameTextureAndText.txt->setFont(windowGame->gameTextureAndText.font);
 	windowGame->gameTextureAndText.txt->setCharacterSize(FONT_SIZE);
@@ -69,8 +65,9 @@ void ModelView::UpdateFromGame()
 	vector<Coord> moves = game->GetPossibleMoves(game->GetChosenChecker());
 	for (int i = 0; i < moves.size(); i++)
 		windowGame->gameBoard.gridView[moves[i].x - 1][moves[i].y - 1] = CellType::Green;
-
-	//windowGame->gameBoard.gridView[game->GetChosenChecker()->coord.x - 1][game->GetChosenChecker()->coord.y - 1] = CellType::Yellow;
+	
+	if (game->GetChosenChecker() != nullptr)
+		windowGame->gameBoard.gridView[game->GetChosenChecker()->coord.x - 1][game->GetChosenChecker()->coord.y - 1] = CellType::Yellow;
 }
 
 void ModelView::Start()
@@ -110,7 +107,7 @@ void ModelView::GameBoardInit()
 
 void ModelView::GameBoardUpdate()
 {
-	//Ñîçäàåì áåëûé ïðÿìîóãîëüíèê (ãëàâíàÿ ïîäëîæêà äîñêè) 
+	//Ñîçäàåì áåëûé ïðÿìîóãîëüíèê
 	RectangleShape rectangleBoardWhite(Vector2f((windowGame->gameBoard.cellSize * (windowGame->gameBoard.size + 1)), (windowGame->gameBoard.cellSize * (windowGame->gameBoard.size + 1))));
 	//Ïåðåìåùàåì åãî â íèæíèé ðÿä ñïðàâà îò ìíîãîóãîëüíèêà
 	rectangleBoardWhite.move((windowGame->gameBoard.cellSize / 2), (windowGame->gameBoard.cellSize / 2));
@@ -119,7 +116,7 @@ void ModelView::GameBoardUpdate()
 	//Îòðèñîâêà ïðÿìîóãîëüíèêà
 	windowGame->app->draw(rectangleBoardWhite);
 
-	//Ñîçäàåì ÷¸ðíûé ïðÿìîóãîëüíèê (çàïîëíåíèå ïðîìåæóòêîâ ìåæäó ÿ÷åéêàìè) (5 è 10 çàâèñèìû è îòâå÷àþò çà ðàçìåð ðàìêè)
+	//Ñîçäàåì ÷¸ðíûé ïðÿìîóãîëüíèê (5 è 10 çàâèñèìû è îòâå÷àþò çà ðàçìåð ðàìêè)
 	RectangleShape rectangleBoardBlack(Vector2f(windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10, windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10));
 	//Ïåðåìåùàåì åãî â íèæíèé ðÿä ñïðàâà îò ìíîãîóãîëüíèêà
 	rectangleBoardBlack.move(windowGame->gameBoard.cellSize - 5, windowGame->gameBoard.cellSize - 5);
@@ -185,6 +182,9 @@ void ModelView::GameBoardUpdate()
 				break;
 			case CellType::Green:
 				drawSprite(windowGame->gameTextureAndText.greenSprite, x, y);
+				break;
+			case CellType::Yellow:
+				drawSprite(windowGame->gameTextureAndText.yellowSprite, x, y);
 				break;
 			}
 

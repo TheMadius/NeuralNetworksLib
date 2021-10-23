@@ -32,11 +32,13 @@ struct TextureAndText
 	Texture white;
 	Texture blue;
 	Texture green;
+	Texture yellow;
 	Texture black—hecker;
 	Texture white—hecker;
 
 	Sprite whiteSprite;
 	Sprite blueSprite;
+	Sprite yellowSprite;
 	Sprite greenSprite;
 	Sprite black—heckerSprite;
 	Sprite white—heckerSprite;
