@@ -36,6 +36,8 @@ struct TextureAndText
 	Texture yellow;
 	Texture black—hecker;
 	Texture white—hecker;
+	Texture black—heckerDM;
+	Texture white—heckerDM;
 
 	Sprite whiteSprite;
 	Sprite blueSprite;
@@ -43,6 +45,8 @@ struct TextureAndText
 	Sprite greenSprite;
 	Sprite black—heckerSprite;
 	Sprite white—heckerSprite;
+	Sprite black—heckerSpriteDM;
+	Sprite white—heckerSpriteDM;
 };
 
 struct Board
@@ -87,6 +91,9 @@ private:
 	void Select—heckers();
 	void GameBoardInit();
 	void GameBoardUpdate();
+	void GameBoardTextUpdate();
+	void GameBoardStaticUpdate();
+	void GameBoardAnd—heckersUpdate();
 	void LoadTexturesAndText();
 
 	void UpdateFromGame();
