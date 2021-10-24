@@ -33,6 +33,8 @@ void ModelView::LoadTexturesAndText()
 	windowGame->gameTextureAndText.blackСheckerDM.loadFromFile("textures\\blackChDM.png");
 	windowGame->gameTextureAndText.whiteСheckerDM.loadFromFile("textures\\whiteChDN.png");
 
+	windowGame->gameTextureAndText.newGameButton.loadFromFile("textures\\NewGame.png");
+
 
 	windowGame->gameTextureAndText.whiteSprite.setTexture(windowGame->gameTextureAndText.white);
 	windowGame->gameTextureAndText.blueSprite.setTexture(windowGame->gameTextureAndText.blue);
@@ -43,6 +45,9 @@ void ModelView::LoadTexturesAndText()
 	windowGame->gameTextureAndText.whiteСheckerSprite.setTexture(windowGame->gameTextureAndText.whiteСhecker);
 	windowGame->gameTextureAndText.blackСheckerSpriteDM.setTexture(windowGame->gameTextureAndText.blackСheckerDM);
 	windowGame->gameTextureAndText.whiteСheckerSpriteDM.setTexture(windowGame->gameTextureAndText.whiteСheckerDM);
+
+
+	windowGame->gameTextureAndText.newGameButtonSprite.setTexture(windowGame->gameTextureAndText.newGameButton);
 
 
 	windowGame->gameTextureAndText.txt = new Text;
@@ -60,7 +65,8 @@ void ModelView::LoadTexturesAndText()
 
 void ModelView::StartNewGame()
 {
-	game->NewGame();
+	if (windowGame->gameTextureAndText.newGameButtonSprite.getGlobalBounds().contains(windowGame->e.mouseButton.x, windowGame->e.mouseButton.y))
+		game->NewGame();
 }
 
 void ModelView::UpdateFromGame()
@@ -227,14 +233,8 @@ void ModelView::GameBoardStaticUpdate()
 
 	if (game->GetInfo().isEnd)
 	{
-		//Создаем белый прямоугольник для кнопки новой игры
-		RectangleShape rectangleBoardBlackNewGame(Vector2f(100, 100));
-		//Перемещаем его в нижний ряд справа от многоугольникаa
-		rectangleBoardBlackNewGame.move((windowGame->gameBoard.cellSize * 9) + 150, (windowGame->gameBoard.cellSize / 2) + 300);
-		//Устанавливаем ему цвет
-		rectangleBoardBlackNewGame.setFillColor(BLACK);
-		//Отрисовка прямоугольника
-		windowGame->app->draw(rectangleBoardBlackNewGame);
+		windowGame->gameTextureAndText.newGameButtonSprite.setPosition((windowGame->gameBoard.cellSize * 9) + 150, (windowGame->gameBoard.cellSize / 2) + 300);
+		windowGame->app->draw(windowGame->gameTextureAndText.newGameButtonSprite);
 	}
 
 	//Создаем чёрный прямоугольник (5 и 10 зависимы и отвечают за размер рамки)

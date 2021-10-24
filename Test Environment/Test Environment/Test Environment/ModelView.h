@@ -38,6 +38,7 @@ struct TextureAndText
 	Texture white—hecker;
 	Texture black—heckerDM;
 	Texture white—heckerDM;
+	Texture newGameButton;
 
 	Sprite whiteSprite;
 	Sprite blueSprite;
@@ -47,6 +48,7 @@ struct TextureAndText
 	Sprite white—heckerSprite;
 	Sprite black—heckerSpriteDM;
 	Sprite white—heckerSpriteDM;
+	Sprite newGameButtonSprite;
 };
 
 struct Board
