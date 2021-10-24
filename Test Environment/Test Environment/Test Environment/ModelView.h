@@ -95,6 +95,7 @@ private:
 	void GameBoardStaticUpdate();
 	void GameBoardAnd—heckersUpdate();
 	void LoadTexturesAndText();
+	void StartNewGame();
 
 	void UpdateFromGame();
 

@@ -27,18 +27,18 @@ void ModelView::LoadTexturesAndText()
 	windowGame->gameTextureAndText.blue.loadFromFile("textures\\Blue.png");
 	windowGame->gameTextureAndText.green.loadFromFile("textures\\Green.JPG");
 	windowGame->gameTextureAndText.yellow.loadFromFile("textures\\Yellow.png");
-	
+
 	windowGame->gameTextureAndText.blackÑhecker.loadFromFile("textures\\blackCh.png");
 	windowGame->gameTextureAndText.whiteÑhecker.loadFromFile("textures\\whiteCh.png");
 	windowGame->gameTextureAndText.blackÑheckerDM.loadFromFile("textures\\blackChDM.png");
 	windowGame->gameTextureAndText.whiteÑheckerDM.loadFromFile("textures\\whiteChDN.png");
 
-	
+
 	windowGame->gameTextureAndText.whiteSprite.setTexture(windowGame->gameTextureAndText.white);
 	windowGame->gameTextureAndText.blueSprite.setTexture(windowGame->gameTextureAndText.blue);
 	windowGame->gameTextureAndText.greenSprite.setTexture(windowGame->gameTextureAndText.green);
 	windowGame->gameTextureAndText.yellowSprite.setTexture(windowGame->gameTextureAndText.yellow);
-	
+
 	windowGame->gameTextureAndText.blackÑheckerSprite.setTexture(windowGame->gameTextureAndText.blackÑhecker);
 	windowGame->gameTextureAndText.whiteÑheckerSprite.setTexture(windowGame->gameTextureAndText.whiteÑhecker);
 	windowGame->gameTextureAndText.blackÑheckerSpriteDM.setTexture(windowGame->gameTextureAndText.blackÑheckerDM);
@@ -56,6 +56,11 @@ void ModelView::LoadTexturesAndText()
 	windowGame->gameTextureAndText.txtInfo->setCharacterSize(FONT_SIZE);
 	windowGame->gameTextureAndText.txtInfo->setFillColor(TEXT_COLOR);
 	windowGame->gameTextureAndText.txtInfo->setStyle(TEXT_TYPE);
+}
+
+void ModelView::StartNewGame()
+{
+	game->NewGame();
 }
 
 void ModelView::UpdateFromGame()
@@ -102,15 +107,19 @@ void ModelView::Events()
 	while (windowGame->app->pollEvent(windowGame->e))
 	{
 		if (windowGame->e.type == Event::Closed)
-		{
 			windowGame->app->close();
-		
-		if (!game->GetInfo().isEnd)
-			if (windowGame->e.type == Event::MouseButtonPressed)
-				if (windowGame->e.key.code == Mouse::Left) 
+
+		if (windowGame->e.type == Event::MouseButtonPressed)
+			if (windowGame->e.key.code == Mouse::Left) {
+				if (!game->GetInfo().isEnd)
+				{
 					SelectÑheckers();
-			return;
-		}
+				}
+				else
+				{
+					StartNewGame();
+				}
+			}
 	}
 }
 
@@ -215,6 +224,18 @@ void ModelView::GameBoardStaticUpdate()
 	rectangleBoardWhiteInfo.setFillColor(WHITE);
 	//Îòðèñîâêà ïðÿìîóãîëüíèêà
 	windowGame->app->draw(rectangleBoardWhiteInfo);
+
+	if (game->GetInfo().isEnd)
+	{
+		//Ñîçäàåì áåëûé ïðÿìîóãîëüíèê äëÿ êíîïêè íîâîé èãðû
+		RectangleShape rectangleBoardBlackNewGame(Vector2f(100, 100));
+		//Ïåðåìåùàåì åãî â íèæíèé ðÿä ñïðàâà îò ìíîãîóãîëüíèêàa
+		rectangleBoardBlackNewGame.move((windowGame->gameBoard.cellSize * 9) + 150, (windowGame->gameBoard.cellSize / 2) + 300);
+		//Óñòàíàâëèâàåì åìó öâåò
+		rectangleBoardBlackNewGame.setFillColor(BLACK);
+		//Îòðèñîâêà ïðÿìîóãîëüíèêà
+		windowGame->app->draw(rectangleBoardBlackNewGame);
+	}
 
 	//Ñîçäàåì ÷¸ðíûé ïðÿìîóãîëüíèê (5 è 10 çàâèñèìû è îòâå÷àþò çà ðàçìåð ðàìêè)
 	RectangleShape rectangleBoardBlack(Vector2f(windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10, windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10));
