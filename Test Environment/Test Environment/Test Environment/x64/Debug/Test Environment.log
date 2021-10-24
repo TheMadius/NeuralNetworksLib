@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  ModelView.cpp
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(147,71): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(147,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
@@ -48,3 +49,7 @@ D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelVie
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(234,25): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(234,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
   Test Environment.vcxproj -> D:\NeuralNetworksLib\Test Environment\Test Environment\x64\Debug\Test Environment.exe
+=======
+﻿  main.cpp
+  Test Environment.vcxproj -> C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\x64\Debug\Test Environment.exe
+>>>>>>> 809c88598bff3affaa9b3d98ca99b60b777e16ca

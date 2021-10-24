@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 0:0:16:	White checkers was added
 	Checkers total: 12
 0:0:17:	Black checkers was added
@@ -189,3 +190,23 @@
 0:21:924:	Checker chosen (8;1)
 0:22:987:	(6;3)
 0:22:988:	Pressed to (6;3)
+=======
+0:0:108:	White checkers was added	Checkers total: 12
+0:0:109:	Black checkers was added	Checkers total: 24
+0:0:110:	Initialized game info
+0:0:110:	Game created
+0:0:111:	White checkers was added	Checkers total: 12
+0:0:111:	Black checkers was added	Checkers total: 24
+0:0:112:	Initialized game info
+0:0:112:	Game created
+0:0:113:	White checkers was added	Checkers total: 12
+0:0:113:	Black checkers was added	Checkers total: 24
+0:0:114:	Initialized game info
+0:0:114:	Game created
+0:0:115:	White checkers was added	Checkers total: 12
+0:0:115:	Black checkers was added	Checkers total: 24
+0:0:115:	Initialized game info
+0:0:116:	Game created
+0:0:491:	-345360848
+0:0:570:	-345360240
+>>>>>>> 809c88598bff3affaa9b3d98ca99b60b777e16ca

@@ -18,7 +18,7 @@ void CheckersGame::InitializeGame(CheckersGame* game)
 				game->checkers.push_back(new Checker(Coord(i, j), CheckerType::Checker, Team::White));
 
 	//Logging part
-	Log::Write("White checkers was added\n\tCheckers total: " + std::to_string(checkers.size()));
+	Log::Write("White checkers was added\tCheckers total: " + std::to_string(checkers.size()));
 	//Logging part end
 
 
@@ -29,7 +29,7 @@ void CheckersGame::InitializeGame(CheckersGame* game)
 				game->checkers.push_back(new Checker(Coord(i, j), CheckerType::Checker, Team::Black));
 
 	//logging part
-	Log::Write("Black checkers was added\n\tCheckers total: " + std::to_string(checkers.size()));
+	Log::Write("Black checkers was added\tCheckers total: " + std::to_string(checkers.size()));
 	//Logging part end
 
 	//Add info about game
@@ -95,8 +95,6 @@ Checker* CheckersGame::CheckerByCoords(const Coord& coord)
 
 	return nullptr;
 }
-
-//qwerty
 
 std::vector<const Checker*> CheckersGame::GetCheckers() const
 {

@@ -1,0 +1,132 @@
+0:0:21:	White checkers was added	Checkers total: 12
+0:0:22:	Black checkers was added	Checkers total: 24
+0:0:22:	Initialized game info
+0:0:22:	Game created
+0:0:22:	White checkers was added	Checkers total: 12
+0:0:23:	Black checkers was added	Checkers total: 24
+0:0:23:	Initialized game info
+0:0:23:	Game created
+0:0:23:	White checkers was added	Checkers total: 12
+0:0:24:	Black checkers was added	Checkers total: 24
+0:0:24:	Initialized game info
+0:0:24:	Game created
+0:0:24:	White checkers was added	Checkers total: 12
+0:0:24:	Black checkers was added	Checkers total: 24
+0:0:25:	Initialized game info
+0:0:25:	Game created
+0:0:325:	-1561352112
+0:0:390:	-1561397392
+0:3:434:	(6;0)
+0:3:435:	Pressed to (6;0)
+0:3:435:	Empty
+0:17:351:	(4;3)
+0:17:352:	Pressed to (4;3)
+0:17:352:	Checker chosen (4;3)
+0:17:590:	(5;4)
+0:17:590:	Pressed to (5;4)
+0:17:591:	Checker moved to (5; 4)
+0:17:956:	(3;6)
+0:17:956:	Pressed to (3;6)
+0:17:957:	Checker chosen (3;6)
+0:18:163:	(4;5)
+0:18:164:	Pressed to (4;5)
+0:18:165:	Checker moved to (4; 5)
+0:18:960:	(6;3)
+0:18:960:	Pressed to (6;3)
+0:18:961:	Checker chosen (6;3)
+0:19:388:	(5;4)
+0:19:388:	Pressed to (5;4)
+0:19:389:	Checker moved to (5; 4)
+0:19:957:	(3;6)
+0:19:957:	Pressed to (3;6)
+0:19:958:	Checker chosen (3;6)
+0:20:211:	(4;5)
+0:20:212:	Pressed to (4;5)
+0:20:212:	Checker moved to (4; 5)
+0:20:481:	(5;4)
+0:20:482:	Pressed to (5;4)
+0:20:483:	Checker chosen (5;4)
+0:20:751:	(3;6)
+0:20:752:	Pressed to (3;6)
+0:20:753:	Checker moved to (3; 6)
+0:21:165:	(5;6)
+0:21:166:	Pressed to (5;6)
+0:21:167:	Checker chosen (5;6)
+0:21:419:	(3;5)
+0:21:419:	Pressed to (3;5)
+0:21:420:	Empty
+0:22:103:	(5;6)
+0:22:104:	Pressed to (5;6)
+0:22:105:	Checker chosen (5;6)
+0:22:276:	(4;5)
+0:22:277:	Pressed to (4;5)
+0:22:278:	Checker moved to (4; 5)
+0:22:527:	(3;6)
+0:22:528:	Pressed to (3;6)
+0:22:529:	Checker chosen (3;6)
+0:22:766:	(5;5)
+0:22:767:	Pressed to (5;5)
+0:22:768:	Empty
+0:23:767:	(4;6)
+0:23:768:	Pressed to (4;6)
+0:23:769:	Empty
+0:24:150:	(3;6)
+0:24:150:	Pressed to (3;6)
+0:24:151:	Checker chosen (3;6)
+0:24:387:	(5;4)
+0:24:388:	Pressed to (5;4)
+0:24:389:	Checker moved to (5; 4)
+0:25:545:	(6;4)
+0:25:546:	Pressed to (6;4)
+0:25:547:	Empty
+0:26:134:	(4;5)
+0:26:134:	Pressed to (4;5)
+0:26:404:	(3;4)
+0:26:405:	Pressed to (3;4)
+0:26:406:	Empty
+0:26:658:	(5;4)
+0:26:658:	Pressed to (5;4)
+0:26:659:	Checker chosen (5;4)
+0:26:929:	(3;6)
+0:26:930:	Pressed to (3;6)
+0:26:930:	Checker moved to (3; 6)
+0:27:391:	(5;6)
+0:27:391:	Pressed to (5;6)
+0:27:392:	Checker chosen (5;6)
+0:27:627:	(4;5)
+0:27:627:	Pressed to (4;5)
+0:27:628:	Checker moved to (4; 5)
+0:27:882:	(3;6)
+0:27:883:	Pressed to (3;6)
+0:27:884:	Checker chosen (3;6)
+0:28:106:	(5;4)
+0:28:107:	Pressed to (5;4)
+0:28:107:	Checker moved to (5; 4)
+0:28:951:	(5;4)
+0:28:952:	Pressed to (5;4)
+0:29:240:	(4;5)
+0:29:240:	Pressed to (4;5)
+0:29:241:	Empty
+0:29:575:	(5;3)
+0:29:576:	Pressed to (5;3)
+0:29:577:	Empty
+0:29:975:	(7;6)
+0:29:975:	Pressed to (7;6)
+0:29:976:	Checker chosen (7;6)
+0:30:247:	(5;5)
+0:30:248:	Pressed to (5;5)
+0:30:248:	Empty
+0:30:407:	(5;4)
+0:30:407:	Pressed to (5;4)
+0:30:820:	(7;6)
+0:30:820:	Pressed to (7;6)
+0:30:821:	Checker chosen (7;6)
+0:31:9:	(6;5)
+0:31:9:	Pressed to (6;5)
+0:31:10:	Checker moved to (6; 5)
+0:31:249:	(5;4)
+0:31:249:	Pressed to (5;4)
+0:31:250:	Checker chosen (5;4)
+0:31:457:	(7;6)
+0:31:457:	Pressed to (7;6)
+0:31:458:	Checker moved to (7; 6)

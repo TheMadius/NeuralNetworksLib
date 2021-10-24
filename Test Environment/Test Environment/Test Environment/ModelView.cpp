@@ -6,14 +6,16 @@ using namespace std;
 ModelView::ModelView()
 {
 	windowGame = new WindowGame;
-	windowGame->app = new (RenderWindow)(VideoMode(1024, 768), "SFML Checkers!", Style::Close | sf::Style::Titlebar);
+	windowGame->app = new RenderWindow(VideoMode(1024, 768), "SFML Checkers!", Style::Close | sf::Style::Titlebar);
+	Log::Write(to_string((int)windowGame->app));
 	LoadTexturesAndText();
 }
 
 ModelView::ModelView(std::string name, int windowHight, int windowWidth)
 {
 	windowGame = new WindowGame;
-	windowGame->app = new (RenderWindow)(VideoMode(windowHight, windowWidth), name, Style::Close | sf::Style::Titlebar);
+	windowGame->app = new RenderWindow(VideoMode(windowHight, windowWidth), name, Style::Close | sf::Style::Titlebar);
+	Log::Write(to_string((int)windowGame->app));
 	LoadTexturesAndText();
 }
 
@@ -87,6 +89,8 @@ void ModelView::Start()
 	{
 		windowGame->app->clear(Color::Black);
 		Events();
+		if (!windowGame->app->isOpen())
+			break;
 		UpdateFromGame();
 		GameBoardUpdate();
 		windowGame->app->display();
@@ -98,19 +102,29 @@ void ModelView::Events()
 	while (windowGame->app->pollEvent(windowGame->e))
 	{
 		if (windowGame->e.type == Event::Closed)
+		{
 			windowGame->app->close();
+<<<<<<< HEAD
 		
 		if (!game->GetInfo().isEnd)
 			if (windowGame->e.type == Event::MouseButtonPressed)
 				if (windowGame->e.key.code == Mouse::Left) 
 					SelectÑheckers();
+=======
+			return;
+		}
+
+		if (windowGame->e.type == Event::MouseButtonPressed)//åñëè íàæàòà êëàâèøà ìûøè
+			if (windowGame->e.key.code == Mouse::Left) {//ëåâàÿ
+				SelectÑheckers();
+			}
+>>>>>>> 809c88598bff3affaa9b3d98ca99b60b777e16ca
 	}
 }
 
 
 void ModelView::GameBoardInit()
 {
-
 	UpdateFromGame();
 }
 
