@@ -69,9 +69,9 @@ void ModelView::UpdateFromGame()
 	for (int i = 0; i < checkers.size(); i++)
 		windowGame->gameBoard.gridLogic[checkers[i]->coord.x - 1][checkers[i]->coord.y - 1] = checkers[i];
 
-	vector<Coord> moves = game->PossibleMoves(game->GetChosenChecker());
+	vector<Move> moves = game->PossibleMoves(game->GetChosenChecker());
 	for (int i = 0; i < moves.size(); i++)
-		windowGame->gameBoard.gridView[moves[i].x - 1][moves[i].y - 1] = CellType::Green;
+		windowGame->gameBoard.gridView[moves[i].target.x - 1][moves[i].target.y - 1] = CellType::Green;
 	
 	if (game->GetChosenChecker() != nullptr)
 		windowGame->gameBoard.gridView[game->GetChosenChecker()->coord.x - 1][game->GetChosenChecker()->coord.y - 1] = CellType::Yellow;

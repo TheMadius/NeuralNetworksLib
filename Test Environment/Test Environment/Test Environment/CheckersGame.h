@@ -33,6 +33,13 @@ struct Checker
 	Team team;
 };
 
+struct Move
+{
+	Move(const Coord& target) : target(target) {};
+	Coord target;
+	std::vector<Checker*> chopedCheckers;
+};
+
 struct GameInfo
 {
 	GameInfo() : isEnd(false), winner(Team::Black), allCheckers(0), blackCheckers(0), whiteCheckers(0), countMoves(0) {}
@@ -56,7 +63,7 @@ public:
 
 	std::vector<const Checker*> GetCheckers() const; //все шашки на поле
 
-	std::vector<Coord> PossibleMoves(const Checker* checker); //доступные клетки для хода шашки
+	std::vector<Move> PossibleMoves(const Checker* checker); //доступные клетки для хода шашки
 
 	void Action(const Coord& coord); //нажатие на клетку
 
@@ -78,9 +85,7 @@ private:
 
 	void InitializeGame(CheckersGame*);
 
-	std::vector<Coord> GetPossibleMovesRecursive(const Checker& checker, const Coord& dir);
-
-	void ChopCheckers(const Checker& checker, const Coord& coord, const std::vector<Coord>& moves);
+	std::vector<Move> PossibleMovesRecursive(const Checker& checker, const Coord& dir, const std::vector<Checker*>& chopedYet);
 
 	bool CoordsInField(const Coord& coord);
 
@@ -92,7 +97,6 @@ private:
 
 	void ChooseChecker(const Coord& coord);
 
-	void MakeTurn(const Coord& coord, const std::vector<Coord>& moves);
-
+	void MakeTurn(const Coord& coord, const Move& move);
 };
 
