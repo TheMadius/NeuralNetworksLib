@@ -104,13 +104,11 @@ void ModelView::Events()
 		if (windowGame->e.type == Event::Closed)
 		{
 			windowGame->app->close();
-<<<<<<< HEAD
 		
 		if (!game->GetInfo().isEnd)
 			if (windowGame->e.type == Event::MouseButtonPressed)
 				if (windowGame->e.key.code == Mouse::Left) 
 					SelectÑheckers();
-=======
 			return;
 		}
 
@@ -118,7 +116,6 @@ void ModelView::Events()
 			if (windowGame->e.key.code == Mouse::Left) {//ëåâàÿ
 				SelectÑheckers();
 			}
->>>>>>> 809c88598bff3affaa9b3d98ca99b60b777e16ca
 	}
 }
 
