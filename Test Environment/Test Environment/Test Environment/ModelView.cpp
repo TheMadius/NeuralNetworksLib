@@ -111,11 +111,6 @@ void ModelView::Events()
 					SelectСheckers();
 			return;
 		}
-
-		if (windowGame->e.type == Event::MouseButtonPressed)//если нажата клавиша мыши
-			if (windowGame->e.key.code == Mouse::Left) {//левая
-				SelectСheckers();
-			}
 	}
 }
 
