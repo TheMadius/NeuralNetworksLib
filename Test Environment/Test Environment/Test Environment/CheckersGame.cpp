@@ -104,17 +104,17 @@ std::vector<const Checker*> CheckersGame::GetCheckers() const
 	return ret;
 }
 
-std::vector<Coord> CheckersGame::PossibleMoves(const Checker* checker)
+std::vector<Move> CheckersGame::PossibleMoves(const Checker* checker)
 {
 	if (checker == nullptr)
-		return vector<Coord>();
+		return vector<Move>();
 
-	return GetPossibleMovesRecursive(*checker, Coord(0, 0));
+	return PossibleMovesRecursive(*checker, Coord(0, 0), vector<Checker*>());
 }
 
-std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checker, const Coord& dir)
+std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker& checker, const Coord& dir, const vector<Checker*>& chopedYet)
 {
-	vector<Coord> ret;
+	vector<Move> ret;
 	int dy = (checker.team == Team::Black) ? (-1) : (1);
 	Coord lu = Coord(-1, dy), ru = Coord(1, dy), ld = Coord(-1, -dy), rd = Coord(1, -dy);
 
@@ -123,22 +123,28 @@ std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checke
 		if (coord == -dir)
 			return;
 		if (!CoordIsEmpty(checker.coord + coord) && CoordsInField(checker.coord + coord))
-			if (CheckerByCoords(checker.coord + coord)->team != checker.team && CoordIsEmpty(checker.coord + coord * 2))
+		{
+			Checker* choped = CheckerByCoords(checker.coord + coord);
+			if (choped->team != checker.team && CoordIsEmpty(checker.coord + coord * 2))
 			{
-				ret.push_back(checker.coord + coord * 2);
-				vector<Coord> tmp = GetPossibleMovesRecursive(
-					Checker(checker.coord + coord * 2, checker.type, checker.team), coord);
+				Move t(checker.coord + coord * 2);
+				t.chopedCheckers.insert(t.chopedCheckers.end(), chopedYet.begin(), chopedYet.end());
+				t.chopedCheckers.push_back(choped);
+				ret.push_back(t);
+				vector<Move> tmp = PossibleMovesRecursive(
+					Checker(checker.coord + coord * 2, checker.type, checker.team), coord, t.chopedCheckers);
 				ret.insert(ret.end(), tmp.begin(), tmp.end());
 			}
+		}
 	};
 
 	//not chop moves
 	if (dir == Coord(0, 0))
 	{
-		if (CoordIsEmpty(checker.coord + Coord(1, dy)))
-			ret.push_back(checker.coord + Coord(1, dy));
-		if (CoordIsEmpty(checker.coord + Coord(-1, dy)))
-			ret.push_back(checker.coord + Coord(-1, dy));
+		if (CoordIsEmpty(checker.coord + ru))
+			ret.push_back(Move(checker.coord + ru));
+		if (CoordIsEmpty(checker.coord + lu))
+			ret.push_back(Move(checker.coord + lu));
 	}
 	//chop moves
 	tryMove(ru, dir);
@@ -146,60 +152,6 @@ std::vector<Coord> CheckersGame::GetPossibleMovesRecursive(const Checker& checke
 	tryMove(ld, dir);
 	tryMove(lu, dir);
 	return ret;
-}
-
-void CheckersGame::ChopCheckers(const Checker& checker, const Coord& coord, const std::vector<Coord>& moves)
-{
-	auto findMove = [](const vector<Coord>& vect, Coord coord)
-	{
-		return find(vect.begin(), vect.end(), coord) != vect.end();
-	};
-
-	int dy = (checker.team == Team::Black) ? (-1) : (1);
-	Coord lastDir = Coord(0, 0);
-	Coord tmp = coord, lu = Coord(-1, dy), ru = Coord(1, dy), ld = Coord(-1, -dy), rd = Coord(1, -dy);
-	vector<Checker*> delCheckers;
-
-	auto backStep = [&](const Coord& coord)
-	{
-		if (coord == -lastDir)
-			return false;
-		Checker* midChecker = CheckerByCoords(tmp + coord);
-		bool isMidEnemy = midChecker != nullptr && midChecker->team != checker.team;
-		if (isMidEnemy && (findMove(moves, tmp + coord * 2) || tmp + coord * 2 == checker.coord))
-		{
-			delCheckers.push_back(midChecker);
-			tmp = tmp + coord * 2;
-			lastDir = coord;
-			return true;
-		}
-		return false;
-	};
-
-	if (abs((coord - checker.coord).x) == 1)
-		return;
-
-	while (true)
-	{
-		if (tmp == checker.coord)
-			break;
-		if (backStep(ru))
-			continue;
-		if (backStep(rd))
-			continue;
-		if (backStep(ld))
-			continue;
-		if (backStep(lu))
-			continue;
-		throw exception("Can't build chop checkers way");
-	}
-	for (int i = 0; i < delCheckers.size(); i++)
-	{
-		auto t = find(checkers.begin(), checkers.end(), delCheckers[i]);
-		*t = nullptr;
-		checkers.erase(t);
-		delete delCheckers[i];
-	}
 }
 
 bool CheckersGame::CoordsInField(const Coord& coord)
@@ -252,9 +204,15 @@ void CheckersGame::ChooseChecker(const Coord& coord)
 	Log::Write("Checker chosen (" + to_string(chosenChecker->coord.x) + ";" + to_string(chosenChecker->coord.y) + ")");
 }
 
-void CheckersGame::MakeTurn(const Coord& coord, const std::vector<Coord>& moves)
+void CheckersGame::MakeTurn(const Coord& coord, const Move& move)
 {
-	ChopCheckers(*chosenChecker, coord, moves);
+	for (int i = 0; i < move.chopedCheckers.size(); i++)
+	{
+		auto t = find(checkers.begin(), checkers.end(), move.chopedCheckers[i]);
+		*t = nullptr;
+		checkers.erase(t);
+		delete move.chopedCheckers[i];
+	}
 	chosenChecker->coord = coord;
 
 	chosenChecker = nullptr;
@@ -273,9 +231,10 @@ void CheckersGame::Action(const Coord& coord)
 	}
 	else
 	{
-		vector<Coord> possibleMoves = PossibleMoves(chosenChecker);
-		if (find(possibleMoves.begin(), possibleMoves.end(), coord) != possibleMoves.end())
-			MakeTurn(coord, possibleMoves);
+		vector<Move> possibleMoves = PossibleMoves(chosenChecker);
+		auto move = find_if(possibleMoves.begin(), possibleMoves.end(), [&](const Move& m) {return m.target == coord; });
+		if (move != possibleMoves.end())
+			MakeTurn(coord, *move);
 		else
 			ChooseChecker(coord);
 	}
