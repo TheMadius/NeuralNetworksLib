@@ -1,5 +1,10 @@
-<<<<<<< HEAD
-﻿  ModelView.cpp
+﻿  CheckersGame.cpp
+D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(176,1): warning C4267: +=: преобразование из "size_t" в "int"; возможна потеря данных
+D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(184,36): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(185,31): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+  Log.cpp
+  main.cpp
+  ModelView.cpp
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(10,43): warning C4311: приведение типов: усечение указателя из "sf::RenderWindow *" в "int"
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(10,43): warning C4302: приведение типов: усечение из "sf::RenderWindow *" к "int"
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(18,43): warning C4311: приведение типов: усечение указателя из "sf::RenderWindow *" в "int"
@@ -64,11 +69,5 @@ D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelVie
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(234,58): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(243,25): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 D:\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\ModelView.cpp(243,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  Создание кода...
   Test Environment.vcxproj -> D:\NeuralNetworksLib\Test Environment\Test Environment\x64\Debug\Test Environment.exe
-=======
-﻿  CheckersGame.cpp
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(271,1): warning C4267: +=: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(279,36): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\Test Environment\CheckersGame.cpp(280,31): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
-  Test Environment.vcxproj -> C:\Users\artem\source\repos\NeuralNetworksLib\Test Environment\Test Environment\x64\Debug\Test Environment.exe
->>>>>>> 44eaec3a81abfb986fdff7baa1c2ca10148ca4be
