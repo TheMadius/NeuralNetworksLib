@@ -149,10 +149,8 @@ void ModelView::GameBoardUpdate()
 
 void ModelView::GameBoardTextUpdate()
 {
-	//координаты для букв
 	int digitStartPosLeftX = windowGame->gameBoard.cellSize - windowGame->gameBoard.cellSize / 3;
 	int digitStartPosRightX = (windowGame->gameBoard.cellSize * 9) + windowGame->gameBoard.cellSize / 6;
-	//координаты для букв
 	int charPosX = windowGame->gameBoard.cellSize + windowGame->gameBoard.cellSize / 3;
 	int	charStartPosTopY = windowGame->gameBoard.cellSize / 2;
 	int	charStartPosBottomY = (windowGame->gameBoard.cellSize * 9);
@@ -215,20 +213,14 @@ void ModelView::GameBoardStaticUpdate()
 {
 	//Создаем белый прямоугольник
 	RectangleShape rectangleBoardWhite(Vector2f((windowGame->gameBoard.cellSize * (windowGame->gameBoard.size + 1)), (windowGame->gameBoard.cellSize * (windowGame->gameBoard.size + 1))));
-	//Перемещаем его в нижний ряд справа от многоугольника
 	rectangleBoardWhite.move((windowGame->gameBoard.cellSize / 2), (windowGame->gameBoard.cellSize / 2));
-	//Устанавливаем ему цвет
 	rectangleBoardWhite.setFillColor(WHITE);
-	//Отрисовка прямоугольника
 	windowGame->app->draw(rectangleBoardWhite);
 
 	//Создаем белый прямоугольник для текста
 	RectangleShape rectangleBoardWhiteInfo(Vector2f(330, 630));
-	//Перемещаем его в нижний ряд справа от многоугольникаa
 	rectangleBoardWhiteInfo.move((windowGame->gameBoard.cellSize * 9) + 50, (windowGame->gameBoard.cellSize / 2));
-	//Устанавливаем ему цвет
 	rectangleBoardWhiteInfo.setFillColor(WHITE);
-	//Отрисовка прямоугольника
 	windowGame->app->draw(rectangleBoardWhiteInfo);
 
 	if (game->GetInfo().isEnd)
@@ -239,11 +231,8 @@ void ModelView::GameBoardStaticUpdate()
 
 	//Создаем чёрный прямоугольник (5 и 10 зависимы и отвечают за размер рамки)
 	RectangleShape rectangleBoardBlack(Vector2f(windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10, windowGame->gameBoard.cellSize * windowGame->gameBoard.size + 10));
-	//Перемещаем его в нижний ряд справа от многоугольника
 	rectangleBoardBlack.move(windowGame->gameBoard.cellSize - 5, windowGame->gameBoard.cellSize - 5);
-	//Устанавливаем ему цвет
 	rectangleBoardBlack.setFillColor(BLACK);
-	//Отрисовка прямоугольника
 	windowGame->app->draw(rectangleBoardBlack);
 }
 
@@ -251,9 +240,7 @@ void ModelView::GameBoardAndСheckersUpdate()
 {
 	auto drawSprite = [&](Sprite& sprite, int x, int y)
 	{
-		// Устанавливаем его в заданную позицию...
 		sprite.setPosition(x, y);
-		//	Отрисовывание
 		windowGame->app->draw(sprite);
 	};
 	int x, y;
@@ -263,6 +250,7 @@ void ModelView::GameBoardAndСheckersUpdate()
 		{
 			x = (i + 1) * windowGame->gameBoard.cellSize;
 			y = (j + 1) * windowGame->gameBoard.cellSize;
+			//рисование ячеек поля
 			switch (windowGame->gameBoard.gridView[i][j])
 			{
 			case CellType::Blue:
@@ -283,7 +271,6 @@ void ModelView::GameBoardAndСheckersUpdate()
 				continue;
 
 			//рисование шашек на поле
-
 			x = (i + 1) * windowGame->gameBoard.cellSize + 7;
 			y = (j + 1) * windowGame->gameBoard.cellSize + 7;
 			switch (windowGame->gameBoard.gridLogic[i][j]->team)
