@@ -127,7 +127,7 @@ std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker& checker, c
 			Checker* choped = CheckerByCoords(checker.coord + coord);
 			if (choped->team != checker.team && CoordIsEmpty(checker.coord + coord * 2))
 			{
-				Move t(checker.coord + coord * 2);
+				Move t(checker, checker.coord + coord * 2);
 				t.chopedCheckers.insert(t.chopedCheckers.end(), chopedYet.begin(), chopedYet.end());
 				t.chopedCheckers.push_back(choped);
 				ret.push_back(t);
@@ -137,14 +137,16 @@ std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker& checker, c
 			}
 		}
 	};
-
+	auto move = Move(checker, checker.coord + ru);
+	auto moves = &move;
+	*moves == move;
 	//not chop moves
 	if (dir == Coord(0, 0))
 	{
 		if (CoordIsEmpty(checker.coord + ru))
-			ret.push_back(Move(checker.coord + ru));
+			ret.push_back(Move(checker, checker.coord + ru));
 		if (CoordIsEmpty(checker.coord + lu))
-			ret.push_back(Move(checker.coord + lu));
+			ret.push_back(Move(checker, checker.coord + lu));
 	}
 	//chop moves
 	tryMove(ru, dir);
@@ -204,7 +206,7 @@ void CheckersGame::ChooseChecker(const Coord& coord)
 	Log::Write("Checker chosen (" + to_string(chosenChecker->coord.x) + ";" + to_string(chosenChecker->coord.y) + ")");
 }
 
-void CheckersGame::MakeTurn(const Coord& coord, const Move& move)
+void CheckersGame::MakeTurn(const Move& move)
 {
 	for (int i = 0; i < move.chopedCheckers.size(); i++)
 	{
@@ -213,10 +215,10 @@ void CheckersGame::MakeTurn(const Coord& coord, const Move& move)
 		checkers.erase(t);
 		delete move.chopedCheckers[i];
 	}
-	chosenChecker->coord = coord;
+	chosenChecker->coord = move.target;
 
 	chosenChecker = nullptr;
-	Log::Write("Checker moved to (" + to_string(coord.x) + "; " + to_string(coord.y) + ")");
+	Log::Write("Checker moved to (" + to_string(move.target.x) + "; " + to_string(move.target.y) + ")");
 	turnTeam = (turnTeam == Team::Black) ? (Team::White) : (Team::Black);
 	info.countMoves++;
 	UpdateInfo();
@@ -234,10 +236,21 @@ void CheckersGame::Action(const Coord& coord)
 		vector<Move> possibleMoves = PossibleMoves(chosenChecker);
 		auto move = find_if(possibleMoves.begin(), possibleMoves.end(), [&](const Move& m) {return m.target == coord; });
 		if (move != possibleMoves.end())
-			MakeTurn(coord, *move);
+			MakeTurn(*move);
 		else
 			ChooseChecker(coord);
 	}
+}
+
+bool CheckersGame::MakeMove(const Checker* checker, const Move& move)
+{
+	auto possM = PossibleMoves(checker);
+	if (find(possM.begin(), possM.end(), move) == possM.end())
+		return false;
+	ChooseChecker(checker->coord);
+	MakeTurn(move);
+
+	return true;
 }
 
 void CheckersGame::Init()

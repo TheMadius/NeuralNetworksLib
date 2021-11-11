@@ -7,6 +7,10 @@
 *.o
 *.obj
 
+# Log files
+*.log
+*.tlog
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -32,3 +36,4 @@
 *.app
 /.vs
 /Test Environment/Test Environment/.vs/Test Environment/v16
+/Test Environment/Test Environment/.vs/Test Environment/v17

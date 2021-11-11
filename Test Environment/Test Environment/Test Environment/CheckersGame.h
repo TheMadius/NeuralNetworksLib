@@ -35,7 +35,10 @@ struct Checker
 
 struct Move
 {
-	Move(const Coord& target) : target(target) {};
+	Move(const Checker& checker, const Coord& target) : target(target), checker(&checker) {};
+	bool operator==(const Move& other) { return checker == other.checker && target == other.target; }
+	bool operator!=(const Move& other) { return !(*this == other); }
+	const Checker* checker;
 	Coord target;
 	std::vector<Checker*> chopedCheckers;
 };
@@ -67,6 +70,8 @@ public:
 
 	void Action(const Coord& coord); //нажатие на клетку
 
+	bool MakeMove(const Checker* checker, const Move& move);
+
 	virtual void Init(); //инициализация
 
 protected:
@@ -97,6 +102,6 @@ private:
 
 	void ChooseChecker(const Coord& coord);
 
-	void MakeTurn(const Coord& coord, const Move& move);
+	void MakeTurn(const Move& move);
 };
 
