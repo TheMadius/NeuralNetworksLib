@@ -37,3 +37,6 @@
 /.vs
 /Test Environment/Test Environment/.vs/Test Environment/v16
 /Test Environment/Test Environment/.vs/Test Environment/v17
+/Test Environment/Test Environment/Test Environment/x64
+/Test Environment/Test Environment/Test Environment/debug
+/Test Environment/Test Environment/Test Environment/release
