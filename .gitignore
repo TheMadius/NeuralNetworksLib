@@ -34,9 +34,12 @@
 *.exe
 *.out
 *.app
-/.vs
-/Test Environment/Test Environment/.vs/Test Environment/v16
-/Test Environment/Test Environment/.vs/Test Environment/v17
+*/.vs
+
 /Test Environment/Test Environment/Test Environment/x64
-/Test Environment/Test Environment/Test Environment/debug
-/Test Environment/Test Environment/Test Environment/release
+/Test Environment/Test Environment/Test Environment/Debug
+/Test Environment/Test Environment/Test Environment/Release
+/Test Environment/Test Environment/Test Environment/log.txt
+/Test Environment/Test Environment/x64/Debug/log.txt
+/Test Environment/Test Environment/x64/Release/log.txt
+/Test Environment/Test Environment/.vs/Test Environment
