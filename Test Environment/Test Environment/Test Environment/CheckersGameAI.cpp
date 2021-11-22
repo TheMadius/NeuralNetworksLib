@@ -43,3 +43,13 @@ RowVector CheckersGameAI::getLegalVector()
 
 	return legal_vextor;
 }
+
+int CheckersGameAI::getIndexForArray(int x, int y)
+{
+	return (y - 1) * MAX_X + x - 1;
+}
+
+Coord CheckersGameAI::getCoord(int indexArr)
+{
+	return Coord(indexArr%MAX_Y + 1, indexArr / MAX_Y + 1);
+}
