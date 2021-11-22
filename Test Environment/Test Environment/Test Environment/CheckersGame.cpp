@@ -109,10 +109,10 @@ std::vector<Move> CheckersGame::PossibleMoves(const Checker* checker)
 	if (checker == nullptr)
 		return vector<Move>();
 
-	return PossibleMovesRecursive(*checker, Coord(0, 0), vector<Checker*>());
+	return PossibleMovesRecursive(checker, *checker, Coord(0, 0), vector<Checker*>());
 }
 
-std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker& checker, const Coord& dir, const vector<Checker*>& chopedYet)
+std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker* cp, const Checker& checker, const Coord& dir, const vector<Checker*>& chopedYet)
 {
 	vector<Move> ret;
 	int dy = (checker.team == Team::Black) ? (-1) : (1);
@@ -127,26 +127,26 @@ std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker& checker, c
 			Checker* choped = CheckerByCoords(checker.coord + coord);
 			if (choped->team != checker.team && CoordIsEmpty(checker.coord + coord * 2))
 			{
-				Move t(checker, checker.coord + coord * 2);
+				Move t(*cp, checker.coord + coord * 2);
 				t.chopedCheckers.insert(t.chopedCheckers.end(), chopedYet.begin(), chopedYet.end());
 				t.chopedCheckers.push_back(choped);
 				ret.push_back(t);
-				vector<Move> tmp = PossibleMovesRecursive(
+				vector<Move> tmp = PossibleMovesRecursive(cp,
 					Checker(checker.coord + coord * 2, checker.type, checker.team), coord, t.chopedCheckers);
 				ret.insert(ret.end(), tmp.begin(), tmp.end());
 			}
 		}
 	};
-	auto move = Move(checker, checker.coord + ru);
+	auto move = Move(*cp, checker.coord + ru);
 	auto moves = &move;
 	*moves == move;
 	//not chop moves
 	if (dir == Coord(0, 0))
 	{
 		if (CoordIsEmpty(checker.coord + ru))
-			ret.push_back(Move(checker, checker.coord + ru));
+			ret.push_back(Move(*cp, checker.coord + ru));
 		if (CoordIsEmpty(checker.coord + lu))
-			ret.push_back(Move(checker, checker.coord + lu));
+			ret.push_back(Move(*cp, checker.coord + lu));
 	}
 	//chop moves
 	tryMove(ru, dir);
