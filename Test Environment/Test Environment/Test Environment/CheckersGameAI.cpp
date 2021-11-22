@@ -17,3 +17,29 @@ RowVector CheckersGameAI::getInputVector()
 
 	return input_vextor;
 }
+
+RowVector CheckersGameAI::getLegalVector()
+{
+	auto checkers = game->GetCheckers();
+	RowVector legal_vextor(sol.back());
+	legal_vextor.setZero();
+
+	for (auto& i : checkers)
+	{
+		if (i->team == this->turn)
+		{
+			auto moves = this->game->PossibleMoves(i);
+			for (auto& move : moves)
+			{
+				int x_ch = i->coord.x, x_m = move.target.x;
+				int y_ch = i->coord.y, y_m = move.target.y;
+				int index_ch = (MAX_X * MAX_Y) * getIndexForArray(x_ch, y_ch);
+				int index_pos = getIndexForArray(x_m, y_m);
+
+				legal_vextor.coeffRef(index_ch + index_pos) = 1.0;
+			}
+		}
+	}
+
+	return legal_vextor;
+}
