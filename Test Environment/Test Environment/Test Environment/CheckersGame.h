@@ -90,7 +90,7 @@ private:
 
 	void InitializeGame(CheckersGame*);
 
-	std::vector<Move> PossibleMovesRecursive(const Checker& checker, const Coord& dir, const std::vector<Checker*>& chopedYet);
+	std::vector<Move> PossibleMovesRecursive(const Checker* cp, const Checker& checker, const Coord& dir, const std::vector<Checker*>& chopedYet);
 
 	bool CoordsInField(const Coord& coord);
 
