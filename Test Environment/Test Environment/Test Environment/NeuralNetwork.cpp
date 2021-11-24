@@ -12,6 +12,8 @@ Scalar activationFunctionDerivative(Scalar x)
 
 NeuralNetwork::NeuralNetwork(std::vector<uint> topology, Scalar learningRate)
 {
+	srand(static_cast<unsigned int>(time(NULL)));
+
 	this->topology = topology;
 	this->learningRate = learningRate;
 
