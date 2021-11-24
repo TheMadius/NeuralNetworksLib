@@ -11,11 +11,12 @@
 class CheckersGameAI
 {
 public:
-	CheckersGameAI(CheckersGame * game, double gamma, Team turn);
+	CheckersGameAI(CheckersGame * game, double gamma, Team turn, double ex = 0.1);
 	void Move(bool train = false);
 
 	~CheckersGameAI();
 private:
+	void MakeMuve(int indexOfArray);
 	RowVector getInputVector();
 	RowVector getLegalVector();
 	int getIndexForArray(int x, int y);

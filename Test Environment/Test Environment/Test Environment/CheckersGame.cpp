@@ -39,6 +39,7 @@ void CheckersGame::InitializeGame(CheckersGame* game)
 	game->info.whiteCheckers = 12;
 	game->info.winner = Team::Black;
 	game->info.countMoves = 0;
+	game->info.turn = Team::White;
 
 	//Loging part
 	Log::Write("Initialized game info");
@@ -220,6 +221,7 @@ void CheckersGame::MakeTurn(const Move& move)
 	chosenChecker = nullptr;
 	Log::Write("Checker moved to (" + to_string(move.target.x) + "; " + to_string(move.target.y) + ")");
 	turnTeam = (turnTeam == Team::Black) ? (Team::White) : (Team::Black);
+	this->info.turn = turnTeam;
 	info.countMoves++;
 	UpdateInfo();
 }

@@ -2,6 +2,7 @@
 #include "Eigen3/Eigen"
 #include <iostream>
 #include <vector>
+#include <ctime>
 #include <typeinfo>
  
 typedef float Scalar;
