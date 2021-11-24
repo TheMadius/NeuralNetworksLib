@@ -45,9 +45,10 @@ struct Move
 
 struct GameInfo
 {
-	GameInfo() : isEnd(false), winner(Team::Black), allCheckers(0), blackCheckers(0), whiteCheckers(0), countMoves(0) {}
+	GameInfo() : isEnd(false), winner(Team::Black), turn(Team::White), allCheckers(0), blackCheckers(0), whiteCheckers(0), countMoves(0) {}
 	bool isEnd;
 	Team winner;
+	Team turn;
 	int allCheckers, blackCheckers, whiteCheckers;
 	int countMoves;
 };
@@ -90,7 +91,7 @@ private:
 
 	void InitializeGame(CheckersGame*);
 
-	std::vector<Move> PossibleMovesRecursive(const Checker& checker, const Coord& dir, const std::vector<Checker*>& chopedYet);
+	std::vector<Move> PossibleMovesRecursive(const Checker* cp, const Checker& checker, const Coord& dir, const std::vector<Checker*>& chopedYet);
 
 	bool CoordsInField(const Coord& coord);
 
