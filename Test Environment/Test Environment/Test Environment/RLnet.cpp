@@ -16,6 +16,9 @@ int QModel::predict(RowVector& input, RowVector& legalMoves)
 	auto pred = model->forward(input);
 	pred = pred.array() * legalMoves.array();
 	RowVector::Index maxIndex;
+	Scalar min = pred.minCoeff();
+
+	pred = pred.array() - min;
 
 	pred.maxCoeff(&maxIndex);
 
@@ -24,8 +27,14 @@ int QModel::predict(RowVector& input, RowVector& legalMoves)
 
 int QModel::explore(RowVector& legalMoves)
 {
+	srand(static_cast<unsigned int>(time(NULL)));
+
 	RowVector random(topology.back());
+	Scalar min = -1;
+
 	random.setRandom();
+
+	random = random.array() - min;
 
 	random = random.array() * legalMoves.array();
 	RowVector::Index maxIndex;

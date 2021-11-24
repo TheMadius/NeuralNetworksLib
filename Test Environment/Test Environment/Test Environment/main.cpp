@@ -27,9 +27,9 @@ int main()
 		{
 			while (true)
 			{
-				this_thread::sleep_for(chrono::milliseconds(1000));
+				this_thread::sleep_for(chrono::milliseconds(500));
 				AIControllerWhite.Move();
-				this_thread::sleep_for(chrono::milliseconds(1000));
+				this_thread::sleep_for(chrono::milliseconds(500));
 				AIControllerBlack.Move();
 			}
 		});

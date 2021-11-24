@@ -1,6 +1,6 @@
 #include "CheckersGameAI.h"
 
-CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam)
+CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam , double ex)
 {
 	this->sol = { 64 * 2, 200, 500, 2000, 4096 };
 
@@ -12,13 +12,30 @@ CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam)
 
 void CheckersGameAI::Move(bool train)
 {
+	if (game->GetInfo().isEnd)
+		return;
+
+	if (game->GetInfo().turn != this->turn)
+		return;
+
 	auto input = getInputVector();
 	auto legal_move = getLegalVector();
 
 	int moveId = this->qmod->explore(legal_move);
 
-	Coord coordCheck = getCoord(moveId/64);
-	Coord coordCheckMove = getCoord(moveId%64);
+	MakeMuve(moveId);
+
+}
+
+CheckersGameAI::~CheckersGameAI()
+{
+	delete qmod;
+}
+
+void CheckersGameAI::MakeMuve(int indexOfArray)
+{
+	Coord coordCheck = getCoord(indexOfArray / 64);
+	Coord coordCheckMove = getCoord(indexOfArray % 64);
 
 	auto checkers = game->GetCheckers();
 
@@ -37,11 +54,6 @@ void CheckersGameAI::Move(bool train)
 			}
 		}
 	}
-}
-
-CheckersGameAI::~CheckersGameAI()
-{
-	delete qmod;
 }
 
 RowVector CheckersGameAI::getInputVector()

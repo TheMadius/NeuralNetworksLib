@@ -2,6 +2,7 @@
 #include "NeuralNetwork.h"
 #include <iostream>
 #include <vector>
+#include <ctime>
 #include <map>
 
 class QModel
