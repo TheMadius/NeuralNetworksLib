@@ -3,6 +3,7 @@
 #include "CheckersGame.h"
 #include "ModelView.h"
 #include <thread>
+#include <mutex>
 #include <chrono>
 
 using namespace std;
@@ -10,6 +11,7 @@ using namespace std;
 int main()
 {
 	Log::Init("log.txt");
+	mutex m;
 	CheckersGame game;
 	CheckersGameAI AIControllerWhite(&game, 0.01, Team::White);
 	CheckersGameAI AIControllerBlack(&game, 0.01, Team::Black);
@@ -23,18 +25,28 @@ int main()
 			test.Start();
 		});
 
-	thread ai = thread([&]()
+	thread aiWhite = thread([&]()
 		{
 			while (true)
 			{
-				this_thread::sleep_for(chrono::milliseconds(500));
-				AIControllerWhite.Move();
-				this_thread::sleep_for(chrono::milliseconds(500));
-				AIControllerBlack.Move();
+				m.lock();
+				AIControllerWhite.Move(true);
+				m.unlock();
 			}
 		});
 
-	ai.join();
+	thread aiBlack = thread([&]()
+		{
+			while (true)
+			{
+				m.lock();
+				AIControllerBlack.Move(true);
+				m.unlock();
+			}
+		});
+
+	aiWhite.join();
+	aiBlack.join();
 	t.join();
 
 	Log::Stop();

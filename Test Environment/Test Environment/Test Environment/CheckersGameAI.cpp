@@ -8,6 +8,7 @@ CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam ,
 	this->game = game;
 	this->gamma = gamma;
 	this->turn = turnTeam;
+	this->probRand = ex;
 }
 
 void CheckersGameAI::Move(bool train)
@@ -18,13 +19,39 @@ void CheckersGameAI::Move(bool train)
 	if (game->GetInfo().turn != this->turn)
 		return;
 
+	int moveId;
 	auto input = getInputVector();
 	auto legal_move = getLegalVector();
 
-	int moveId = this->qmod->explore(legal_move);
+	if (train)
+	{
+		RowVector output(sol.back());
 
-	MakeMuve(moveId);
+		output.setZero();
 
+		double exp = ((double)(rand()))/RAND_MAX;
+
+		if(exp < this->probRand)
+			moveId = this->qmod->explore(legal_move);
+		else
+			moveId = this->qmod->predict(input, legal_move);
+
+		int reward = MakeMuve(moveId) * 100;
+
+		auto next_input = getInputVector();
+		auto next_legal_move = getLegalVector();
+
+		auto best_next_reward = this->qmod->forward(next_input, next_legal_move).maxCoeff();
+
+		output.coeffRef(moveId) = reward + this->gamma * best_next_reward;
+
+		this->qmod->train(input, output);
+	}
+	else
+	{
+		moveId = this->qmod->predict(input, legal_move);
+		MakeMuve(moveId);
+	}
 }
 
 CheckersGameAI::~CheckersGameAI()
@@ -32,7 +59,7 @@ CheckersGameAI::~CheckersGameAI()
 	delete qmod;
 }
 
-void CheckersGameAI::MakeMuve(int indexOfArray)
+int CheckersGameAI::MakeMuve(int indexOfArray)
 {
 	Coord coordCheck = getCoord(indexOfArray / 64);
 	Coord coordCheckMove = getCoord(indexOfArray % 64);
@@ -49,7 +76,7 @@ void CheckersGameAI::MakeMuve(int indexOfArray)
 				if (move.target == coordCheckMove)
 				{
 					this->game->MakeMove(i, move);
-					return;
+					return move.chopedCheckers.size();
 				}
 			}
 		}

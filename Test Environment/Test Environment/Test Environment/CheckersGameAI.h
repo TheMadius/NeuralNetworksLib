@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <random>
 #include "CheckersGame.h"
 #include "ModelView.h"
 #include "Game.h"
@@ -11,20 +12,23 @@
 class CheckersGameAI
 {
 public:
-	CheckersGameAI(CheckersGame * game, double gamma, Team turn, double ex = 0.1);
+	CheckersGameAI(CheckersGame * game, double gamma, Team turn, double ex = 0.3);
 	void Move(bool train = false);
 
 	~CheckersGameAI();
 private:
-	void MakeMuve(int indexOfArray);
+	int MakeMuve(int indexOfArray);
 	RowVector getInputVector();
 	RowVector getLegalVector();
 	int getIndexForArray(int x, int y);
 	Coord getCoord(int indexArr);
+
 	std::vector<uint32_t> sol;
-	QModel *qmod;
 	CheckersGame* game;
+	double probRand;
+	QModel *qmod;
 	double gamma;
 	Team turn;
+
 };
 
