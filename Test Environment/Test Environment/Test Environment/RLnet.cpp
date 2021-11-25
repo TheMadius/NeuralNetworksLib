@@ -53,8 +53,8 @@ RowVector QModel::forward(RowVector& input, RowVector& legalMoves)
 	return res;
 }
 
-void QModel::train(RowVector& input, RowVector& output)
+void QModel::train(std::vector<RowVector> &input, std::vector<RowVector> &output)
 {
-	model->train({ &input }, { &output }, 1);
+	model->train(input, output, 1);
 }
 

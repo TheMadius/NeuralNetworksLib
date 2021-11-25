@@ -1,5 +1,15 @@
 #include "CheckersGameAI.h"
 
+std::vector<int> getRandomVec(int size)
+{
+	std::vector<int> x(size);
+	std::iota(x.begin(), x.end(), 0);
+	auto rng = std::default_random_engine{};
+	std::shuffle(std::begin(x), std::end(x), rng);
+
+	return x;
+}
+
 CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam , double ex)
 {
 	this->sol = { 64 * 2, 200, 500, 2000, 4096 };
@@ -25,9 +35,8 @@ void CheckersGameAI::Move(bool train)
 
 	if (train)
 	{
-		RowVector output(sol.back());
-
-		output.setZero();
+		this->history_legal.push_back(legal_move);
+		this->history_state.push_back(input);
 
 		double exp = ((double)(rand()))/RAND_MAX;
 
@@ -36,16 +45,20 @@ void CheckersGameAI::Move(bool train)
 		else
 			moveId = this->qmod->predict(input, legal_move);
 
-		int reward = MakeMuve(moveId) * 100;
+		this->history_action.push_back(moveId);
+		int reward = MakeMuve(moveId) * 1000;
+		this->history_reward.push_back(reward);
 
 		auto next_input = getInputVector();
+		this->history_next_state.push_back(next_input);
 		auto next_legal_move = getLegalVector();
+		this->history_next_legal.push_back(next_legal_move);
 
-		auto best_next_reward = this->qmod->forward(next_input, next_legal_move).maxCoeff();
+		auto index = getRandomVec(this->history_state.size());
+		auto inputData = getInputData(6, index);
+		auto outputData = getOutputData(6, index);
 
-		output.coeffRef(moveId) = reward + this->gamma * best_next_reward;
-
-		this->qmod->train(input, output);
+		this->qmod->train(inputData, outputData);
 	}
 	else
 	{
@@ -127,6 +140,41 @@ RowVector CheckersGameAI::getLegalVector()
 	return legal_vextor;
 }
 
+
+std::vector<RowVector> CheckersGameAI::getInputData(int sizeBach, std::vector<int> index)
+{
+	std::vector<RowVector> input;
+	if (index.size() < sizeBach)
+		sizeBach = index.size();
+
+	for (int i = 0; i < sizeBach; i++)
+		input.push_back(this->history_state[index[i]]);
+
+	return input;
+}
+
+std::vector<RowVector> CheckersGameAI::getOutputData(int sizeBach, std::vector<int> index)
+{
+	std::vector<RowVector> output;
+
+	if (index.size() < sizeBach)
+		sizeBach = index.size();
+
+	for (int i = 0; i < sizeBach; i++)
+	{
+		RowVector updated_q_values(sol.back());
+		updated_q_values.setZero();
+		int id = index[i];
+
+		auto best_next_reward = this->qmod->forward(this->history_next_state[id], this->history_next_legal[id]).maxCoeff();
+		updated_q_values.coeffRef(this->history_action[id]) = this->history_reward[id] + this->gamma * best_next_reward;
+
+		output.push_back(updated_q_values);
+	}
+
+	return output;
+}
+
 int CheckersGameAI::getIndexForArray(int x, int y)
 {
 	return (y - 1) * MAX_X + x - 1;
@@ -136,3 +184,4 @@ Coord CheckersGameAI::getCoord(int indexArr)
 {
 	return Coord(indexArr%MAX_Y + 1, indexArr / MAX_Y + 1);
 }
+

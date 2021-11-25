@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <random>
+#include <numeric>
 #include "CheckersGame.h"
 #include "ModelView.h"
 #include "Game.h"
@@ -17,6 +18,8 @@ public:
 
 	~CheckersGameAI();
 private:
+	std::vector<RowVector> getInputData(int sizeBach, std::vector<int> index);
+	std::vector<RowVector> getOutputData(int sizeBach, std::vector<int> index);
 	int MakeMuve(int indexOfArray);
 	RowVector getInputVector();
 	RowVector getLegalVector();
@@ -30,5 +33,11 @@ private:
 	double gamma;
 	Team turn;
 
+	std::vector<int> history_action;
+	std::vector<int> history_reward;
+	std::vector<RowVector> history_state;
+	std::vector<RowVector> history_legal;
+	std::vector<RowVector> history_next_state;
+	std::vector<RowVector> history_next_legal;
 };
 
