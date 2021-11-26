@@ -34,21 +34,46 @@ struct TextureAndText
 	Texture blue;
 	Texture green;
 	Texture yellow;
-	Texture black—hecker;
-	Texture white—hecker;
-	Texture black—heckerDM;
-	Texture white—heckerDM;
 	Texture newGameButton;
+
+	/// <ÙË„Û˚>
+	Texture PawnWH;
+	Texture KnightWH;
+	Texture BishopWH;
+	Texture RookWH;
+	Texture QueenWH;
+	Texture KingWH;
+
+	Texture PawnBL;
+	Texture KnightBL;
+	Texture BishopBL;
+	Texture RookBL;
+	Texture QueenBL;
+	Texture KingBL;
+	/// </ÙË„Û˚>
 
 	Sprite whiteSprite;
 	Sprite blueSprite;
 	Sprite yellowSprite;
 	Sprite greenSprite;
-	Sprite black—heckerSprite;
-	Sprite white—heckerSprite;
-	Sprite black—heckerSpriteDM;
-	Sprite white—heckerSpriteDM;
 	Sprite newGameButtonSprite;
+	/// <ÙË„Û˚>
+	Sprite PawnWHSprite;
+	Sprite KnightWHSprite;
+	Sprite BishopWHSprite;
+	Sprite RookWHSprite;
+	Sprite QueenWHSprite;
+	Sprite KingWHSprite;
+
+	Sprite PawnBLSprite;
+	Sprite KnightBLSprite;
+	Sprite BishopBLSprite;
+	Sprite RookBLSprite;
+	Sprite QueenBLSprite;
+	Sprite KingBLSprite;
+	/// </ÙË„Û˚>
+
+	
 };
 
 struct Board
