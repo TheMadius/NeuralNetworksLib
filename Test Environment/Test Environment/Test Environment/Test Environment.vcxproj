@@ -153,6 +153,8 @@
   <ItemGroup>
     <ClInclude Include="CheckersGame.h" />
     <ClInclude Include="CheckersGameAI.h" />
+    <ClInclude Include="ChessGame.h" />
+    <ClInclude Include="ChessMV.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="ModelView.h" />
@@ -162,6 +164,8 @@
   <ItemGroup>
     <ClCompile Include="CheckersGame.cpp" />
     <ClCompile Include="CheckersGameAI.cpp" />
+    <ClCompile Include="ChessGame.cpp" />
+    <ClCompile Include="ChessMV.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelView.cpp" />
