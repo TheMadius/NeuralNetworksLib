@@ -22,33 +22,52 @@ ChessMV::ChessMV(std::string name, int windowHight, int windowWidth)
 void ChessMV::LoadTexturesAndText()
 {
 	windowGame->gameTextureAndText.font.loadFromFile("fonts\\CyrilicOld.TTF");
-
 	windowGame->gameTextureAndText.white.loadFromFile("textures\\White.png");
 	windowGame->gameTextureAndText.blue.loadFromFile("textures\\Blue.png");
 	windowGame->gameTextureAndText.green.loadFromFile("textures\\Green.JPG");
 	windowGame->gameTextureAndText.yellow.loadFromFile("textures\\Yellow.png");
-
-	windowGame->gameTextureAndText.black—hecker.loadFromFile("textures\\blackCh.png");
-	windowGame->gameTextureAndText.white—hecker.loadFromFile("textures\\whiteCh.png");
-	windowGame->gameTextureAndText.black—heckerDM.loadFromFile("textures\\blackChDM.png");
-	windowGame->gameTextureAndText.white—heckerDM.loadFromFile("textures\\whiteChDN.png");
-
 	windowGame->gameTextureAndText.newGameButton.loadFromFile("textures\\NewGame.png");
 
+	/// <ÙË„Û˚>
+	windowGame->gameTextureAndText.PawnWH.loadFromFile("textures\\Chees\\whitePawn.png");
+	windowGame->gameTextureAndText.KnightWH.loadFromFile("textures\\Chees\\whiteKnight.png");
+	windowGame->gameTextureAndText.BishopWH.loadFromFile("textures\\Chees\\whiteBishop.png");
+	windowGame->gameTextureAndText.RookWH.loadFromFile("textures\\Chees\\whiteRook.png");
+	windowGame->gameTextureAndText.QueenWH.loadFromFile("textures\\Chees\\whiteQueen.png");
+	windowGame->gameTextureAndText.KingWH.loadFromFile("textures\\Chees\\whiteKing.png");
 
+	windowGame->gameTextureAndText.PawnBL.loadFromFile("textures\\Chees\\blackPawn.png");
+	windowGame->gameTextureAndText.KnightBL.loadFromFile("textures\\Chees\\blackKnight.png");
+	windowGame->gameTextureAndText.BishopBL.loadFromFile("textures\\Chees\\blackBishop.png");
+	windowGame->gameTextureAndText.RookBL.loadFromFile("textures\\Chees\\blackRook.png");
+	windowGame->gameTextureAndText.QueenBL.loadFromFile("textures\\Chees\\blackQueen.png");
+	windowGame->gameTextureAndText.KingBL.loadFromFile("textures\\Chees\\blackKing.png");
+	/// </ÙË„Û˚>
+	
 	windowGame->gameTextureAndText.whiteSprite.setTexture(windowGame->gameTextureAndText.white);
 	windowGame->gameTextureAndText.blueSprite.setTexture(windowGame->gameTextureAndText.blue);
 	windowGame->gameTextureAndText.greenSprite.setTexture(windowGame->gameTextureAndText.green);
 	windowGame->gameTextureAndText.yellowSprite.setTexture(windowGame->gameTextureAndText.yellow);
+	
+	/// <ÙË„Û˚>
 
-	windowGame->gameTextureAndText.black—heckerSprite.setTexture(windowGame->gameTextureAndText.black—hecker);
-	windowGame->gameTextureAndText.white—heckerSprite.setTexture(windowGame->gameTextureAndText.white—hecker);
-	windowGame->gameTextureAndText.black—heckerSpriteDM.setTexture(windowGame->gameTextureAndText.black—heckerDM);
-	windowGame->gameTextureAndText.white—heckerSpriteDM.setTexture(windowGame->gameTextureAndText.white—heckerDM);
+	windowGame->gameTextureAndText.PawnWHSprite.setTexture(windowGame->gameTextureAndText.PawnWH);
+	windowGame->gameTextureAndText.KnightWHSprite.setTexture(windowGame->gameTextureAndText.KnightWH);
+	windowGame->gameTextureAndText.BishopWHSprite.setTexture(windowGame->gameTextureAndText.BishopWH);
+	windowGame->gameTextureAndText.RookWHSprite.setTexture(windowGame->gameTextureAndText.RookWH);
+	windowGame->gameTextureAndText.QueenWHSprite.setTexture(windowGame->gameTextureAndText.QueenWH);
+	windowGame->gameTextureAndText.KingWHSprite.setTexture(windowGame->gameTextureAndText.KingWH);
+
+	windowGame->gameTextureAndText.PawnBLSprite.setTexture(windowGame->gameTextureAndText.PawnBL);
+	windowGame->gameTextureAndText.KnightBLSprite.setTexture(windowGame->gameTextureAndText.KnightBL);
+	windowGame->gameTextureAndText.BishopBLSprite.setTexture(windowGame->gameTextureAndText.BishopBL);
+	windowGame->gameTextureAndText.RookBLSprite.setTexture(windowGame->gameTextureAndText.RookBL);
+	windowGame->gameTextureAndText.QueenBLSprite.setTexture(windowGame->gameTextureAndText.QueenBL);
+	windowGame->gameTextureAndText.KingBLSprite.setTexture(windowGame->gameTextureAndText.KingBL);
+	/// </ÙË„Û˚>
 
 
 	windowGame->gameTextureAndText.newGameButtonSprite.setTexture(windowGame->gameTextureAndText.newGameButton);
-
 
 	windowGame->gameTextureAndText.txt = new Text;
 	windowGame->gameTextureAndText.txt->setFont(windowGame->gameTextureAndText.font);
@@ -155,7 +174,7 @@ void ChessMV::GameBoardTextUpdate()
 	int	charStartPosTopY = windowGame->gameBoard.cellSize / 2;
 	int	charStartPosBottomY = (windowGame->gameBoard.cellSize * 9);
 
-	for (int i = 1, digitPosY = (windowGame->gameBoard.cellSize + (windowGame->gameBoard.cellSize / 5)); i < 9; i += 1, digitPosY += windowGame->gameBoard.cellSize)
+	for (int i = 8, digitPosY = (windowGame->gameBoard.cellSize + (windowGame->gameBoard.cellSize / 5)); i > 0; i -= 1, digitPosY += windowGame->gameBoard.cellSize)
 	{
 		windowGame->gameTextureAndText.txt->setPosition(digitStartPosLeftX, digitPosY);
 		windowGame->gameTextureAndText.txt->setString(std::to_string(i));
@@ -249,7 +268,7 @@ void ChessMV::GameBoardAnd—heckersUpdate()
 		for (int j = 0; j < FILD_SIZE; j++)
 		{
 			x = (i + 1) * windowGame->gameBoard.cellSize;
-			y = (j + 1) * windowGame->gameBoard.cellSize;
+			y = (8 - j) * windowGame->gameBoard.cellSize;
 			//ËÒÓ‚‡ÌËÂ ˇ˜ÂÂÍ ÔÓÎˇ
 			switch (windowGame->gameBoard.gridView[i][j])
 			{
@@ -270,16 +289,58 @@ void ChessMV::GameBoardAnd—heckersUpdate()
 			if (windowGame->gameBoard.gridLogic[i][j] == nullptr)
 				continue;
 
-			//ËÒÓ‚‡ÌËÂ ¯‡¯ÂÍ Ì‡ ÔÓÎÂ
+			//ËÒÓ‚‡ÌËÂ ÙË„ Ì‡ ÔÓÎÂ
 			x = (i + 1) * windowGame->gameBoard.cellSize + 7;
-			y = (j + 1) * windowGame->gameBoard.cellSize + 7;
+			y = (8 - j) * windowGame->gameBoard.cellSize + 7;
+
 			switch (windowGame->gameBoard.gridLogic[i][j]->team)
 			{
 			case ChessGame::Team::White:
-				drawSprite(windowGame->gameTextureAndText.white—heckerSprite, x, y);
+				switch (windowGame->gameBoard.gridLogic[i][j]->type)
+				{
+					case ChessGame::FigureType::Bishop:
+						drawSprite(windowGame->gameTextureAndText.BishopWHSprite, x, y);
+						break;
+					case ChessGame::FigureType::King:
+						drawSprite(windowGame->gameTextureAndText.KingWHSprite, x, y);
+						break;
+					case ChessGame::FigureType::Knight:
+						drawSprite(windowGame->gameTextureAndText.KnightWHSprite, x, y);
+						break;
+					case ChessGame::FigureType::Pawn:
+						drawSprite(windowGame->gameTextureAndText.PawnWHSprite, x, y);
+						break;
+					case ChessGame::FigureType::Queen:
+						drawSprite(windowGame->gameTextureAndText.QueenWHSprite, x, y);
+						break;
+					case ChessGame::FigureType::Rook:
+						drawSprite(windowGame->gameTextureAndText.RookWHSprite, x, y);
+						break;
+				}
 				break;
+
 			case ChessGame::Team::Black:
-				//drawSprite(windowGame->gameTextureAndText.black—heckerSprite, x, y);
+				switch (windowGame->gameBoard.gridLogic[i][j]->type)
+				{
+					case ChessGame::FigureType::Bishop:
+						drawSprite(windowGame->gameTextureAndText.BishopBLSprite, x, y);
+						break;
+					case ChessGame::FigureType::King:
+						drawSprite(windowGame->gameTextureAndText.KingBLSprite, x, y);
+						break;
+					case ChessGame::FigureType::Knight:
+						drawSprite(windowGame->gameTextureAndText.KnightBLSprite, x, y);
+						break;
+					case ChessGame::FigureType::Pawn:
+						drawSprite(windowGame->gameTextureAndText.PawnBLSprite, x, y);
+						break;
+					case ChessGame::FigureType::Queen:
+						drawSprite(windowGame->gameTextureAndText.QueenBLSprite, x, y);
+						break;
+					case ChessGame::FigureType::Rook:
+						drawSprite(windowGame->gameTextureAndText.RookBLSprite, x, y);
+						break;
+				}
 				break;
 			}
 		}
@@ -289,5 +350,5 @@ void ChessMV::Select—heckers()
 {
 	int fx = windowGame->e.mouseButton.x / 70, fy = windowGame->e.mouseButton.y / 70;
 	Log::Write("(" + to_string(fx) + ";" + to_string(fy) + ")");
-	game->Action(ChessGame::Coord(fx, fy));
+	game->Action(ChessGame::Coord(fx, 9 - fy));
 }
