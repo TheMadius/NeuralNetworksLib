@@ -20,7 +20,7 @@ public:
     void train(std::vector<RowVector*>& input_data, std::vector<RowVector*>& output_data, int epochs = 1);
     void propagateForward(RowVector& input);
     void propagateBackward(RowVector& output);
-    RowVector forward(RowVector& input);
+    RowVector* forward(RowVector& input);
     void calcErrors(RowVector& output);
     void updateWeights();
     ~NeuralNetwork();

@@ -12,7 +12,7 @@ public:
 	int predict(RowVector& input, RowVector& legalMoves);
 	void train(std::vector<RowVector*>& input, std::vector<RowVector*>& output);
 	int explore(RowVector& legalMoves);
-	RowVector forward(RowVector& input, RowVector& legalMoves);
+	RowVector forward(RowVector* input, RowVector* legalMoves);
 	~QModel();
 
 private:

@@ -114,8 +114,8 @@ NeuralNetwork::~NeuralNetwork()
 }
 
 
-RowVector NeuralNetwork::forward(RowVector& input)
+RowVector* NeuralNetwork::forward(RowVector& input)
 {
 	propagateForward(input);
-	return *neuronLayers.back();
+	return neuronLayers.back();
 }

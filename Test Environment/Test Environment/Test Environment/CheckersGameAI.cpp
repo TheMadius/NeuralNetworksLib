@@ -29,30 +29,24 @@ void CheckersGameAI::Move(bool train)
 	if (game->GetInfo().turn != this->turn)
 		return;
 
-	int moveId;
 	auto input = getInputVector();
 	auto legal_move = getLegalVector();
 
 	if (train)
 	{
+		int moveId;
 		this->history_legal.push_back(legal_move);
 		this->history_state.push_back(input);
 
-		double exp = ((double)(rand()))/RAND_MAX;
-
-		if(exp < this->probRand)
+		if((((double)(rand())) / RAND_MAX) < this->probRand)
 			moveId = this->qmod->explore(*legal_move);
 		else
 			moveId = this->qmod->predict(*input, *legal_move);
 
 		this->history_action.push_back(moveId);
-		int reward = MakeMuve(moveId) * 10000;
-		this->history_reward.push_back(reward);
-
-		auto next_input = getInputVector();
-		this->history_next_state.push_back(next_input);
-		auto next_legal_move = getLegalVector();
-		this->history_next_legal.push_back(next_legal_move);
+		this->history_reward.push_back(MakeMuve(moveId) * 10000);
+		this->history_next_state.push_back(getInputVector());
+		this->history_next_legal.push_back(getLegalVector());
 
 		updata_history(AVG_STEP);
 
@@ -67,6 +61,7 @@ void CheckersGameAI::Move(bool train)
 	}
 	else
 	{
+		int moveId;
 		moveId = this->qmod->predict(*input, *legal_move);
 		MakeMuve(moveId);
 
@@ -78,6 +73,14 @@ void CheckersGameAI::Move(bool train)
 CheckersGameAI::~CheckersGameAI()
 {
 	delete qmod;
+	for (auto item : history_legal)
+		delete item;
+	for (auto item : history_next_legal)
+		delete item;
+	for (auto item : history_next_state)
+		delete item;
+	for (auto item : history_state)
+		delete item;	
 }
 
 int CheckersGameAI::MakeMuve(int indexOfArray)
@@ -174,7 +177,7 @@ std::vector<RowVector*> CheckersGameAI::getOutputData(int sizeBach, std::vector<
 		updated_q_values->setZero();
 		int id = index[i];
 
-		auto best_next_reward = this->qmod->forward(*(this->history_next_state[id]), *(this->history_next_legal[id])).maxCoeff();
+		auto best_next_reward = this->qmod->forward(this->history_next_state[id], this->history_next_legal[id]).maxCoeff();
 		updated_q_values->coeffRef(this->history_action[id]) = this->history_reward[id] + this->gamma * best_next_reward;
 
 		output.push_back(updated_q_values);

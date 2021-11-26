@@ -15,13 +15,13 @@ int QModel::predict(RowVector& input, RowVector& legalMoves)
 {
 	auto pred = model->forward(input);
 	RowVector::Index maxIndex;
-	Scalar min = pred.minCoeff();
+	Scalar min = pred->minCoeff();
 
-	pred = pred.array() - min;
+	*pred = pred->array() - min;
 
-	pred = pred.array() * legalMoves.array();
+	*pred = pred->array() * legalMoves.array();
 
-	pred.maxCoeff(&maxIndex);
+	pred->maxCoeff(&maxIndex);
 
 	return maxIndex;
 }
@@ -44,12 +44,12 @@ int QModel::explore(RowVector& legalMoves)
 	return maxIndex;
 }
 
-RowVector QModel::forward(RowVector& input, RowVector& legalMoves)
+RowVector QModel::forward(RowVector* input, RowVector* legalMoves)
 {
-	auto res = this->model->forward(input);
+	auto res = *(this->model->forward(*input));
 	res = res.array() - res.minCoeff();
+	res = res.array() * legalMoves->array();
 
-	res = res.array() * legalMoves.array();
 	return res;
 }
 
