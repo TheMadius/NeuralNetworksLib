@@ -13,8 +13,8 @@ int main()
 	Log::Init("log.txt");
 	mutex m;
 	CheckersGame game;
-	CheckersGameAI AIControllerWhite(&game, 0.01, Team::White);
-	CheckersGameAI AIControllerBlack(&game, 0.01, Team::Black);
+	CheckersGameAI AIControllerWhite(&game, 0.9, Team::White);
+	CheckersGameAI AIControllerBlack(&game, 0.9, Team::Black);
 
 	game.NewGame();
 
@@ -30,20 +30,22 @@ int main()
 			while (true)
 			{
 				m.lock();
-				AIControllerWhite.Move(true);
+				AIControllerWhite.Move();
 				m.unlock();
 			}
 		});
 
 	thread aiBlack = thread([&]()
 		{
-			while (true)
-			{
-				m.lock();
-				AIControllerBlack.Move(true);
-				m.unlock();
-			}
+			
 		});
+
+	while (true)
+	{
+		m.lock();
+		AIControllerBlack.Move(true);
+		m.unlock();
+	}
 
 	aiWhite.join();
 	aiBlack.join();

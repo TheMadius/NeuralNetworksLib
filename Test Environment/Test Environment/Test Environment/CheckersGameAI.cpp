@@ -4,8 +4,8 @@ std::vector<int> getRandomVec(int size)
 {
 	std::vector<int> x(size);
 	std::iota(x.begin(), x.end(), 0);
-	auto rng = std::default_random_engine{};
-	std::shuffle(std::begin(x), std::end(x), rng);
+
+	std::random_shuffle(std::begin(x), std::end(x));
 
 	return x;
 }
@@ -46,13 +46,15 @@ void CheckersGameAI::Move(bool train)
 			moveId = this->qmod->predict(input, legal_move);
 
 		this->history_action.push_back(moveId);
-		int reward = MakeMuve(moveId) * 1000;
+		int reward = MakeMuve(moveId) * 10000;
 		this->history_reward.push_back(reward);
 
 		auto next_input = getInputVector();
 		this->history_next_state.push_back(next_input);
 		auto next_legal_move = getLegalVector();
 		this->history_next_legal.push_back(next_legal_move);
+
+		updata_history(AVG_STEP);
 
 		auto index = getRandomVec(this->history_state.size());
 		auto inputData = getInputData(6, index);
@@ -183,5 +185,18 @@ int CheckersGameAI::getIndexForArray(int x, int y)
 Coord CheckersGameAI::getCoord(int indexArr)
 {
 	return Coord(indexArr%MAX_Y + 1, indexArr / MAX_Y + 1);
+}
+
+void CheckersGameAI::updata_history(int limit_count)
+{
+	if (this->history_action.size() > limit_count)
+	{
+		history_action.erase(history_action.begin() + 1);
+		history_legal.erase(history_legal.begin() + 1);
+		history_next_legal.erase(history_next_legal.begin() + 1);
+		history_next_state.erase(history_next_state.begin() + 1);
+		history_reward.erase(history_reward.begin() + 1);
+		history_state.erase(history_state.begin() + 1);
+	}
 }
 

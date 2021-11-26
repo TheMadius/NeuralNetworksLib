@@ -9,6 +9,7 @@
 #define MAX_X 8
 #define MAX_Y 8
 #define COUNT_TEAM 2
+#define AVG_STEP 40
 
 class CheckersGameAI
 {
@@ -25,6 +26,7 @@ private:
 	RowVector getLegalVector();
 	int getIndexForArray(int x, int y);
 	Coord getCoord(int indexArr);
+	void updata_history(int limit_count);
 
 	std::vector<uint32_t> sol;
 	CheckersGame* game;

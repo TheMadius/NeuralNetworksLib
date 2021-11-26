@@ -65,7 +65,7 @@ void ModelView::LoadTexturesAndText()
 
 void ModelView::StartNewGame()
 {
-	if (windowGame->gameTextureAndText.newGameButtonSprite.getGlobalBounds().contains(windowGame->e.mouseButton.x, windowGame->e.mouseButton.y))
+	//if (windowGame->gameTextureAndText.newGameButtonSprite.getGlobalBounds().contains(windowGame->e.mouseButton.x, windowGame->e.mouseButton.y))
 		game->NewGame();
 }
 
@@ -112,6 +112,11 @@ void ModelView::Start()
 
 void ModelView::Events()
 {
+	if (game->GetInfo().isEnd)
+	{
+		StartNewGame();
+	}
+	
 	while (windowGame->app->pollEvent(windowGame->e))
 	{
 		if (windowGame->e.type == Event::Closed)
