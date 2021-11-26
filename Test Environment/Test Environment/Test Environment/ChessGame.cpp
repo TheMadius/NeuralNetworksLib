@@ -32,33 +32,49 @@ std::vector<const ChessGame::Figure*> ChessGame::GetFigures() const
 	return ret;
 }
 
-std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure)
+std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool correct) const
 {
 	if (figure == nullptr)
 		return vector<Move>();
+	if (correct)
+		if (CheckShah(figure->team))
+			return vector<Move>();
 	vector<Move> ret;
 	auto tryMove = [&](const Coord& dc)
 	{
 		Coord to = figure->coord + dc;
 		Move tmp = Move(figure->coord, to);
-		if (!IsMovePossible(figure->coord, to))
-			return;
 		if (!CoordsInField(to))
+			return;
+		if (correct && !IsMovePossible(figure->coord, to))
 			return;
 		if (CoordIsEmpty(to))
 			ret.push_back(tmp);
 		else if (FigureByCoords(to)->team != figure->team)
 			ret.push_back(tmp);
 	};
-	auto tryMovePawn = [&](const Coord& dc)
+	auto tryMovePawnChop = [&](const Coord& dc)
 	{
 		Coord to = figure->coord + dc;
-		if (!IsMovePossible(figure->coord, to))
+		if (!CoordsInField(to))
+			return;
+		if (correct && !IsMovePossible(figure->coord, to))
 			return;
 		if (CoordIsEmpty(to))
 			return;
 		if (FigureByCoords(to)->team != figure->team)
 			ret.push_back(Move(figure->coord, to));
+	};
+	auto tryMovePawn = [&](const Coord& dc)
+	{
+		Coord to = figure->coord + dc;
+		if (!CoordsInField(to))
+			return;
+		if (correct && !IsMovePossible(figure->coord, to))
+			return;
+		if (!CoordIsEmpty(to))
+			return;
+		ret.push_back(Move(figure->coord, to));
 	};
 	auto lineMoves = [&](const Coord& dir)
 	{
@@ -85,9 +101,9 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure)
 	case FigureType::Pawn:
 		if (!figure->moved)
 			tryMove(u * 2);
-		tryMove(u);
-		tryMovePawn(lu);
-		tryMovePawn(ru);
+		tryMovePawn(u);
+		tryMovePawnChop(lu);
+		tryMovePawnChop(ru);
 		break;
 	case FigureType::Knight:
 		tryMove(u + ru);
@@ -124,10 +140,31 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure)
 	case FigureType::King:
 		if (!figure->moved)
 		{
-			if (moveFromPosition((figure->team == ChessGame::Team::White) ? (Coord(1, 1)) : (Coord(1, 8))))
-				tryMove(l * 2);
-			if (moveFromPosition((figure->team == ChessGame::Team::White) ? (Coord(8, 1)) : (Coord(8, 8))))
-				tryMove(r * 2);
+			int y = (figure->team == ChessGame::Team::White) ? (1) : (8);
+			if (!moveFromPosition(Coord(1, y)))
+			{
+				bool can = true;
+				for (int i = 2; i < figure->coord.x; i++)
+					if (!CoordIsEmpty(Coord(i, y)))
+					{
+						can = false;
+						break;
+					}
+				if (can)
+					tryMove(l * 2);
+			}
+			if (!moveFromPosition(Coord(8, y)))
+			{
+				bool can = true;
+				for (int i = 7; i > figure->coord.x; i--)
+					if (!CoordIsEmpty(Coord(i, y)))
+					{
+						can = false;
+						break;
+					}
+				if (can)
+					tryMove(r * 2);
+			}
 		}
 		tryMove(u);
 		tryMove(ru);
@@ -137,8 +174,6 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure)
 		tryMove(ld);
 		tryMove(l);
 		tryMove(lu);
-		break;
-	default:
 		break;
 	}
 	return ret;
@@ -168,6 +203,14 @@ bool ChessGame::MakeMove(const Figure* figure, const Move& move)
 }
 
 ChessGame::Figure* ChessGame::FigureByCoords(const Coord& coord)
+{
+	for (int i = 0; i < figures.size(); i++)
+		if (figures[i]->coord == coord)
+			return figures[i];
+	return nullptr;
+}
+
+const ChessGame::Figure* ChessGame::FigureByCoords(const Coord& coord) const
 {
 	for (int i = 0; i < figures.size(); i++)
 		if (figures[i]->coord == coord)
@@ -235,21 +278,37 @@ void ChessGame::InitializeGame()
 	//Logging part end
 }
 
-bool ChessGame::CoordsInField(const Coord& coord)
+bool ChessGame::CoordsInField(const Coord& coord) const
 {
 	return coord.x <= 8 && coord.x >= 1 && coord.y <= 8 && coord.y >= 1;
 }
 
-bool ChessGame::CoordIsEmpty(const Coord& coord)
+bool ChessGame::CoordIsEmpty(const Coord& coord) const
 {
 	if (!CoordsInField(coord))
 		return false;
 	return FigureByCoords(coord) == nullptr;
 }
 
-bool ChessGame::CheckEndGame()
+bool ChessGame::CheckEndGame() const
 {
 	return false;
+}
+
+bool ChessGame::CheckShah(Team team) const
+{
+	Figure* king = *find_if(figures.begin(), figures.end(), [&](const Figure* x)
+		{return x->team == team && x->type == FigureType::King; });
+	vector<Move> moves;
+	for (int i = 0; i < figures.size(); i++)
+	{
+		if (figures[i]->team == team)
+			continue;
+		auto t = PossibleMoves(figures[i], false);
+		moves.insert(moves.begin(), t.begin(), t.end());
+	}
+	
+	return find_if(moves.begin(), moves.end(), [&](const Move& x) {return x.target == king->coord; }) != moves.end();
 }
 
 void ChessGame::UpdateInfo()
@@ -289,7 +348,9 @@ void ChessGame::MakeTurn(const Move& move)
 	}
 	if (chosenFigure->type == FigureType::King && abs((move.target - move.figureCoord).x) == 2)
 	{
-		Log::Write("Rokirovka!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		auto rook = FigureByCoords(Coord((move.target.x > 4) ? (8) : (1), move.target.y));
+		rook->moved = true;
+		rook->coord = rook->coord + Coord((move.target.x > 4) ? (-2) : (3), 0);
 	}
 	chosenFigure->coord = move.target;
 	chosenFigure->moved = true;

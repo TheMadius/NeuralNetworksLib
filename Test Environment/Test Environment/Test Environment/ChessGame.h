@@ -67,7 +67,7 @@ public:
 
 	std::vector<const Figure*> GetFigures() const; //все фигуры на поле
 
-	std::vector<Move> PossibleMoves(const Figure* figure); //доступные клетки для хода фигуры
+	std::vector<Move> PossibleMoves(const Figure* figure, bool correct = true) const; //доступные клетки для хода фигуры
 
 	void Action(const Coord& coord); //нажатие на клетку
 
@@ -88,14 +88,17 @@ protected:
 private:
 
 	Figure* FigureByCoords(const Coord& coord); //получить фигуру по координатам
+	const Figure* FigureByCoords(const Coord& coord) const; //получить фигуру по координатам
 
 	void InitializeGame();
 
-	bool CoordsInField(const Coord& coord);
+	bool CoordsInField(const Coord& coord) const;
 
-	bool CoordIsEmpty(const Coord& coord);
+	bool CoordIsEmpty(const Coord& coord) const;
 
-	bool CheckEndGame();
+	bool CheckEndGame() const;
+
+	bool CheckShah(Team team) const;
 
 	void UpdateInfo();
 

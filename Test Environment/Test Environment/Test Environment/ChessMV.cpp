@@ -249,7 +249,7 @@ void ChessMV::GameBoardAnd—heckersUpdate()
 		for (int j = 0; j < FILD_SIZE; j++)
 		{
 			x = (i + 1) * windowGame->gameBoard.cellSize;
-			y = (j + 1) * windowGame->gameBoard.cellSize;
+			y = (8 - j) * windowGame->gameBoard.cellSize;
 			//ËÒÓ‚‡ÌËÂ ˇ˜ÂÂÍ ÔÓÎˇ
 			switch (windowGame->gameBoard.gridView[i][j])
 			{
@@ -272,14 +272,14 @@ void ChessMV::GameBoardAnd—heckersUpdate()
 
 			//ËÒÓ‚‡ÌËÂ ¯‡¯ÂÍ Ì‡ ÔÓÎÂ
 			x = (i + 1) * windowGame->gameBoard.cellSize + 7;
-			y = (j + 1) * windowGame->gameBoard.cellSize + 7;
+			y = (8 - j) * windowGame->gameBoard.cellSize + 7;
 			switch (windowGame->gameBoard.gridLogic[i][j]->team)
 			{
 			case ChessGame::Team::White:
 				drawSprite(windowGame->gameTextureAndText.white—heckerSprite, x, y);
 				break;
 			case ChessGame::Team::Black:
-				//drawSprite(windowGame->gameTextureAndText.black—heckerSprite, x, y);
+				drawSprite(windowGame->gameTextureAndText.black—heckerSprite, x, y);
 				break;
 			}
 		}
@@ -289,5 +289,5 @@ void ChessMV::Select—heckers()
 {
 	int fx = windowGame->e.mouseButton.x / 70, fy = windowGame->e.mouseButton.y / 70;
 	Log::Write("(" + to_string(fx) + ";" + to_string(fy) + ")");
-	game->Action(ChessGame::Coord(fx, fy));
+	game->Action(ChessGame::Coord(fx, 9 - fy));
 }
