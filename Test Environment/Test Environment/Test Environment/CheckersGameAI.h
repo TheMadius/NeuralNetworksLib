@@ -19,11 +19,11 @@ public:
 
 	~CheckersGameAI();
 private:
-	std::vector<RowVector> getInputData(int sizeBach, std::vector<int> index);
-	std::vector<RowVector> getOutputData(int sizeBach, std::vector<int> index);
+	std::vector<RowVector*> getInputData(int sizeBach, std::vector<int> index);
+	std::vector<RowVector*> getOutputData(int sizeBach, std::vector<int> index);
 	int MakeMuve(int indexOfArray);
-	RowVector getInputVector();
-	RowVector getLegalVector();
+	RowVector* getInputVector();
+	RowVector* getLegalVector();
 	int getIndexForArray(int x, int y);
 	Coord getCoord(int indexArr);
 	void updata_history(int limit_count);
@@ -37,9 +37,9 @@ private:
 
 	std::vector<int> history_action;
 	std::vector<int> history_reward;
-	std::vector<RowVector> history_state;
-	std::vector<RowVector> history_legal;
-	std::vector<RowVector> history_next_state;
-	std::vector<RowVector> history_next_legal;
+	std::vector<RowVector*> history_state;
+	std::vector<RowVector*> history_legal;
+	std::vector<RowVector*> history_next_state;
+	std::vector<RowVector*> history_next_legal;
 };
 

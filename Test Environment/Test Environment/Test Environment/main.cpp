@@ -20,35 +20,25 @@ int main()
 
 	thread t = thread([&]()
 		{
-			ModelView test;
-			test.ConnectGame(&game);
-			test.Start();
+			//ModelView test;
+			//test.ConnectGame(&game);
+			//test.Start();
 		});
 
 	thread aiWhite = thread([&]()
 		{
 			while (true)
 			{
-				m.lock();
 				AIControllerWhite.Move();
-				m.unlock();
+				AIControllerBlack.Move(true);
+				if (game.GetInfo().isEnd)
+				{
+					game.NewGame();
+				}
 			}
 		});
 
-	thread aiBlack = thread([&]()
-		{
-			
-		});
-
-	while (true)
-	{
-		m.lock();
-		AIControllerBlack.Move(true);
-		m.unlock();
-	}
-
 	aiWhite.join();
-	aiBlack.join();
 	t.join();
 
 	Log::Stop();

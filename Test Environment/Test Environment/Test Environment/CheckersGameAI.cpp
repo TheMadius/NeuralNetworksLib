@@ -41,9 +41,9 @@ void CheckersGameAI::Move(bool train)
 		double exp = ((double)(rand()))/RAND_MAX;
 
 		if(exp < this->probRand)
-			moveId = this->qmod->explore(legal_move);
+			moveId = this->qmod->explore(*legal_move);
 		else
-			moveId = this->qmod->predict(input, legal_move);
+			moveId = this->qmod->predict(*input, *legal_move);
 
 		this->history_action.push_back(moveId);
 		int reward = MakeMuve(moveId) * 10000;
@@ -61,11 +61,17 @@ void CheckersGameAI::Move(bool train)
 		auto outputData = getOutputData(6, index);
 
 		this->qmod->train(inputData, outputData);
+
+		for (auto i : outputData)
+			delete i;
 	}
 	else
 	{
-		moveId = this->qmod->predict(input, legal_move);
+		moveId = this->qmod->predict(*input, *legal_move);
 		MakeMuve(moveId);
+
+		delete input;
+		delete legal_move;
 	}
 }
 
@@ -98,11 +104,11 @@ int CheckersGameAI::MakeMuve(int indexOfArray)
 	}
 }
 
-RowVector CheckersGameAI::getInputVector()
+RowVector* CheckersGameAI::getInputVector()
 {
 	auto checkers = game->GetCheckers();
-	RowVector input_vextor(sol.front());
-	input_vextor.setZero();
+	RowVector *input_vextor = new RowVector(sol.front());
+	input_vextor->setZero();
 
 	for (auto& i : checkers)
 	{
@@ -110,17 +116,17 @@ RowVector CheckersGameAI::getInputVector()
 		int y = i->coord.y;
 		int turn = (int)(i->team);
 
-		input_vextor.coeffRef(getIndexForArray(x , y) * COUNT_TEAM + turn) = 1.0;
+		input_vextor->coeffRef(getIndexForArray(x , y) * COUNT_TEAM + turn) = 1.0;
 	}
 
 	return input_vextor;
 }
 
-RowVector CheckersGameAI::getLegalVector()
+RowVector* CheckersGameAI::getLegalVector()
 {
 	auto checkers = game->GetCheckers();
-	RowVector legal_vextor(sol.back());
-	legal_vextor.setZero();
+	RowVector *legal_vextor = new RowVector(sol.back());
+	legal_vextor->setZero();
 
 	for (auto& i : checkers)
 	{
@@ -134,7 +140,7 @@ RowVector CheckersGameAI::getLegalVector()
 				int index_ch = (MAX_X * MAX_Y) * getIndexForArray(x_ch, y_ch);
 				int index_pos = getIndexForArray(x_m, y_m);
 
-				legal_vextor.coeffRef(index_ch + index_pos) = 1.0;
+				legal_vextor->coeffRef(index_ch + index_pos) = 1.0;
 			}
 		}
 	}
@@ -143,9 +149,9 @@ RowVector CheckersGameAI::getLegalVector()
 }
 
 
-std::vector<RowVector> CheckersGameAI::getInputData(int sizeBach, std::vector<int> index)
+std::vector<RowVector*> CheckersGameAI::getInputData(int sizeBach, std::vector<int> index)
 {
-	std::vector<RowVector> input;
+	std::vector<RowVector*> input;
 	if (index.size() < sizeBach)
 		sizeBach = index.size();
 
@@ -155,21 +161,21 @@ std::vector<RowVector> CheckersGameAI::getInputData(int sizeBach, std::vector<in
 	return input;
 }
 
-std::vector<RowVector> CheckersGameAI::getOutputData(int sizeBach, std::vector<int> index)
+std::vector<RowVector*> CheckersGameAI::getOutputData(int sizeBach, std::vector<int> index)
 {
-	std::vector<RowVector> output;
+	std::vector<RowVector*> output;
 
 	if (index.size() < sizeBach)
 		sizeBach = index.size();
 
 	for (int i = 0; i < sizeBach; i++)
 	{
-		RowVector updated_q_values(sol.back());
-		updated_q_values.setZero();
+		RowVector *updated_q_values = new RowVector(sol.back());
+		updated_q_values->setZero();
 		int id = index[i];
 
-		auto best_next_reward = this->qmod->forward(this->history_next_state[id], this->history_next_legal[id]).maxCoeff();
-		updated_q_values.coeffRef(this->history_action[id]) = this->history_reward[id] + this->gamma * best_next_reward;
+		auto best_next_reward = this->qmod->forward(*(this->history_next_state[id]), *(this->history_next_legal[id])).maxCoeff();
+		updated_q_values->coeffRef(this->history_action[id]) = this->history_reward[id] + this->gamma * best_next_reward;
 
 		output.push_back(updated_q_values);
 	}
@@ -191,12 +197,18 @@ void CheckersGameAI::updata_history(int limit_count)
 {
 	if (this->history_action.size() > limit_count)
 	{
-		history_action.erase(history_action.begin() + 1);
-		history_legal.erase(history_legal.begin() + 1);
-		history_next_legal.erase(history_next_legal.begin() + 1);
-		history_next_state.erase(history_next_state.begin() + 1);
-		history_reward.erase(history_reward.begin() + 1);
-		history_state.erase(history_state.begin() + 1);
+		history_action.erase(history_action.begin());
+		history_reward.erase(history_reward.begin());
+
+		delete history_legal.front();
+		delete history_next_legal.front();
+		delete history_next_state.front();
+		delete history_state.front();
+
+		history_legal.erase(history_legal.begin());
+		history_next_legal.erase(history_next_legal.begin());
+		history_next_state.erase(history_next_state.begin());
+		history_state.erase(history_state.begin());
 	}
 }
 

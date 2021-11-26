@@ -7,6 +7,10 @@ using namespace std;
 
 void CheckersGame::InitializeGame(CheckersGame* game) 
 {
+	for (int i = 0; i < checkers.size(); i++)
+		if (checkers[i] != nullptr)
+			delete checkers[i];
+
 	game->turnTeam = Team::White;
 	game->chosenChecker = nullptr;
 

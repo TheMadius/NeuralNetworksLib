@@ -90,13 +90,13 @@ void NeuralNetwork::propagateBackward(RowVector& output)
 	updateWeights();
 }
 
-void NeuralNetwork::train(std::vector<RowVector>& input_data, std::vector<RowVector>& output_data, int epochs)
+void NeuralNetwork::train(std::vector<RowVector*>& input_data, std::vector<RowVector*>& output_data, int epochs)
 {
 	for (uint j = 0; j < epochs; j++)
 	{
 		for (uint i = 0; i < input_data.size(); i++) {
-			propagateForward(input_data[i]);
-			propagateBackward(output_data[i]);
+			propagateForward(*input_data[i]);
+			propagateBackward(*output_data[i]);
 		}
 	}
 }
