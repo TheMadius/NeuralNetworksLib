@@ -14,13 +14,14 @@ QModel::~QModel()
 int QModel::predict(RowVector& input, RowVector& legalMoves)
 {
 	auto pred = model->forward(input);
-	pred = pred.array() * legalMoves.array();
 	RowVector::Index maxIndex;
-	Scalar min = pred.minCoeff();
+	Scalar min = pred->minCoeff();
 
-	pred = pred.array() - min;
+	*pred = pred->array() - min;
 
-	pred.maxCoeff(&maxIndex);
+	*pred = pred->array() * legalMoves.array();
+
+	pred->maxCoeff(&maxIndex);
 
 	return maxIndex;
 }
@@ -30,6 +31,7 @@ int QModel::explore(RowVector& legalMoves)
 	srand(static_cast<unsigned int>(time(NULL)));
 
 	RowVector random(topology.back());
+	RowVector::Index maxIndex;
 	Scalar min = -1;
 
 	random.setRandom();
@@ -37,14 +39,22 @@ int QModel::explore(RowVector& legalMoves)
 	random = random.array() - min;
 
 	random = random.array() * legalMoves.array();
-	RowVector::Index maxIndex;
 	random.maxCoeff(&maxIndex);
 
 	return maxIndex;
 }
 
-void QModel::train(RowVector& input, RowVector& output)
+RowVector QModel::forward(RowVector* input, RowVector* legalMoves)
 {
-	model->train({ &input }, { &output }, 1);
+	auto res = *(this->model->forward(*input));
+	res = res.array() - res.minCoeff();
+	res = res.array() * legalMoves->array();
+
+	return res;
+}
+
+void QModel::train(std::vector<RowVector*> &input, std::vector<RowVector*> &output)
+{
+	model->train(input, output, 1);
 }
 
