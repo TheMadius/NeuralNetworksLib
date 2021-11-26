@@ -14,37 +14,41 @@ void ChessGame::NewGame()
 	InitializeGame();
 }
 
-GameInfo ChessGame::GetInfo() const
+ChessGame::GameInfo ChessGame::GetInfo() const
 {
 	return info;
 }
 
-const Figure* ChessGame::GetChosenFigure() const
+const ChessGame::Figure* ChessGame::GetChosenFigure() const
 {
 	return chosenFigure;
 }
 
-std::vector<const Figure*> ChessGame::GetFigures() const
+std::vector<const ChessGame::Figure*> ChessGame::GetFigures() const
 {
 	vector<const Figure*> ret;
-	copy(figures.begin(), figures.end(), ret.begin());
+	for (int i = 0; i < figures.size(); i++)
+		ret.push_back(figures[i]);
 	return ret;
 }
 
-std::vector<Move> ChessGame::PossibleMoves(const Figure* figure)
+std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure)
 {
+	if (figure == nullptr)
+		return vector<Move>();
 	vector<Move> ret;
 	auto tryMove = [&](const Coord& dc)
 	{
 		Coord to = figure->coord + dc;
+		Move tmp = Move(figure->coord, to);
 		if (!IsMovePossible(figure->coord, to))
 			return;
 		if (!CoordsInField(to))
 			return;
 		if (CoordIsEmpty(to))
-			ret.push_back(Move(figure->coord, to));
+			ret.push_back(tmp);
 		else if (FigureByCoords(to)->team != figure->team)
-			ret.push_back(Move(figure->coord, to));
+			ret.push_back(tmp);
 	};
 	auto tryMovePawn = [&](const Coord& dc)
 	{
@@ -67,6 +71,10 @@ std::vector<Move> ChessGame::PossibleMoves(const Figure* figure)
 				break;
 		}
 	};
+	auto moveFromPosition = [&](const Coord& pos)
+	{
+		return find_if(history.begin(), history.end(), [&](const Move& x) { return x.figureCoord == pos; }) != history.end();
+	};
 
 	int dy = (figure->team == Team::Black) ? (-1) : (1);
 	Coord lu = Coord(-1, dy), ru = Coord(1, dy), ld = Coord(-1, -dy), rd = Coord(1, -dy);
@@ -75,6 +83,8 @@ std::vector<Move> ChessGame::PossibleMoves(const Figure* figure)
 	switch (figure->type)
 	{
 	case FigureType::Pawn:
+		if (!figure->moved)
+			tryMove(u * 2);
 		tryMove(u);
 		tryMovePawn(lu);
 		tryMovePawn(ru);
@@ -112,6 +122,13 @@ std::vector<Move> ChessGame::PossibleMoves(const Figure* figure)
 		lineMoves(l);
 		break;
 	case FigureType::King:
+		if (!figure->moved)
+		{
+			if (moveFromPosition((figure->team == ChessGame::Team::White) ? (Coord(1, 1)) : (Coord(1, 8))))
+				tryMove(l * 2);
+			if (moveFromPosition((figure->team == ChessGame::Team::White) ? (Coord(8, 1)) : (Coord(8, 8))))
+				tryMove(r * 2);
+		}
 		tryMove(u);
 		tryMove(ru);
 		tryMove(r);
@@ -129,6 +146,20 @@ std::vector<Move> ChessGame::PossibleMoves(const Figure* figure)
 
 void ChessGame::Action(const Coord& coord)
 {
+	Log::Write("Pressed to (" + to_string(coord.x) + ";" + to_string(coord.y) + ")");
+	if (chosenFigure == nullptr)
+	{
+		ChooseFigure(coord);
+	}
+	else
+	{
+		vector<Move> possibleMoves = PossibleMoves(chosenFigure);
+		auto move = find_if(possibleMoves.begin(), possibleMoves.end(), [&](const Move& m) {return m.target == coord; });
+		if (move != possibleMoves.end())
+			MakeTurn(*move);
+		else
+			ChooseFigure(coord);
+	}
 }
 
 bool ChessGame::MakeMove(const Figure* figure, const Move& move)
@@ -136,7 +167,7 @@ bool ChessGame::MakeMove(const Figure* figure, const Move& move)
 	return false;
 }
 
-Figure* ChessGame::FigureByCoords(const Coord& coord)
+ChessGame::Figure* ChessGame::FigureByCoords(const Coord& coord)
 {
 	for (int i = 0; i < figures.size(); i++)
 		if (figures[i]->coord == coord)
@@ -148,6 +179,10 @@ void ChessGame::InitializeGame()
 {
 	turnTeam = Team::White;
 	chosenFigure = nullptr;
+
+	for (int i = 0; i < figures.size(); i++)
+		if (figures[i] != nullptr)
+			delete figures[i];
 
 	figures.clear();
 	//Add white figures
@@ -252,9 +287,15 @@ void ChessGame::MakeTurn(const Move& move)
 		figures.erase(t);
 		delete choped;
 	}
+	if (chosenFigure->type == FigureType::King && abs((move.target - move.figureCoord).x) == 2)
+	{
+		Log::Write("Rokirovka!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	}
 	chosenFigure->coord = move.target;
+	chosenFigure->moved = true;
 
 	chosenFigure = nullptr;
+	history.push_back(move);
 	Log::Write("Figure moved to (" + to_string(move.target.x) + "; " + to_string(move.target.y) + ")");
 	turnTeam = (turnTeam == Team::Black) ? (Team::White) : (Team::Black);
 	this->info.turn = turnTeam;
@@ -264,5 +305,5 @@ void ChessGame::MakeTurn(const Move& move)
 
 bool ChessGame::IsMovePossible(const Coord& from, const Coord& to) const
 {
-	return false;
+	return true;
 }
