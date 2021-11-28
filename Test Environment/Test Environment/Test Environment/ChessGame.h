@@ -49,8 +49,9 @@ public:
 
 	struct GameInfo
 	{
-		GameInfo() : isEnd(false), winner(Team::Black), turn(Team::White), allFigures(0), blackFigures(0), whiteFigures(0), countMoves(0) {}
+		GameInfo() : isEnd(false), draw(false), winner(Team::Black), turn(Team::White), allFigures(0), blackFigures(0), whiteFigures(0), countMoves(0) {}
 		bool isEnd;
+		bool draw;
 		Team winner;
 		Team turn;
 		int allFigures, blackFigures, whiteFigures;
@@ -71,7 +72,7 @@ public:
 
 	void Action(const Coord& coord); //нажатие на клетку
 
-	bool MakeMove(const Figure* figure, const Move& move);
+	bool MakeMove(const Move& move);
 
 protected:
 
@@ -96,7 +97,7 @@ private:
 
 	bool CoordIsEmpty(const Coord& coord) const;
 
-	bool CheckEndGame() const;
+	void CheckEndGame();
 
 	bool CheckShah(Team team) const;
 
@@ -106,6 +107,6 @@ private:
 
 	void MakeTurn(const Move& move);
 
-	bool IsMovePossible(const Coord& from, const Coord& to) const;
+	bool CheckShahByMove(Coord from, Coord to) const;
 };
 

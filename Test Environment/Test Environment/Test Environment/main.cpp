@@ -1,6 +1,6 @@
 #include "Log.h"
-//#include "CheckersGameAI.h"
-//#include "CheckersGame.h"
+#include "CheckersGameAI.h"
+#include "CheckersGame.h"
 #include "ChessGame.h"
 #include "ChessMV.h"
 #include <thread>
@@ -12,17 +12,15 @@ int main()
 {
 	Log::Init("log.txt");
 	//CheckersGame game;
-	ChessGame game;
+	ChessGame gameA;
 	//CheckersGameAI AIControllerWhite(&game, 0.01, Team::White);
 	//CheckersGameAI AIControllerBlack(&game, 0.01, Team::Black);
 
-	game.NewGame();
-
 	thread t = thread([&]()
 		{
-			ChessMV test;
-			test.ConnectGame(&game);
-			test.Start();
+			ChessMV mv;
+			mv.ConnectGame(&gameA);
+			mv.Start();
 		});
 
 	//thread ai = thread([&]()

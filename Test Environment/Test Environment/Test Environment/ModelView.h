@@ -16,63 +16,6 @@
 //
 //using namespace sf;
 //
-//enum class CellType						//Типы ячейки
-//{
-//	Blue,
-//	White,
-//	Green,
-//	Yellow
-//};
-//
-//struct TextureAndText
-//{
-//	Font font;
-//	Text* txt;
-//	Text* txtInfo;
-//
-//	Texture white;
-//	Texture blue;
-//	Texture green;
-//	Texture yellow;
-//	Texture blackСhecker;
-//	Texture whiteСhecker;
-//	Texture blackСheckerDM;
-//	Texture whiteСheckerDM;
-//	Texture newGameButton;
-//
-//	Sprite whiteSprite;
-//	Sprite blueSprite;
-//	Sprite yellowSprite;
-//	Sprite greenSprite;
-//	Sprite blackСheckerSprite;
-//	Sprite whiteСheckerSprite;
-//	Sprite blackСheckerSpriteDM;
-//	Sprite whiteСheckerSpriteDM;
-//	Sprite newGameButtonSprite;
-//};
-//
-//struct Board
-//{
-//	const Checker* gridLogic[FILD_SIZE][FILD_SIZE];
-//	CellType gridView[FILD_SIZE][FILD_SIZE];
-//
-//	int size = 8;					// Размер игрового поля в плашках
-//	int arraySize = size * size;	// Размер массива плашек
-//	int fieldSize = 670;			// Размер игрового поля в пикселях
-//	int cellSize = 70;				// Размер плашки в пикселях
-//};
-//
-//struct WindowGame
-//{
-//	std::string name;
-//	int windowHight;
-//	int windowWidth;
-//	RenderWindow* app;
-//	Event e;
-//	Board gameBoard;
-//	TextureAndText gameTextureAndText;
-//};
-//
 //class ModelView
 //{
 //public:
