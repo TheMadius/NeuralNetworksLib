@@ -1,6 +1,7 @@
 #include "Log.h"
 #include "CheckersGameAI.h"
 #include "CheckersGame.h"
+#include "ChessGameAI.h"
 #include "ChessGame.h"
 #include "ModelView.h"
 #include "ChessMV.h"
@@ -13,27 +14,27 @@ using namespace std;
 int main()
 {
 	Log::Init("log.txt");
-	ModelView v;
-	CheckersGame gameCheckers;
-	CheckersGameAI gameCheckersAiW(&gameCheckers,0.9,Team::White);
-	CheckersGameAI gameCheckersAiB(&gameCheckers,0.9,Team::Black);
+	ChessMV v;
+	ChessGame gameChess;
+	ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
+	ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
 
-	gameCheckers.NewGame();
+	gameChess.NewGame();
 
 	thread t2 = thread([&]()
 		{
 			while (true)
 			{
-				gameCheckersAiW.Move();
-				gameCheckersAiB.Move(true);
-				if (gameCheckers.GetInfo().isEnd)
+				gameChessAiW.Move();
+				gameChessAiB.Move(true);
+				if (gameChess.GetInfo().isEnd)
 				{
-					gameCheckers.NewGame();
+					gameChess.NewGame();
 				}
 			}
 		});
 
-	v.ConnectGame(&gameCheckers);
+	v.ConnectGame(&gameChess);
 	v.Start();
 
 	t2.join();

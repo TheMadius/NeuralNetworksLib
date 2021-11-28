@@ -1,15 +1,13 @@
 #pragma once
 #include <vector>
 
-
-
 class ChessGame
 {
 public:
 
 	enum class FigureType
 	{
-		Pawn, Knight, Bishop, Rook, Queen, King
+		Pawn = 0, Knight, Bishop, Rook, Queen, King
 	};
 
 	enum class Team

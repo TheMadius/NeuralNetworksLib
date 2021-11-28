@@ -42,6 +42,9 @@
     <ClInclude Include="ChessMV.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="ChessGameAI.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CheckersGame.cpp">
@@ -69,6 +72,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="ChessMV.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessGameAI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

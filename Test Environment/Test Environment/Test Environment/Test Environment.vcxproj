@@ -154,6 +154,7 @@
     <ClInclude Include="CheckersGame.h" />
     <ClInclude Include="CheckersGameAI.h" />
     <ClInclude Include="ChessGame.h" />
+    <ClInclude Include="ChessGameAI.h" />
     <ClInclude Include="ChessMV.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Log.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="CheckersGame.cpp" />
     <ClCompile Include="CheckersGameAI.cpp" />
     <ClCompile Include="ChessGame.cpp" />
+    <ClCompile Include="ChessGameAI.cpp" />
     <ClCompile Include="ChessMV.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
