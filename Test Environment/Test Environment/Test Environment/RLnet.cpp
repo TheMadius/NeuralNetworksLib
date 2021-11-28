@@ -47,7 +47,7 @@ int QModel::explore(RowVector& legalMoves)
 RowVector QModel::forward(RowVector* input, RowVector* legalMoves)
 {
 	auto res = *(this->model->forward(*input));
-	res = res.array() - res.minCoeff();
+
 	res = res.array() * legalMoves->array();
 
 	return res;

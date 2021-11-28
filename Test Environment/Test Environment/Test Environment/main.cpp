@@ -13,29 +13,29 @@ using namespace std;
 int main()
 {
 	Log::Init("log.txt");
-	mutex m;
+	ModelView v;
 	CheckersGame gameCheckers;
-	ChessGame gameChess;
+	CheckersGameAI gameCheckersAiW(&gameCheckers,0.9,Team::White);
+	CheckersGameAI gameCheckersAiB(&gameCheckers,0.9,Team::Black);
 
 	gameCheckers.NewGame();
-	gameChess.NewGame();
-
-	thread t = thread([&]()
-		{
-			ModelView test;
-			test.ConnectGame(&gameCheckers);
-			test.Start();
-		});
 
 	thread t2 = thread([&]()
 		{
-			ChessMV test;
-			test.ConnectGame(&gameChess);
-			test.Start();
+			while (true)
+			{
+				gameCheckersAiW.Move();
+				gameCheckersAiB.Move(true);
+				if (gameCheckers.GetInfo().isEnd)
+				{
+					gameCheckers.NewGame();
+				}
+			}
 		});
 
-	t.join();
-	t2.join();
+	v.ConnectGame(&gameCheckers);
+	v.Start();
 
+	t2.join();
 	Log::Stop();
 }
