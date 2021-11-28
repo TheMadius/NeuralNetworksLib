@@ -14,7 +14,6 @@ using namespace std;
 int main()
 {
 	Log::Init("log.txt");
-	ChessMV v;
 	ChessGame gameChess;
 	ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
 	ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
@@ -23,19 +22,21 @@ int main()
 
 	thread t2 = thread([&]()
 		{
-			while (true)
-			{
-				gameChessAiW.Move();
-				gameChessAiB.Move(true);
-				if (gameChess.GetInfo().isEnd)
-				{
-					gameChess.NewGame();
-				}
-			}
+			ChessMV v;
+			v.ConnectGame(&gameChess);
+			v.Start();
 		});
 
-	v.ConnectGame(&gameChess);
-	v.Start();
+	while (true)
+	{
+		gameChessAiW.Move();
+		gameChessAiB.Move(true);
+		if (gameChess.GetInfo().isEnd)
+		{
+			gameChess.NewGame();
+		}
+	}
+
 
 	t2.join();
 	Log::Stop();

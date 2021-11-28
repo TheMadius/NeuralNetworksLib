@@ -9,7 +9,7 @@
 #define MAX_X 8
 #define MAX_Y 8
 #define COUNT_TEAM 2
-#define COUNT_FIG 8
+#define COUNT_FIG 6
 #define AVG_STEP 30
 
 
