@@ -90,8 +90,6 @@ void NeuralNetwork::loadWeights(std::string nameFile)
 		matrix->resize(rows, cols);
 		in.read((char*)matrix->data(), rows * cols * sizeof(typename Matrix::Scalar));
 
-		std::cout << *matrix << std::endl;
-
 		weights.push_back(matrix);
 	}
 	in.close();
@@ -125,7 +123,6 @@ void NeuralNetwork::saveModelInFile(std::string file_path)
 	for (auto matrix : this->weights)
 	{
 		typename Matrix::Index rows = matrix->rows(), cols = matrix->cols();
-		std::cout << *matrix << std::endl;
 		out.write((char*)(&rows), sizeof(typename Matrix::Index));
 		out.write((char*)(&cols), sizeof(typename Matrix::Index));
 		out.write((char*)matrix->data(), rows * cols * sizeof(typename Matrix::Scalar));
