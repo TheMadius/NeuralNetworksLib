@@ -70,11 +70,9 @@ void NeuralNetwork::calcErrors(RowVector& output)
 	}
 }
 
-void NeuralNetwork::loadModelInFile(std::string file_path)
+void NeuralNetwork::loadWeights(std::string nameFile)
 {
-	std::ifstream in(file_path, std::ios::binary);
-
-	deleteNN();
+	std::ifstream in(nameFile, std::ios::binary);
 
 	while (!in.eof())
 	{
@@ -97,6 +95,13 @@ void NeuralNetwork::loadModelInFile(std::string file_path)
 		weights.push_back(matrix);
 	}
 	in.close();
+}
+
+void NeuralNetwork::loadModelInFile(std::string file_path)
+{
+	deleteNN();
+	
+	loadWeights(file_path);
 
 	this->topology.push_back((weights.back())->cols());
 

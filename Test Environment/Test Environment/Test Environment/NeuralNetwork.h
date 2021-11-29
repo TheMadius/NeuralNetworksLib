@@ -30,6 +30,8 @@ public:
     ~NeuralNetwork();
 
 private:
+    void loadWeights(std::string nameFile);
+
     std::vector<RowVector*> neuronLayers; 
     std::vector<RowVector*> deltas;
     std::vector<Matrix*> weights; 
