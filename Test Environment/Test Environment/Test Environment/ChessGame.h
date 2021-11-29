@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <mutex>
 
 class ChessGame
 {
@@ -83,6 +84,8 @@ protected:
 	Team turnTeam;
 
 	std::vector<Move> history;
+
+	mutable std::recursive_mutex mut;
 
 private:
 

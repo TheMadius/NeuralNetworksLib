@@ -26,6 +26,7 @@ const ChessGame::Figure* ChessGame::GetChosenFigure() const
 
 std::vector<const ChessGame::Figure*> ChessGame::GetFigures() const
 {
+	lock_guard<recursive_mutex> lock(mut);
 	vector<const Figure*> ret;
 	for (int i = 0; i < figures.size(); i++)
 		ret.push_back(figures[i]);
@@ -34,6 +35,7 @@ std::vector<const ChessGame::Figure*> ChessGame::GetFigures() const
 
 std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool correct) const
 {
+	lock_guard<recursive_mutex> lock(mut);
 	if (figure == nullptr)
 		return vector<Move>();
 	vector<Move> ret;
@@ -75,6 +77,8 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool
 			return;
 		Move m = history.back();
 		auto choped = FigureByCoords(m.target);
+		if (choped == nullptr)
+			return;
 		if (choped->team == turnTeam)
 			return;
 		if (abs(m.target.y - m.figureCoord.y) == 2 && abs(m.target.x - figure->coord.x) == 1 && m.target.y == figure->coord.y)
@@ -221,7 +225,13 @@ void ChessGame::Action(const Coord& coord)
 
 bool ChessGame::MakeMove(const Move& move)
 {
-	return false;
+	auto possM = PossibleMoves(FigureByCoords(move.figureCoord));
+	if (find_if(possM.begin(), possM.end(), [&](const Move& x) {return x.figureCoord == move.figureCoord && x.target == move.target; }) == possM.end())
+		return false;
+	ChooseFigure(move.figureCoord);
+	MakeTurn(move);
+
+	return true;
 }
 
 ChessGame::Figure* ChessGame::FigureByCoords(const Coord& coord)
@@ -338,6 +348,7 @@ void ChessGame::CheckEndGame()
 
 bool ChessGame::CheckShah(Team team) const
 {
+	lock_guard<recursive_mutex> lock(mut);
 	Figure* king = *find_if(figures.begin(), figures.end(), [&](const Figure* x)
 		{return x->team == team && x->type == FigureType::King; });
 	vector<Move> moves;
@@ -378,6 +389,7 @@ void ChessGame::ChooseFigure(const Coord& coord)
 
 void ChessGame::MakeTurn(const Move& move)
 {
+	lock_guard<recursive_mutex> lock(mut);
 	auto choped = FigureByCoords(move.target);
 	if (chosenFigure->type == FigureType::King && abs((move.target - move.figureCoord).x) == 2)
 	{

@@ -29,6 +29,7 @@ int main()
 
 	while (true)
 	{
+		this_thread::sleep_for(chrono::milliseconds(400));
 		gameChessAiW.Move();
 		gameChessAiB.Move(true);
 		if (gameChess.GetInfo().isEnd)
