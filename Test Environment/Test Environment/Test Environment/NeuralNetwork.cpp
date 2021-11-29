@@ -10,6 +10,12 @@ Scalar activationFunctionDerivative(Scalar x)
 	return 	(x >= 0) ? 1 : 0.01 ;
 }
 
+NeuralNetwork::NeuralNetwork(std::string file_path, double learningRate)
+{
+	this->learningRate = learningRate;
+	loadModelInFile(file_path);
+}
+
 NeuralNetwork::NeuralNetwork(std::vector<uint> topology, Scalar learningRate)
 {
 	srand(static_cast<unsigned int>(time(NULL)));
@@ -64,6 +70,65 @@ void NeuralNetwork::calcErrors(RowVector& output)
 	}
 }
 
+void NeuralNetwork::loadModelInFile(std::string file_path)
+{
+	std::ifstream in(file_path, std::ios::binary);
+
+	deleteNN();
+
+	while (!in.eof())
+	{
+		Matrix* matrix = new Matrix();
+		typename Matrix::Index rows = 0, cols = 0;
+
+		in.read((char*)(&rows), sizeof(typename Matrix::Index));
+		in.read((char*)(&cols), sizeof(typename Matrix::Index));
+
+		if (rows == 0)
+			break;
+
+		this->topology.push_back(rows - 1);
+
+		matrix->resize(rows, cols);
+		in.read((char*)matrix->data(), rows * cols * sizeof(typename Matrix::Scalar));
+
+		std::cout << *matrix << std::endl;
+
+		weights.push_back(matrix);
+	}
+	in.close();
+
+	this->topology.push_back((weights.back())->cols());
+
+	for (uint i = 0; i < topology.size(); i++) {
+		if (i == topology.size() - 1)
+			neuronLayers.push_back(new RowVector(topology[i]));
+		else
+			neuronLayers.push_back(new RowVector(topology[i] + 1));
+
+		deltas.push_back(new RowVector(neuronLayers.size()));
+
+		if (i != topology.size() - 1) {
+			neuronLayers.back()->coeffRef(topology[i]) = 1.0;
+		}
+	}
+}
+
+void NeuralNetwork::saveModelInFile(std::string file_path)
+{
+	std::ofstream out(file_path, std::ios::out | std::ios::binary | std::ios::trunc);
+	for (auto matrix : this->weights)
+	{
+		typename Matrix::Index rows = matrix->rows(), cols = matrix->cols();
+		std::cout << *matrix << std::endl;
+		out.write((char*)(&rows), sizeof(typename Matrix::Index));
+		out.write((char*)(&cols), sizeof(typename Matrix::Index));
+		out.write((char*)matrix->data(), rows * cols * sizeof(typename Matrix::Scalar));
+	}
+
+	out.close();
+}
+
 void NeuralNetwork::updateWeights()
 {
 	for (uint i = 0; i < topology.size() - 1; i++) {
@@ -103,19 +168,31 @@ void NeuralNetwork::train(std::vector<RowVector*>& input_data, std::vector<RowVe
 
 NeuralNetwork::~NeuralNetwork()
 {
-	for (int i = 0; i < neuronLayers.size(); ++i)
-		delete neuronLayers[i];
-
-	for (int i = 0; i < weights.size(); ++i)
-		delete weights[i];
-
-	for (int i = 0; i < deltas.size(); ++i)
-		delete deltas[i];
+	deleteNN();
 }
-
 
 RowVector* NeuralNetwork::forward(RowVector& input)
 {
 	propagateForward(input);
 	return neuronLayers.back();
+}
+
+void NeuralNetwork::deleteNN()
+{
+	this->topology.clear();
+
+	for (int i = 0; i < neuronLayers.size(); ++i)
+		delete neuronLayers[i];
+
+	neuronLayers.clear();
+
+	for (int i = 0; i < weights.size(); ++i)
+		delete weights[i];
+
+	weights.clear();
+
+	for (int i = 0; i < deltas.size(); ++i)
+		delete deltas[i];
+
+	deltas.clear();
 }
