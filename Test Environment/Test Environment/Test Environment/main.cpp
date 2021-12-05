@@ -15,9 +15,10 @@ double LEARNING_RATE = 0.01;
 int main()
 {
 	Log::Init("log.txt");
-	ChessGame gameChess;
-	ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
-	ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
+	//ChessGame gameChess;
+	CheckersGame gameChess;
+	//ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
+	//ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
 
 	CheckersGameAI gameChessAiW(&gameChess,0.9, Team::White);
 	CheckersGameAI gameChessAiB(&gameChess,0.9, Team::Black);
@@ -44,6 +45,6 @@ int main()
 
 
 	t2.join();
-	t3.join();
+	//t3.join();
 	Log::Stop();
 }

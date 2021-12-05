@@ -69,6 +69,8 @@ public:
 
 	std::vector<Move> PossibleMoves(const Checker* checker); //доступные клетки для хода шашки
 
+	std::vector<Move> AllPossibleMoves(); //доступные клетки для хода шашек
+
 	void Action(const Coord& coord); //нажатие на клетку
 
 	bool MakeMove(const Checker* checker, const Move& move);

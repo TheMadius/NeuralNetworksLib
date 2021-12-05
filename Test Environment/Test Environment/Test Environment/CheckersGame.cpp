@@ -113,8 +113,30 @@ std::vector<Move> CheckersGame::PossibleMoves(const Checker* checker)
 {
 	if (checker == nullptr)
 		return vector<Move>();
+	if (checker->team != turnTeam)
+		return vector<Move>();
 
 	return PossibleMovesRecursive(checker, *checker, Coord(0, 0), vector<Checker*>());
+}
+
+std::vector<Move> CheckersGame::AllPossibleMoves()
+{
+	vector<Move> ret;
+
+	for (int i = 0; i < checkers.size(); i++)
+	{
+		auto t = PossibleMoves(checkers[i]);
+		ret.insert(ret.end(), t.begin(), t.end());
+	}
+	auto r = find_if(ret.begin(), ret.end(), [&](const Move& x) { return !x.chopedCheckers.empty(); });
+	if (r != ret.end())
+	{
+		vector<Move> retn;
+		copy_if(ret.begin(), ret.end(), retn.begin(), [&](const Move& x) { return !x.chopedCheckers.empty(); });
+		return retn;
+	}
+
+	return ret;
 }
 
 std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker* cp, const Checker& checker, const Coord& dir, const vector<Checker*>& chopedYet)
