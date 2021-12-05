@@ -12,9 +12,9 @@ static std::vector<int> getRandomVec(int size)
 
 ChessGameAI::ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turnTeam, double ex)
 {
-	this->sol = { 64 * COUNT_TEAM * COUNT_FIG, 1000, 2000, 3000, 4096 };
+	this->sol = { 64 * COUNT_TEAM * COUNT_FIG, 400, 800, 4096 };
 
-	this->qmod = new QModel(sol);
+	this->qmod = new QModel(sol, 0.01);
 	this->game = game;
 	this->gamma = gamma;
 	this->turn = turnTeam;

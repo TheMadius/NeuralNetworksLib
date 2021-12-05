@@ -12,9 +12,9 @@ std::vector<int> getRandomVec(int size)
 
 CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam , double ex)
 {
-	this->sol = { 64 * 2, 200, 500, 2000, 4096 };
+	this->sol = { 64 * 2, 500, 800, 4096 };
 
-	this->qmod = new QModel(sol);
+	this->qmod = new QModel(sol, 0.0001);
 	this->game = game;
 	this->gamma = gamma;
 	this->turn = turnTeam;

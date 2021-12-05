@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="optimizer">
+      <UniqueIdentifier>{8d1b9ea7-cba5-475b-88a4-7e9c416c4f19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="neural">
+      <UniqueIdentifier>{7713a89e-97b3-4052-90eb-f8a697a127bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{897331bc-6746-4af8-a33e-b60f01aabbab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset">
+      <UniqueIdentifier>{6e3c9982-f0d7-4487-aaa9-e38448dc1e76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -30,9 +42,6 @@
     <ClInclude Include="CheckersGameAI.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="NeuralNetwork.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="RLnet.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -44,6 +53,33 @@
     </ClInclude>
     <ClInclude Include="ChessGameAI.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="neural\edge.h">
+      <Filter>neural</Filter>
+    </ClInclude>
+    <ClInclude Include="neural\layer.h">
+      <Filter>neural</Filter>
+    </ClInclude>
+    <ClInclude Include="neural\neuralnetwork.h">
+      <Filter>neural</Filter>
+    </ClInclude>
+    <ClInclude Include="neural\neuron.h">
+      <Filter>neural</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\functions.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="optimizer\backpropagation.h">
+      <Filter>optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="optimizer\optimizer.h">
+      <Filter>optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="optimizer\shakingtree.h">
+      <Filter>optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="dataset\dataset.h">
+      <Filter>dataset</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,9 +98,6 @@
     <ClCompile Include="CheckersGameAI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="NeuralNetwork.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="RLnet.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -76,6 +109,33 @@
     </ClCompile>
     <ClCompile Include="ChessGameAI.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="neural\edge.cpp">
+      <Filter>neural</Filter>
+    </ClCompile>
+    <ClCompile Include="neural\layer.cpp">
+      <Filter>neural</Filter>
+    </ClCompile>
+    <ClCompile Include="neural\neuralnetwork.cpp">
+      <Filter>neural</Filter>
+    </ClCompile>
+    <ClCompile Include="neural\neuron.cpp">
+      <Filter>neural</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\functions.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="optimizer\backpropagation.cpp">
+      <Filter>optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="optimizer\optimizer.cpp">
+      <Filter>optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="optimizer\shakingtree.cpp">
+      <Filter>optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="dataset\dataset.cpp">
+      <Filter>dataset</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

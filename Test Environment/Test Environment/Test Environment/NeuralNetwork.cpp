@@ -2,13 +2,14 @@
 
 Scalar activationFunction(Scalar x)
 {
-	return (x >= 0) ? x : 0.01 * x;
+	return  1 / (1 + exp(-x));
 }
 
 Scalar activationFunctionDerivative(Scalar x)
 {
-	return 	(x >= 0) ? 1 : 0.01 ;
+	return 	activationFunction(x) * (1 - activationFunction(x));
 }
+
 
 NeuralNetwork::NeuralNetwork(std::string file_path, double learningRate)
 {
@@ -164,6 +165,7 @@ void NeuralNetwork::train(std::vector<RowVector*>& input_data, std::vector<RowVe
 		for (uint i = 0; i < input_data.size(); i++) {
 			propagateForward(*input_data[i]);
 			propagateBackward(*output_data[i]);
+			std::cout << *(this->neuronLayers.back()) << std::endl;
 		}
 	}
 }

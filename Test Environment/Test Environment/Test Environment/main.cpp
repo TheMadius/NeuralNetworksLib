@@ -10,6 +10,7 @@
 #include <chrono>
 
 using namespace std;
+double LEARNING_RATE = 0.01;
 
 int main()
 {
@@ -29,7 +30,6 @@ int main()
 
 	while (true)
 	{
-		this_thread::sleep_for(chrono::milliseconds(400));
 		gameChessAiW.Move();
 		gameChessAiB.Move(true);
 		if (gameChess.GetInfo().isEnd)
@@ -37,7 +37,6 @@ int main()
 			gameChess.NewGame();
 		}
 	}
-
 
 	t2.join();
 	Log::Stop();
