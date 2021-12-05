@@ -9,7 +9,7 @@
 #define RAND_MAX_WEIGHT 1
 
 #include <iostream>
-
+#include <fstream>
 #include <vector>
 #include <limits>
 
@@ -38,6 +38,12 @@ public:
 
     void trigger();
 
+	void saveFile(string name_file);
+
+	void loadFile(string name_file);
+
+	void autogenerate(string fileName);
+	
     vector<double> output();
 
 	string outputString();

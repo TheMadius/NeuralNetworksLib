@@ -19,24 +19,32 @@ RowVector convertStdVinRowV(vector<double>& input)
 	return res;
 }
 
-QModel::QModel(std::vector<uint32_t> v, double learningRate)
+QModel::QModel(std::vector<uint32_t> v, double learningRate, string name_file)
 {
 	model = new NeuralNetwork();
 	opt = new Backpropagation();
 
 	model->addLayer({ { "type", LayerType::INPUT },{ "size",v.front() } });
 	for (int i = 1; i < v.size() - 1; ++i)
-		model->addLayer({ { "type", LayerType::STANDARD },{ "size", v[i]} , { "activation",ActivationFunction::RELU } });
+		model->addLayer({ { "type", LayerType::STANDARD },{ "size", v[i]} , { "activation", ActivationFunction::SIGMOID } });
 	
 	model->addLayer({ { "type", LayerType::OUTPUT},{ "size", v.back()} , { "activation",ActivationFunction::LINEAR } });
 
-	model->autogenerate();
+	if(name_file == "")
+		model->autogenerate();
+	else
+		model->autogenerate(name_file);
 
 	this->topology = v;
 
 	opt->setNeuralNetwork(model);
 
 	opt->setLearningRate(learningRate);
+}
+
+void QModel::saveModel(string file)
+{
+	model->saveFile(file);
 }
 
 QModel::~QModel()

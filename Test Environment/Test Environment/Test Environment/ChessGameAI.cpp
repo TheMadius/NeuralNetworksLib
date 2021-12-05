@@ -10,11 +10,11 @@ static std::vector<int> getRandomVec(int size)
 	return x;
 }
 
-ChessGameAI::ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turnTeam, double ex)
+ChessGameAI::ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turnTeam, string file, double ex)
 {
-	this->sol = { 64 * COUNT_TEAM * COUNT_FIG, 400, 800, 4096 };
+	this->sol = { 64 * COUNT_TEAM * COUNT_FIG, 1000, 2000, 4096 };
 
-	this->qmod = new QModel(sol, 0.01);
+	this->qmod = new QModel(sol, 0.01, file);
 	this->game = game;
 	this->gamma = gamma;
 	this->turn = turnTeam;
@@ -68,6 +68,11 @@ void ChessGameAI::Move(bool train)
 		delete input;
 		delete legal_move;
 	}
+}
+
+void ChessGameAI::save(string file_name)
+{
+	this->qmod->saveModel(file_name);
 }
 
 ChessGameAI::~ChessGameAI()

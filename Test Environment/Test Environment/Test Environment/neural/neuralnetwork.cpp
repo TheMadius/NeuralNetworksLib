@@ -48,6 +48,49 @@ void NeuralNetwork::trigger()
 		l->trigger();
 }
 
+
+void NeuralNetwork::autogenerate(string fileName)
+{
+	connectComplete();
+	loadFile(fileName);
+}
+
+void NeuralNetwork::saveFile(string name_file)
+{
+	std::ofstream out(name_file, std::ios::out | std::ios::binary | std::ios::trunc);
+
+	for (auto matrix : this->getWeights())
+	{
+		for (auto line : matrix)
+		{
+			for (auto element : line)
+			{
+				out.write((char*)(element), sizeof(*element));
+			}
+		}
+	}
+
+	out.close();
+}
+
+void NeuralNetwork::loadFile(string name_file)
+{
+	std::ifstream in(name_file, std::ios::binary);
+
+	for (auto matrix : this->getWeights())
+	{
+		for (auto line : matrix)
+		{
+			for (auto element : line)
+			{
+				in.read((char*)(element), sizeof(*element));
+			}
+		}
+	}
+	in.close();
+}
+
+
 vector<double> NeuralNetwork::output()
 {
     return (_layers.back())->output();

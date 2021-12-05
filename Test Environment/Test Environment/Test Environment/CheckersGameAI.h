@@ -14,8 +14,9 @@
 class CheckersGameAI
 {
 public:
-	CheckersGameAI(CheckersGame * game, double gamma, Team turn, double ex = 0.3);
+	CheckersGameAI(CheckersGame * game, double gamma, Team turn, string file = "", double ex = 0.3);
 	void Move(bool train = false);
+	void save(string file_name);
 	~CheckersGameAI();
 private:
 	std::vector<RowVector*> getInputData(int sizeBach, std::vector<int> index);

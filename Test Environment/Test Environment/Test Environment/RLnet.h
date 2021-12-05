@@ -19,11 +19,12 @@ typedef std::vector<RowVector*> data;
 class QModel
 {
 public:
-	QModel(std::vector<uint32_t> v, double learningRate);
-	int predict(RowVector& input, RowVector& legalMoves);
+	QModel(std::vector<uint32_t> v, double learningRate, string name_file = "");
 	void train(std::vector<RowVector*>& input, std::vector<RowVector*>& output);
-	int explore(RowVector& legalMoves);
 	RowVector forward(RowVector* input, RowVector* legalMoves);
+	int predict(RowVector& input, RowVector& legalMoves);
+	int explore(RowVector& legalMoves);
+	void saveModel(string file);
 	~QModel();
 
 private:
