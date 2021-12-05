@@ -1,69 +1,76 @@
-#include "RLnet.h"
-#include "NeuralNetwork.h"
-#include <iostream>
+#include "neural/neuralnetwork.h"
+#include "misc/functions.h"
+#include "optimizer/backpropagation.h"
+#include "optimizer/shakingtree.h"
+#include "dataset/dataset.h"
+
+#include <ctime>
+#include <numeric>
 #include <fstream>
-#include <sstream>
-#include <string>
+#include <iostream>
+#include <vector>
+#include <limits>
+#include <thread>
 
-void genData(std::string filename, int count)
+using namespace std;
+
+typedef unsigned int uint;
+
+double LEARNING_RATE = 0.0100;
+
+int main(int argc, char* argv[])
 {
-	std::ofstream file1(filename + "-in");
-	std::ofstream file2(filename + "-out");
-
-	for (int r = 0; r < count; r++) {
-		Scalar x = rand() / Scalar(RAND_MAX);
-		Scalar y = rand() / Scalar(RAND_MAX);
-
-		file1 << x << ", " << y << std::endl;
-		file2 << 2 * x + 10 + y << std::endl;
-	}
-
-	file1.close();
-	file2.close();
-}
-
-
-void ReadCSV(std::string filename, std::vector<RowVector*>& data)
-{
-	data.clear();
-	std::ifstream file(filename);
-	std::string line, word;
-	getline(file, line, '\n');
-	std::stringstream ss(line);
-	std::vector<Scalar> parsed_vec;
-	while (getline(ss, word, ',')) {
-		parsed_vec.push_back(Scalar(std::stof(&word[0])));
-	}
-	int cols = parsed_vec.size();
-	data.push_back(new RowVector(cols));
-	for (int i = 0; i < cols; i++) {
-		data.back()->coeffRef(0, i) = parsed_vec[i];
-	}
-
-	if (file.is_open()) {
-		while (getline(file, line, '\n')) {
-			std::stringstream ss(line);
-			data.push_back(new RowVector(1, cols));
-			int i = 0;
-			while (getline(ss,word, ',')) {
-				data.back()->coeffRef(i) = Scalar(std::stof(&word[0]));
-				i++;
-			}
-		}
-	}
-}
-
-int main()
-{
-	NeuralNetwork n({ 2, 3, 1 }, 0.01);
-	QModel mod();
-	data in_dat, out_dat;
-	genData("test", 10);
-
-	ReadCSV("test-in", in_dat);
-	ReadCSV("test-out", out_dat);
-
-	n.train(in_dat, out_dat, 100);
+	srand(uint(time(0)));
 	
+	NeuralNetwork n;
+	size_t n_hidden_layer = 5;
+	n.addLayer({ { "type", LayerType::INPUT },{ "size",2 } });
+	n.addLayer({ { "type", LayerType::STANDARD },{ "size", 10} ,{ "activation",ActivationFunction::SIGMOID } });
+	n.addLayer({ { "type", LayerType::STANDARD },{ "size", 100} ,{ "activation",ActivationFunction::SIGMOID } });
+	n.addLayer({ { "type", LayerType::STANDARD },{ "size", 200} ,{ "activation",ActivationFunction::SIGMOID } });
+	n.addLayer({ { "type", LayerType::OUTPUT},{ "size",1} ,{ "activation",ActivationFunction::SIGMOID } });
+
+	n.autogenerate();
+
+	Dataset data("data1000.txt");
+	data.split(0.8);
+
+	Backpropagation opt;
+	opt.setBatchSize(60);
+	LEARNING_RATE = 0.01;
+	opt.setNeuralNetwork(&n);
+	opt.setDataset(&data);
+
+	double lr_reduce_amplitude = 0.9;
+	int lr_reduce_schedule = 500;
+	int n_iteration = 50000;
+	int validate_every = 10;
+	double mintest = 1;
+	int i = 0;
+	clock_t t = clock();
+
+	while (i < n_iteration)
+	{
+		opt.minimize();
+
+		if (i % validate_every == 0)
+		{
+			double strain = n.predictAllForScore(data, TRAIN);
+			double stest = n.predictAllForScore(data);
+
+			mintest = stest < mintest ? stest : mintest;
+			cout << "it:" << i << '\t' << "    test_score:" << stest << "    train_score:" << strain << "   (best_test_score : " << mintest << ")" << endl;
+
+			double delta_t = (clock() - t) / 1000.0;
+		}
+
+		if (i % lr_reduce_schedule == 0)
+		{
+			LEARNING_RATE = LEARNING_RATE * lr_reduce_amplitude;
+			cout << LEARNING_RATE << endl;
+		}
+		i++;
+	}
+
 	return 0;
 }

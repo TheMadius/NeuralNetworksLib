@@ -2,18 +2,22 @@
 
 Scalar activationFunction(Scalar x)
 {
+	return  1 / (1 + exp(-x));
 	return (x >= 0) ? x : 0.01 * x;
 }
 
 Scalar activationFunctionDerivative(Scalar x)
 {
-	return 	(x >= 0) ? 1 : 0.01 ;
+	return 	activationFunction(x)*(1 - activationFunction(x));
+	return (x >= 0) ? 1 : 0.01;
 }
 
 NeuralNetwork::NeuralNetwork(std::vector<uint> topology, Scalar learningRate)
 {
 	this->topology = topology;
 	this->learningRate = learningRate;
+
+	deltas_norm = new RowVector(topology.size() - 2);
 
 	for (uint i = 0; i < topology.size(); i++) {
 		if (i == topology.size() - 1)
@@ -46,6 +50,14 @@ void NeuralNetwork::propagateForward(RowVector& input)
 
 	for (uint i = 1; i < topology.size(); i++) {
 		(*neuronLayers[i]) = (*neuronLayers[i - 1]) * (*weights[i - 1]);
+
+		//if (i != (topology.size() - 1))
+		//{
+		//	auto min = neuronLayers[i]->minCoeff();
+		//	auto max = neuronLayers[i]->maxCoeff();
+		//	*neuronLayers[i] = (neuronLayers[i]->array() - min) / (max - min);
+		//	deltas_norm->coeffRef(i - 1) = 1.0 / (max - min);
+		//}
 	}
 
 	for (uint i = 1; i < topology.size() - 1; i++) {
@@ -105,6 +117,8 @@ void NeuralNetwork::train(std::vector<RowVector*> input_data, std::vector<RowVec
 
 NeuralNetwork::~NeuralNetwork()
 {
+	delete deltas_norm;
+
 	for (int i = 0; i < neuronLayers.size(); ++i)
 		delete neuronLayers[i];
 
