@@ -1,8 +1,12 @@
 #include "Log.h"
 #include "CheckersGameAI.h"
 #include "CheckersGame.h"
+#include "ChessGameAI.h"
+#include "ChessGame.h"
 #include "ModelView.h"
+#include "ChessMV.h"
 #include <thread>
+#include <mutex>
 #include <chrono>
 
 using namespace std;
@@ -10,61 +14,31 @@ using namespace std;
 int main()
 {
 	Log::Init("log.txt");
-<<<<<<< HEAD
-	//CheckersGame game;
-	ChessGame gameA;
-	//CheckersGameAI AIControllerWhite(&game, 0.01, Team::White);
-	//CheckersGameAI AIControllerBlack(&game, 0.01, Team::Black);
-=======
-	mutex m;
-	CheckersGame game;
-	CheckersGameAI AIControllerWhite(&game, 0.9, Team::White);
-	CheckersGameAI AIControllerBlack(&game, 0.9, Team::Black);
->>>>>>> master
+	ChessGame gameChess;
+	ChessGameAI gameChessAiW(&gameChess, 0.9, ChessGame::Team::White);
+	ChessGameAI gameChessAiB(&gameChess, 0.9, ChessGame::Team::Black);
 
-	game.NewGame();
+	gameChess.NewGame();
 
-	thread t = thread([&]()
+	thread t2 = thread([&]()
 		{
-			ChessMV test;
-			test.ConnectGame(&game);
-			test.Start();
+			ChessMV v;
+			v.ConnectGame(&gameChess);
+			v.Start();
 		});
 
-	//thread ai = thread([&]()
+	//while (true)
+	//{
+	//	this_thread::sleep_for(chrono::milliseconds(400));
+	//	gameChessAiW.Move();
+	//	gameChessAiB.Move(true);
+	//	if (gameChess.GetInfo().isEnd)
 	//	{
-	//		while (true)
-	//		{
-	//			this_thread::sleep_for(chrono::milliseconds(500));
-	//			AIControllerWhite.Move();
-	//			this_thread::sleep_for(chrono::milliseconds(500));
-	//			AIControllerBlack.Move();
-	//		}
-	//	});
+	//		gameChess.NewGame();
+	//	}
+	//}
 
-	//ai.join();
-=======
-			//ModelView test;
-			//test.ConnectGame(&game);
-			//test.Start();
-		});
 
-	thread aiWhite = thread([&]()
-		{
-			while (true)
-			{
-				AIControllerWhite.Move();
-				AIControllerBlack.Move(true);
-				if (game.GetInfo().isEnd)
-				{
-					game.NewGame();
-				}
-			}
-		});
-
-	aiWhite.join();
->>>>>>> master
-	t.join();
-
+	t2.join();
 	Log::Stop();
 }

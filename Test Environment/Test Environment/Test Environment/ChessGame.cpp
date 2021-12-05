@@ -398,9 +398,13 @@ void ChessGame::MakeTurn(const Move& move)
 		rook->coord = rook->coord + Coord((move.target.x > 4) ? (-2) : (3), 0);
 	}
 	if (chosenFigure->type == FigureType::Pawn)
+	{
 		if (FigureByCoords(move.target) == nullptr)
 			if (abs(move.figureCoord.x - move.target.x) == 1)
-			choped = FigureByCoords(Coord(move.target.x, move.figureCoord.y));
+				choped = FigureByCoords(Coord(move.target.x, move.figureCoord.y));
+		if (move.target.y == 1 || move.target.y == 8)
+			chosenFigure->type = FigureType::Queen;
+	}
 	chosenFigure->coord = move.target;
 	chosenFigure->moved = true;
 	if (choped != nullptr)

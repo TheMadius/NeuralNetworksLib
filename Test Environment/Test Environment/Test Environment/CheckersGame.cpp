@@ -145,19 +145,19 @@ std::vector<Move> CheckersGame::PossibleMovesRecursive(const Checker* cp, const 
 	auto move = Move(*cp, checker.coord + ru);
 	auto moves = &move;
 	*moves == move;
+	//chop moves
+	tryMove(ru, dir);
+	tryMove(rd, dir);
+	tryMove(ld, dir);
+	tryMove(lu, dir);
 	//not chop moves
-	if (dir == Coord(0, 0))
+	if (dir == Coord(0, 0) && ret.empty())
 	{
 		if (CoordIsEmpty(checker.coord + ru))
 			ret.push_back(Move(*cp, checker.coord + ru));
 		if (CoordIsEmpty(checker.coord + lu))
 			ret.push_back(Move(*cp, checker.coord + lu));
 	}
-	//chop moves
-	tryMove(ru, dir);
-	tryMove(rd, dir);
-	tryMove(ld, dir);
-	tryMove(lu, dir);
 	return ret;
 }
 
