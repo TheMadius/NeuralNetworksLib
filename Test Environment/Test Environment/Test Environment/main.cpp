@@ -10,35 +10,40 @@
 #include <chrono>
 
 using namespace std;
+double LEARNING_RATE = 0.01;
 
 int main()
 {
 	Log::Init("log.txt");
 	ChessGame gameChess;
-	ChessGameAI gameChessAiW(&gameChess, 0.9, ChessGame::Team::White);
-	ChessGameAI gameChessAiB(&gameChess, 0.9, ChessGame::Team::Black);
+	ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
+	ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
+
+	CheckersGameAI gameChessAiW(&gameChess,0.9, Team::White);
+	CheckersGameAI gameChessAiB(&gameChess,0.9, Team::Black);
 
 	gameChess.NewGame();
 
 	thread t2 = thread([&]()
 		{
-			ChessMV v;
+			ModelView v;
 			v.ConnectGame(&gameChess);
 			v.Start();
 		});
 
-	//while (true)
-	//{
-	//	this_thread::sleep_for(chrono::milliseconds(400));
-	//	gameChessAiW.Move();
-	//	gameChessAiB.Move(true);
-	//	if (gameChess.GetInfo().isEnd)
-	//	{
-	//		gameChess.NewGame();
-	//	}
-	//}
+	while (true)
+	{
+		this_thread::sleep_for(chrono::milliseconds(400));
+		gameChessAiW.Move();
+		gameChessAiB.Move(true);
+		if (gameChess.GetInfo().isEnd)
+		{
+			gameChess.NewGame();
+		}
+	}
 
 
 	t2.join();
+	t3.join();
 	Log::Stop();
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Eigen3/Eigen"
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <ctime>
 #include <typeinfo>
@@ -15,17 +16,22 @@ typedef unsigned int uint;
 
 class NeuralNetwork {
 public:
-    NeuralNetwork(std::vector<uint32_t> topology, Scalar learningRate = Scalar(0.005));
- 
+    NeuralNetwork(std::vector<uint32_t> topology, Scalar learningRate = Scalar(0.01));
+    NeuralNetwork(std::string file_path, double learningRate);
     void train(std::vector<RowVector*>& input_data, std::vector<RowVector*>& output_data, int epochs = 1);
     void propagateForward(RowVector& input);
+    void loadModelInFile(std::string file_path);
+    void saveModelInFile(std::string file_path);
     void propagateBackward(RowVector& output);
     RowVector* forward(RowVector& input);
     void calcErrors(RowVector& output);
     void updateWeights();
+    void deleteNN();
     ~NeuralNetwork();
 
 private:
+    void loadWeights(std::string nameFile);
+
     std::vector<RowVector*> neuronLayers; 
     std::vector<RowVector*> deltas;
     std::vector<Matrix*> weights; 

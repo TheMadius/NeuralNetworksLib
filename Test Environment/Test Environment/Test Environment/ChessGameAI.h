@@ -16,8 +16,9 @@
 class ChessGameAI
 {
 public:
-	ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turn, double ex = 0.3);
+	ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turn, string file = "", double ex = 0.3);
 	void Move(bool train = false);
+	void save(string file_name);
 	~ChessGameAI();
 private:
 	std::vector<RowVector*> getInputData(int sizeBach, std::vector<int> index);

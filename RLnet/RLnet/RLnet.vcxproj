@@ -139,13 +139,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NeuralNetwork.cpp" />
+    <ClCompile Include="dataset\dataset.cpp" />
+    <ClCompile Include="misc\functions.cpp" />
+    <ClCompile Include="neural\edge.cpp" />
+    <ClCompile Include="neural\layer.cpp" />
+    <ClCompile Include="neural\neuralnetwork.cpp" />
+    <ClCompile Include="neural\neuron.cpp" />
+    <ClCompile Include="optimizer\backpropagation.cpp" />
+    <ClCompile Include="optimizer\optimizer.cpp" />
+    <ClCompile Include="optimizer\shakingtree.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="RLnet.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NeuralNetwork.h" />
-    <ClInclude Include="RLnet.h" />
+    <ClInclude Include="dataset\dataset.h" />
+    <ClInclude Include="misc\functions.h" />
+    <ClInclude Include="neural\edge.h" />
+    <ClInclude Include="neural\layer.h" />
+    <ClInclude Include="neural\neuralnetwork.h" />
+    <ClInclude Include="neural\neuron.h" />
+    <ClInclude Include="optimizer\backpropagation.h" />
+    <ClInclude Include="optimizer\optimizer.h" />
+    <ClInclude Include="optimizer\shakingtree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

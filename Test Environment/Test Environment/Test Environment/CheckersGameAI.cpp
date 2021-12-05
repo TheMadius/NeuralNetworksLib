@@ -10,11 +10,11 @@ std::vector<int> getRandomVec(int size)
 	return x;
 }
 
-CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam , double ex)
+CheckersGameAI::CheckersGameAI(CheckersGame* game, double gamma, Team turnTeam, string file, double ex)
 {
-	this->sol = { 64 * 2, 200, 500, 2000, 4096 };
+	this->sol = { 64 * 2, 500, 800, 4096 };
 
-	this->qmod = new QModel(sol);
+	this->qmod = new QModel(sol, 0.01, file);
 	this->game = game;
 	this->gamma = gamma;
 	this->turn = turnTeam;
@@ -51,8 +51,8 @@ void CheckersGameAI::Move(bool train)
 		updata_history(AVG_STEP);
 
 		auto index = getRandomVec(this->history_state.size());
-		auto inputData = getInputData(6, index);
-		auto outputData = getOutputData(6, index);
+		auto inputData = getInputData(15, index);
+		auto outputData = getOutputData(15, index);
 
 		this->qmod->train(inputData, outputData);
 
@@ -194,6 +194,11 @@ int CheckersGameAI::getIndexForArray(int x, int y)
 Coord CheckersGameAI::getCoord(int indexArr)
 {
 	return Coord(indexArr%MAX_Y + 1, indexArr / MAX_Y + 1);
+}
+
+void CheckersGameAI::save(string file_name)
+{
+	this->qmod->saveModel(file_name);
 }
 
 void CheckersGameAI::updata_history(int limit_count)

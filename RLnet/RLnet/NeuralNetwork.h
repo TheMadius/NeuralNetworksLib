@@ -5,9 +5,9 @@
 #include <typeinfo>
  
 typedef float Scalar;
-typedef Eigen::MatrixXf Matrix;
-typedef Eigen::RowVectorXf RowVector;
-typedef Eigen::VectorXf ColVector;
+typedef Eigen::MatrixXd Matrix;
+typedef Eigen::RowVectorXd RowVector;
+typedef Eigen::VectorXd ColVector;
 typedef std::vector<RowVector*> data;
 typedef unsigned int uint;
 
@@ -27,6 +27,7 @@ public:
 private:
     std::vector<RowVector*> neuronLayers; 
     std::vector<RowVector*> deltas;
+    RowVector* deltas_norm;
     std::vector<Matrix*> weights; 
     std::vector<uint32_t> topology;
     Scalar learningRate;
