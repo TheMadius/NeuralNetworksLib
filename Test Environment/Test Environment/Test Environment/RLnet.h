@@ -2,7 +2,6 @@
 #include "neural/neuralnetwork.h"
 #include "misc/functions.h"
 #include "optimizer/backpropagation.h"
-#include "dataset/dataset.h"
 
 #include <iostream>
 #include <algorithm> 
