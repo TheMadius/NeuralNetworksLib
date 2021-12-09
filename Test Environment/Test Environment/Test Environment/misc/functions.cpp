@@ -28,6 +28,7 @@ double relu_derivative(double x)
 //Random float getter function
 double random(double low, double high)
 {
+
     return low + static_cast <double> (rand()) /( static_cast <double> (RAND_MAX/(high-low)));
 }
 

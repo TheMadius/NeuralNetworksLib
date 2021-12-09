@@ -5,7 +5,7 @@
 
 NeuralNetwork::NeuralNetwork()
 {
-
+	srand(static_cast<unsigned int>(time(NULL)));
 }
 
 NeuralNetwork::~NeuralNetwork()

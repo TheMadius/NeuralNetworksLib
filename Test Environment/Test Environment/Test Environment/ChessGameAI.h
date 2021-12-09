@@ -12,7 +12,6 @@
 #define COUNT_FIG 6
 #define AVG_STEP 30
 
-
 class ChessGameAI
 {
 public:
@@ -21,28 +20,27 @@ public:
 	void save(string file_name);
 	~ChessGameAI();
 private:
-	std::vector<RowVector*> getInputData(int sizeBach, std::vector<int> index);
-	std::vector<RowVector*> getOutputData(int sizeBach, std::vector<int> index);
+	std::vector<const vector<double>*> getInputData(int sizeBach, std::vector<int> index);
+	std::vector<const vector<double>*> getOutputData(int sizeBach, std::vector<int> index);
 	void updata_history(int limit_count);
 	int getIndexForArray(int x, int y);
 	int MakeMuve(int indexOfArray);
-	RowVector* getInputVector();
-	RowVector* getLegalVector();
+	vector<double>* getInputVector();
+	vector<double>* getLegalVector();
 	ChessGame::Coord getCoord(int indexArr);
 
 	std::vector<uint32_t> sol;
+	ChessGame::Team turn;
 	ChessGame* game;
 	double probRand;
 	QModel* qmod;
 	double gamma;
-	ChessGame::Team turn;
 
 	std::vector<int> history_action;
 	std::vector<int> history_reward;
-	std::vector<RowVector*> history_state;
-	std::vector<RowVector*> history_legal;
-	std::vector<RowVector*> history_next_state;
-	std::vector<RowVector*> history_next_legal;
-
+	std::vector<const vector<double>*> history_state;
+	std::vector<const vector<double>*> history_legal;
+	std::vector<const vector<double>*> history_next_state;
+	std::vector<const vector<double>*> history_next_legal;
 };
 

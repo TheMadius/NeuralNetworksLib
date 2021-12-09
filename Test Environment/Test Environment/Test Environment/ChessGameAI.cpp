@@ -112,11 +112,10 @@ int ChessGameAI::MakeMuve(int indexOfArray)
 	}
 }
 
-RowVector* ChessGameAI::getInputVector()
+vector<double>* ChessGameAI::getInputVector()
 {
 	auto checkers = game->GetFigures();
-	RowVector* input_vextor = new RowVector(sol.front());
-	input_vextor->setZero();
+	vector<double>* legal_vector = new vector<double>(sol.front(), 0);
 
 	for (auto& i : checkers)
 	{
@@ -125,17 +124,16 @@ RowVector* ChessGameAI::getInputVector()
 		int turn = (int)(i->team);
 		int type = (int)(i->type);
 
-		input_vextor->coeffRef(getIndexForArray(x, y) * COUNT_TEAM * COUNT_FIG + COUNT_FIG * turn + type) = 1.0;
+		(*legal_vector)[getIndexForArray(x, y) * COUNT_TEAM * COUNT_FIG + COUNT_FIG * turn + type] = 1.0;
 	}
 
-	return input_vextor;
+	return legal_vector;
 }
 
-RowVector* ChessGameAI::getLegalVector()
+vector<double>* ChessGameAI::getLegalVector()
 {
 	auto checkers = game->GetFigures();
-	RowVector* legal_vextor = new RowVector(sol.back());
-	legal_vextor->setZero();
+	vector<double>* legal_vector = new vector<double>(sol.back(), 0);
 
 	for (auto& i : checkers)
 	{
@@ -149,18 +147,18 @@ RowVector* ChessGameAI::getLegalVector()
 				int index_ch = (MAX_X * MAX_Y) * getIndexForArray(x_ch, y_ch);
 				int index_pos = getIndexForArray(x_m, y_m);
 
-				legal_vextor->coeffRef(index_ch + index_pos) = 1.0;
+				(*legal_vector)[index_ch + index_pos] = 1.0;
 			}
 		}
 	}
 
-	return legal_vextor;
+	return legal_vector;
 }
 
 
-std::vector<RowVector*> ChessGameAI::getInputData(int sizeBach, std::vector<int> index)
+std::vector<const vector<double>*> ChessGameAI::getInputData(int sizeBach, std::vector<int> index)
 {
-	std::vector<RowVector*> input;
+	std::vector<const vector<double>*> input;
 	if (index.size() < sizeBach)
 		sizeBach = index.size();
 
@@ -170,21 +168,21 @@ std::vector<RowVector*> ChessGameAI::getInputData(int sizeBach, std::vector<int>
 	return input;
 }
 
-std::vector<RowVector*> ChessGameAI::getOutputData(int sizeBach, std::vector<int> index)
+std::vector<const vector<double>*> ChessGameAI::getOutputData(int sizeBach, std::vector<int> index)
 {
-	std::vector<RowVector*> output;
+	std::vector<const vector<double>*> output;
 
 	if (index.size() < sizeBach)
 		sizeBach = index.size();
 
 	for (int i = 0; i < sizeBach; i++)
 	{
-		RowVector* updated_q_values = new RowVector(sol.back());
-		updated_q_values->setZero();
+		vector<double>* updated_q_values = new vector<double>(sol.back(), 0);
 		int id = index[i];
+		auto best_next_rewards = this->qmod->forward(this->history_next_state[id], this->history_next_legal[id]);
+		double best_next_reward = *(std::max_element(best_next_rewards.begin(), best_next_rewards.end()));
 
-		auto best_next_reward = this->qmod->forward(this->history_next_state[id], this->history_next_legal[id]).maxCoeff();
-		updated_q_values->coeffRef(this->history_action[id]) = this->history_reward[id] + this->gamma * best_next_reward;
+		(*updated_q_values)[this->history_action[id]] = this->history_reward[id] + this->gamma * best_next_reward;
 
 		output.push_back(updated_q_values);
 	}

@@ -6,24 +6,20 @@
 #include "Eigen3/Eigen"
 
 #include <iostream>
+#include <algorithm> 
+#include <random>
 #include <vector>
 #include <ctime>
 #include <map>
-
-typedef double Scalar;
-typedef Eigen::MatrixXd Matrix;
-typedef Eigen::RowVectorXd RowVector;
-typedef Eigen::VectorXd ColVector;
-typedef std::vector<RowVector*> data;
 
 class QModel
 {
 public:
 	QModel(std::vector<uint32_t> v, double learningRate, string name_file = "");
-	void train(std::vector<RowVector*>& input, std::vector<RowVector*>& output);
-	RowVector forward(RowVector* input, RowVector* legalMoves);
-	int predict(RowVector& input, RowVector& legalMoves);
-	int explore(RowVector& legalMoves);
+	void train(std::vector<const vector<double>*>& input, std::vector<const vector<double>*>& output);
+	vector<double> forward(const vector<double>* input, const vector<double>* legalMoves);
+	int predict(vector<double>& input, vector<double>& legalMovess);
+	int explore(vector<double>& legalMoves);
 	void saveModel(string file);
 	~QModel();
 

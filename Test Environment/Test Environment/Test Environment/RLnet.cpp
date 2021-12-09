@@ -1,24 +1,5 @@
 #include "RLnet.h"
 
-vector<double> convertRowVinStdV(RowVector& input)
-{
-	vector<double> res(input.size());
-	for(int i = 0 ; i < input.size(); ++i)
-		res[i] = input.coeffRef(i);
-
-	return res;
-}
-
-RowVector convertStdVinRowV(vector<double>& input)
-{
-	RowVector res(input.size());
-
-	for (int i = 0; i < input.size(); ++i)
-		res.coeffRef(i) = input[i];
-
-	return res;
-}
-
 QModel::QModel(std::vector<uint32_t> v, double learningRate, string name_file)
 {
 	model = new NeuralNetwork();
@@ -53,68 +34,53 @@ QModel::~QModel()
 	delete this->opt;
 }
 
-int QModel::predict(RowVector& input, RowVector& legalMoves)
+int QModel::predict(vector<double>& input, vector<double>& legalMoves)
 {
-	auto res = model->predict(convertRowVinStdV(input));
-	auto pred = convertStdVinRowV(res);
+	auto pred = model->predict(std::move(input));
+	auto minmax = *(std::min_element(pred.begin(), pred.end()));
 
-	RowVector::Index maxIndex;
-	Scalar min = pred.minCoeff();
+	std::for_each(pred.begin(), pred.end(), [&](double& item) { item = item - minmax;});
 
-	pred = pred.array() - min;
+	for (int i = 0; i < pred.size(); i++)
+		pred[i] = pred[i] * legalMoves[i];
 
-	pred = pred.array() * legalMoves.array();
-
-	pred.maxCoeff(&maxIndex);
+	int maxIndex = std::distance(std::begin(pred), std::max_element(pred.begin(), pred.end()));
 
 	return maxIndex;
 }
 
-int QModel::explore(RowVector& legalMoves)
+int QModel::explore(vector<double>& legalMoves)
 {
-	srand(static_cast<unsigned int>(time(NULL)));
+	random_device rnd_device;
+	mt19937 mersenne_engine(rnd_device());
+	uniform_real_distribution<double> dist(-1, 1);
+	auto gen = std::bind(dist, mersenne_engine);
+	vector<double>pred(topology.back());
 
-	RowVector random(topology.back());
-	RowVector::Index maxIndex;
-	Scalar min = -1;
+	generate(pred.begin(), pred.end(), gen);
 
-	random.setRandom();
+	std::for_each(pred.begin(), pred.end(), [&](double& item) {item = item + 1; });
 
-	random = random.array() - min;
+	for (int i = 0; i < pred.size(); i++)
+		pred[i] = pred[i] * legalMoves[i];
 
-	random = random.array() * legalMoves.array();
-	random.maxCoeff(&maxIndex);
+	int maxIndex = std::distance(std::begin(pred), std::max_element(pred.begin(), pred.end()));
 
 	return maxIndex;
 }
 
-RowVector QModel::forward(RowVector* input, RowVector* legalMoves)
+vector<double> QModel::forward(const vector<double>* input, const vector<double>* legalMoves)
 {
-	auto pred = model->predict(convertRowVinStdV(*input));
-	auto res = convertStdVinRowV(pred);
+	auto pred = model->predict(*input);
 
-	res = res.array() * legalMoves->array();
+	for (int i = 0; i < pred.size(); i++)
+		pred[i] = pred[i] * (*legalMoves)[i];
 
-	return res;
+	return pred;
 }
 
-void QModel::train(std::vector<RowVector*> &_input, std::vector<RowVector*> &_output)
+void QModel::train(std::vector<const vector<double>*>& _input, std::vector<const vector<double>*>& _output)
 {
-	std::vector<const std::vector<double>*> input(_input.size());
-	std::vector<const std::vector<double>*> output(_output.size());
-
-	for (int i = 0; i < _input.size(); i++)
-		input[i] = new vector<double>(convertRowVinStdV(*_input[i]));
-
-	for (int i = 0; i < _output.size(); i++)
-		output[i] = new vector<double>(convertRowVinStdV(*_output[i]));
-
-	opt->backpropagate(input, output);
-
-	for (int i = 0; i < input.size(); i++)
-		delete input[i];
-
-	for (int i = 0; i < output.size(); i++)
-		delete output[i];
+	opt->backpropagate(_input, _output);
 }
 

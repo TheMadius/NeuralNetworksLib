@@ -19,13 +19,13 @@ public:
 	void save(string file_name);
 	~CheckersGameAI();
 private:
-	std::vector<RowVector*> getInputData(int sizeBach, std::vector<int> index);
-	std::vector<RowVector*> getOutputData(int sizeBach, std::vector<int> index);
+	std::vector<const vector<double>*> getInputData(int sizeBach, std::vector<int> index);
+	std::vector<const vector<double>*> getOutputData(int sizeBach, std::vector<int> index);
 	void updata_history(int limit_count);
 	int getIndexForArray(int x, int y);
 	int MakeMuve(int indexOfArray);
-	RowVector* getInputVector();
-	RowVector* getLegalVector();
+	vector<double>* getInputVector();
+	vector<double>* getLegalVector();
 	Coord getCoord(int indexArr);
 
 	std::vector<uint32_t> sol;
@@ -37,9 +37,9 @@ private:
 
 	std::vector<int> history_action;
 	std::vector<int> history_reward;
-	std::vector<RowVector*> history_state;
-	std::vector<RowVector*> history_legal;
-	std::vector<RowVector*> history_next_state;
-	std::vector<RowVector*> history_next_legal;
+	std::vector<const vector<double>*> history_state;
+	std::vector<const vector<double>*> history_legal;
+	std::vector<const vector<double>*> history_next_state;
+	std::vector<const vector<double>*> history_next_legal;
 };
 
