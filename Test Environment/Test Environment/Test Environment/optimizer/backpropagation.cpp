@@ -11,21 +11,6 @@ void Backpropagation::setBatchSize(size_t bs)
 	_batch_size = bs;
 }
 
-void Backpropagation::minimize()
-{
-	vector<const vector<double>*> batch_in(_batch_size);
-	vector<const vector<double>*> batch_out(_batch_size);
-
-	for (size_t i = 0; i < _batch_size; i++)
-	{
-		int z = rand() % _d->getIns(TRAIN).size();
-		batch_in[i] = _d->getIns(TRAIN)[z];
-		batch_out[i] = _d->getOuts(TRAIN)[z];
-	}
-	backpropagate(batch_in, batch_out);
-}
-
-
 vector<vector<vector<double>>> Backpropagation::getBackpropagationShifts(const vector<double>& in, const vector<double>& out)
 {
 	vector<vector<vector<double>>> dw(_n->getLayers().size());

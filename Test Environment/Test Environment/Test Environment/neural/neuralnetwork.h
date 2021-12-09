@@ -3,7 +3,6 @@
 
 #include "../misc/functions.h"
 #include "layer.h"
-#include "../dataset/dataset.h"
 #include <unordered_map>
 
 #define RAND_MAX_WEIGHT 1
@@ -70,14 +69,7 @@ public:
 
 	vector<double> predict(const vector<double>& in);
 
-	double predictAllForScore(const Dataset& dataset, Datatype d = TEST, int limit=-1);
-
-	double predictPartialForScore(const Dataset& dataset);
-
 	vector<Layer*> getLayers();
-
-
-
 
 
 public:

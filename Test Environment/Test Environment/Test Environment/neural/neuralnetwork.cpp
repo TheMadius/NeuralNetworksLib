@@ -198,32 +198,6 @@ vector<double> NeuralNetwork::predict(const vector<double>& in)
 	return output();
 }
 
-double NeuralNetwork::predictAllForScore(const Dataset& dataset, Datatype d,  int limit)
-{
-	if (limit == 0)
-		return 1;
-	double s = 0;
-
-	//Sans limite explicite, on score toutes les données
-	if (limit == -1)
-		for (size_t i = 0; i < dataset.getIns(d).size(); i++)
-			s += distanceVector(predict(*dataset.getIns(d)[i]), *dataset.getOuts(d)[i]);
-	//Sinon on prend "limit" données
-	else
-		for (int i = 0; i < limit; i++)
-		{
-			int r = rand() % dataset.getIns(d).size();
-			s += distanceVector(predict(*dataset.getIns(d)[r]), *dataset.getOuts(d)[r]);
-		}
-
-	//On moyenne le score
-	if (limit == -1)
-		s /= dataset.getIns(d).size();
-	else
-		s /= limit;
-	return s;
-}
-
 vector<Layer*> NeuralNetwork::getLayers()
 {
 	return _layers;

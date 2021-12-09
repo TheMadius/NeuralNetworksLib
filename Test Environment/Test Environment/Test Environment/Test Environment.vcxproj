@@ -156,7 +156,6 @@
     <ClInclude Include="ChessGame.h" />
     <ClInclude Include="ChessGameAI.h" />
     <ClInclude Include="ChessMV.h" />
-    <ClInclude Include="dataset\dataset.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="misc\functions.h" />
@@ -167,7 +166,6 @@
     <ClInclude Include="neural\neuron.h" />
     <ClInclude Include="optimizer\backpropagation.h" />
     <ClInclude Include="optimizer\optimizer.h" />
-    <ClInclude Include="optimizer\shakingtree.h" />
     <ClInclude Include="RLnet.h" />
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +174,6 @@
     <ClCompile Include="ChessGame.cpp" />
     <ClCompile Include="ChessGameAI.cpp" />
     <ClCompile Include="ChessMV.cpp" />
-    <ClCompile Include="dataset\dataset.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="misc\functions.cpp" />
@@ -187,7 +184,6 @@
     <ClCompile Include="neural\neuron.cpp" />
     <ClCompile Include="optimizer\backpropagation.cpp" />
     <ClCompile Include="optimizer\optimizer.cpp" />
-    <ClCompile Include="optimizer\shakingtree.cpp" />
     <ClCompile Include="RLnet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

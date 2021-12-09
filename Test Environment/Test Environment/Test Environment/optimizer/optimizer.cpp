@@ -29,19 +29,8 @@ void Optimizer::minimizeThread()
 	t.join();
 }
 
-void Optimizer::setDataset(Dataset* dataset)
-{
-	_d = dataset;
-}
-
 void Optimizer::setNeuralNetwork(NeuralNetwork* net)
 {
 	_n = net;
-}
-
-
-double Optimizer::getScore(Datatype d, int limit)
-{
-	return _n->predictAllForScore(*_d,d, limit);
 }
 

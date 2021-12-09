@@ -3,10 +3,12 @@
 #include "misc/functions.h"
 #include "optimizer/backpropagation.h"
 #include "dataset/dataset.h"
-#include "Eigen3/Eigen"
 
 #include <iostream>
 #include <algorithm> 
+#include <iostream>
+#include <memory>
+#include <functional>
 #include <random>
 #include <vector>
 #include <ctime>

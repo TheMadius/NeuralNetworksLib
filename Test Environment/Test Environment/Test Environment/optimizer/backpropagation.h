@@ -2,7 +2,6 @@
 
 #include "../misc/functions.h"
 #include "../neural/neuralnetwork.h"
-#include "../dataset/dataset.h"
 #include "optimizer.h"
 #include <unordered_map>
 
@@ -19,8 +18,6 @@ public:
 	void backpropagate(const vector<const vector<double>*>& ins, const vector<const vector<double>*>& outs);
 
 	vector<Layer*> getLayers();
-
-	void minimize();
 
 	void setBatchSize(size_t bs);
 

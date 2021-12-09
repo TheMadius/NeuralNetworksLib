@@ -22,9 +22,6 @@
     <Filter Include="misc">
       <UniqueIdentifier>{897331bc-6746-4af8-a33e-b60f01aabbab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dataset">
-      <UniqueIdentifier>{6e3c9982-f0d7-4487-aaa9-e38448dc1e76}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -75,12 +72,6 @@
     <ClInclude Include="optimizer\optimizer.h">
       <Filter>optimizer</Filter>
     </ClInclude>
-    <ClInclude Include="optimizer\shakingtree.h">
-      <Filter>optimizer</Filter>
-    </ClInclude>
-    <ClInclude Include="dataset\dataset.h">
-      <Filter>dataset</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CheckersGame.cpp">
@@ -130,12 +121,6 @@
     </ClCompile>
     <ClCompile Include="optimizer\optimizer.cpp">
       <Filter>optimizer</Filter>
-    </ClCompile>
-    <ClCompile Include="optimizer\shakingtree.cpp">
-      <Filter>optimizer</Filter>
-    </ClCompile>
-    <ClCompile Include="dataset\dataset.cpp">
-      <Filter>dataset</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
