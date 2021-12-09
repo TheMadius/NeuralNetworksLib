@@ -15,32 +15,29 @@ double LEARNING_RATE = 0.01;
 int main()
 {
 	Log::Init("log.txt");
-	//ChessGame gameChess;
-	CheckersGame gameChess;
+	ChessGame gameChess;
+	//CheckersGame gameChess;
 	//ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
-	//ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
+	ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
 
-	CheckersGameAI gameChessAiW(&gameChess,0.9, Team::White);
-	CheckersGameAI gameChessAiB(&gameChess,0.9, Team::Black);
+	//CheckersGameAI gameChessAiW(&gameChess,0.9, Team::White);
+	//CheckersGameAI gameChessAiB(&gameChess,0.9, Team::Black);
 
 	gameChess.NewGame();
 
 	thread t2 = thread([&]()
 		{
-			ModelView v;
+			ChessMV v;
 			v.ConnectGame(&gameChess);
 			v.Start();
 		});
 
 	while (true)
 	{
-		this_thread::sleep_for(chrono::milliseconds(400));
-		gameChessAiW.Move();
-		gameChessAiB.Move(true);
-		if (gameChess.GetInfo().isEnd)
-		{
-			gameChess.NewGame();
-		}
+		//this_thread::sleep_for(chrono::milliseconds(1000));
+		//gameChessAiW.Move();
+		this_thread::sleep_for(chrono::milliseconds(1000));
+		gameChessAiB.Move();
 	}
 
 
