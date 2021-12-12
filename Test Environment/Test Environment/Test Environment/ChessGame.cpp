@@ -43,6 +43,7 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool
 	{
 		Coord to = figure->coord + dc;
 		Move tmp = Move(figure->coord, to);
+		tmp.ChopFigure(FigureByCoords(to));
 		if (!CoordsInField(to))
 			return;
 		if (correct && !CheckShahByMove(figure->coord, to))
@@ -55,6 +56,8 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool
 	auto tryMovePawnChop = [&](const Coord& dc)
 	{
 		Coord to = figure->coord + dc;
+		Move tmp = Move(figure->coord, to);
+		tmp.ChopFigure(FigureByCoords(to));
 		if (!CoordsInField(to))
 			return;
 		if (correct && !CheckShahByMove(figure->coord, to))
@@ -62,13 +65,15 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool
 		if (CoordIsEmpty(to))
 			return;
 		if (FigureByCoords(to)->team != figure->team)
-			ret.push_back(Move(figure->coord, to));
+			ret.push_back(tmp);
 	};
 	auto tryMovePawnChopOnMove = [&](const Coord& dc)
 	{
 		if (history.empty())
 			return;
 		Coord to = figure->coord + dc;
+		Move tmp = Move(figure->coord, to);
+		tmp.ChopFigure(FigureByCoords(to));
 		if (!CoordsInField(to))
 			return;
 		if (CoordIsEmpty(Coord(to.x, figure->coord.y)))
@@ -83,18 +88,20 @@ std::vector<ChessGame::Move> ChessGame::PossibleMoves(const Figure* figure, bool
 			return;
 		if (abs(m.target.y - m.figureCoord.y) == 2 && abs(m.target.x - figure->coord.x) == 1 && m.target.y == figure->coord.y)
 			if (choped->type == FigureType::Pawn)
-				ret.push_back(Move(figure->coord, to));
+				ret.push_back(tmp);
 	};
 	auto tryMovePawn = [&](const Coord& dc)
 	{
 		Coord to = figure->coord + dc;
+		Move tmp = Move(figure->coord, to);
+		tmp.ChopFigure(FigureByCoords(to));
 		if (!CoordsInField(to))
 			return;
 		if (correct && !CheckShahByMove(figure->coord, to))
 			return;
 		if (!CoordIsEmpty(to))
 			return;
-		ret.push_back(Move(figure->coord, to));
+		ret.push_back(tmp);
 	};
 	auto lineMoves = [&](const Coord& dir)
 	{
