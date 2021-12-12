@@ -32,24 +32,26 @@ void ChessGameAI::Move(bool train)
 	auto input = getInputVector();
 	auto legal_move = getLegalVector();
 
+	int moveId;
+	this->history_legal.push_back(legal_move);
+	this->history_state.push_back(input);
+
+	bool isRand = (((double)(rand())) / RAND_MAX) < this->probRand;
+
+	if (isRand && train)
+		moveId = this->qmod->explore(*legal_move);
+	else
+		moveId = this->qmod->predict(*input, *legal_move);
+
+	this->history_action.push_back(moveId);
+	this->history_reward.push_back(MakeMuve(moveId) * 10000);
+	this->history_next_state.push_back(getInputVector());
+	this->history_next_legal.push_back(getLegalVector());
+
+	updata_history(AVG_STEP);
+
 	if (train)
 	{
-		int moveId;
-		this->history_legal.push_back(legal_move);
-		this->history_state.push_back(input);
-
-		if ((((double)(rand())) / RAND_MAX) < this->probRand)
-			moveId = this->qmod->explore(*legal_move);
-		else
-			moveId = this->qmod->predict(*input, *legal_move);
-
-		this->history_action.push_back(moveId);
-		this->history_reward.push_back(MakeMuve(moveId) * 10000);
-		this->history_next_state.push_back(getInputVector());
-		this->history_next_legal.push_back(getLegalVector());
-
-		updata_history(AVG_STEP);
-
 		auto index = getRandomVec(this->history_state.size());
 		auto inputData = getInputData(6, index);
 		auto outputData = getOutputData(6, index);
@@ -58,15 +60,6 @@ void ChessGameAI::Move(bool train)
 
 		for (auto i : outputData)
 			delete i;
-	}
-	else
-	{
-		int moveId;
-		moveId = this->qmod->predict(*input, *legal_move);
-		MakeMuve(moveId);
-
-		delete input;
-		delete legal_move;
 	}
 }
 
@@ -90,6 +83,13 @@ ChessGameAI::~ChessGameAI()
 
 int ChessGameAI::MakeMuve(int indexOfArray)
 {
+	auto rewards = [](ChessGame::FigureType type){
+		switch (type){
+		case ChessGame::FigureType::Pawn:return 100;case ChessGame::FigureType::Knight:return 300;
+		case ChessGame::FigureType::Bishop:return 300;case ChessGame::FigureType::Rook:return 500;
+		case ChessGame::FigureType::Queen:return 1000;case ChessGame::FigureType::King:return 10000;default:return 0;}
+	};
+
 	ChessGame::Coord coordCheck = getCoord(indexOfArray / 64);
 	ChessGame::Coord coordCheckMove = getCoord(indexOfArray % 64);
 
@@ -104,8 +104,16 @@ int ChessGameAI::MakeMuve(int indexOfArray)
 			{
 				if (move.target == coordCheckMove)
 				{
+					int reward = 0;
+					if (move.chopedFigure != nullptr)
+						reward = rewards(move.chopedFigure->type);
+
 					this->game->MakeMove(move);
-					return 0;
+
+					if (this->game->GetInfo().isEnd)
+						reward += 10000;
+
+					return reward;
 				}
 			}
 		}
