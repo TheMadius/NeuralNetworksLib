@@ -14,14 +14,14 @@ double LEARNING_RATE = 0.01;
 
 int main()
 {
+	int num = 0;
 	Log::Init("log.txt");
 	ChessGame gameChess;
-	//CheckersGame gameChess;
+	
 	ChessGameAI gameChessAiW(&gameChess,0.9, ChessGame::Team::White);
 	ChessGameAI gameChessAiB(&gameChess,0.9, ChessGame::Team::Black);
 
-	//CheckersGameAI gameChessAiW(&gameChess,0.9, Team::White);
-	//CheckersGameAI gameChessAiB(&gameChess,0.9, Team::Black);
+	gameChessAiB.setOpponent(&gameChessAiW);
 
 	gameChess.NewGame();
 
@@ -34,12 +34,17 @@ int main()
 
 	while (true)
 	{
-		//this_thread::sleep_for(chrono::milliseconds(1000));
 		gameChessAiW.Move();
-		//this_thread::sleep_for(chrono::milliseconds(1000));
-		gameChessAiB.Move();
+		gameChessAiB.Move(true);
+		if (gameChess.GetInfo().isEnd)
+		{
+			num++;
+			gameChess.NewGame();
+			gameChessAiB.save("modelBChess.mo");
+			if(num % 5 == 0)
+				gameChessAiB.save("modelBChess"+to_string(num)+".mo");
+		}
 	}
-
 
 	t2.join();
 	//t3.join();

@@ -42,21 +42,17 @@ public:
 		Move(const Coord& figureCoord, const Coord& target) : target(target), figureCoord(figureCoord), chopedFigure(nullptr) {};
 		~Move()
 		{
-			if (chopedFigure != nullptr)
-				delete chopedFigure;
+
 		}
 		void ChopFigure(const Figure* figure)
 		{
-			if (figure != nullptr)
-				chopedFigure = new Figure(*figure);
-			else
-				chopedFigure = nullptr;
+			chopedFigure = figure;
 		}
 		bool operator==(const Move& other) { return figureCoord == other.figureCoord && target == other.target; }
 		bool operator!=(const Move& other) { return !(*this == other); }
 		Coord figureCoord;
 		Coord target;
-		Figure* chopedFigure;
+		const Figure* chopedFigure;
 	};
 
 	struct GameInfo

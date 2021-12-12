@@ -10,6 +10,11 @@ static std::vector<int> getRandomVec(int size)
 	return x;
 }
 
+void ChessGameAI::setOpponent(const ChessGameAI* op)
+{
+	this->_op = op;
+}
+
 ChessGameAI::ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turnTeam, string file, double ex)
 {
 	this->sol = { 64 * COUNT_TEAM * COUNT_FIG, 1000, 2000, 4096 };
@@ -19,6 +24,7 @@ ChessGameAI::ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turnTeam
 	this->gamma = gamma;
 	this->turn = turnTeam;
 	this->probRand = ex;
+	this->_op = nullptr;
 }
 
 void ChessGameAI::Move(bool train)
@@ -44,7 +50,7 @@ void ChessGameAI::Move(bool train)
 		moveId = this->qmod->predict(*input, *legal_move);
 
 	this->history_action.push_back(moveId);
-	this->history_reward.push_back(MakeMuve(moveId) * 10000);
+	this->history_reward.push_back(MakeMuve(moveId));
 	this->history_next_state.push_back(getInputVector());
 	this->history_next_legal.push_back(getLegalVector());
 
@@ -52,14 +58,10 @@ void ChessGameAI::Move(bool train)
 
 	if (train)
 	{
-		auto index = getRandomVec(this->history_state.size());
-		auto inputData = getInputData(6, index);
-		auto outputData = getOutputData(6, index);
+		_train(this);
 
-		this->qmod->train(inputData, outputData);
-
-		for (auto i : outputData)
-			delete i;
+		if (this->_op != nullptr)
+			_train(this->_op);
 	}
 }
 
@@ -164,20 +166,22 @@ vector<double>* ChessGameAI::getLegalVector()
 }
 
 
-std::vector<const vector<double>*> ChessGameAI::getInputData(int sizeBach, std::vector<int> index)
+std::vector<const vector<double>*> ChessGameAI::getInputData(int sizeBach, std::vector<int> index, const ChessGameAI* ai)
 {
 	std::vector<const vector<double>*> input;
 	if (index.size() < sizeBach)
 		sizeBach = index.size();
 
 	for (int i = 0; i < sizeBach; i++)
-		input.push_back(this->history_state[index[i]]);
+		input.push_back(ai->history_state[index[i]]);
 
 	return input;
 }
 
-std::vector<const vector<double>*> ChessGameAI::getOutputData(int sizeBach, std::vector<int> index)
+std::vector<const vector<double>*> ChessGameAI::getOutputData(int sizeBach, std::vector<int> index, const ChessGameAI* ai)
 {
+	int reward = (ai == this) ? 1 : -1;
+
 	std::vector<const vector<double>*> output;
 
 	if (index.size() < sizeBach)
@@ -185,27 +189,17 @@ std::vector<const vector<double>*> ChessGameAI::getOutputData(int sizeBach, std:
 
 	for (int i = 0; i < sizeBach; i++)
 	{
-		vector<double>* updated_q_values = new vector<double>(sol.back(), 0);
 		int id = index[i];
-		auto best_next_rewards = this->qmod->forward(this->history_next_state[id], this->history_next_legal[id]);
+		vector<double>* updated_q_values = new vector<double>(sol.back(), 0);
+		auto best_next_rewards = ai->qmod->forward(ai->history_next_state[id], ai->history_next_legal[id]);
 		double best_next_reward = *(std::max_element(best_next_rewards.begin(), best_next_rewards.end()));
 
-		(*updated_q_values)[this->history_action[id]] = this->history_reward[id] + this->gamma * best_next_reward;
+		(*updated_q_values)[ai->history_action[id]] = reward * ai->history_reward[id] + ai->gamma * best_next_reward;
 
 		output.push_back(updated_q_values);
 	}
 
 	return output;
-}
-
-int ChessGameAI::getIndexForArray(int x, int y)
-{
-	return (y - 1) * MAX_X + x - 1;
-}
-
-ChessGame::Coord ChessGameAI::getCoord(int indexArr)
-{
-	return ChessGame::Coord(indexArr % MAX_Y + 1, indexArr / MAX_Y + 1);
 }
 
 void ChessGameAI::updata_history(int limit_count)
@@ -227,3 +221,24 @@ void ChessGameAI::updata_history(int limit_count)
 	}
 }
 
+void ChessGameAI::_train(const ChessGameAI* ai)
+{
+	auto index = getRandomVec(ai->history_state.size());
+	auto inputData = getInputData(7, index, ai);
+	auto outputData = getOutputData(7, index, ai);
+
+	this->qmod->train(inputData, outputData);
+
+	for (auto i : outputData)
+		delete i;
+}
+
+int ChessGameAI::getIndexForArray(int x, int y)
+{
+	return (y - 1) * MAX_X + x - 1;
+}
+
+ChessGame::Coord ChessGameAI::getCoord(int indexArr)
+{
+	return ChessGame::Coord(indexArr % MAX_Y + 1, indexArr / MAX_Y + 1);
+}

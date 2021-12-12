@@ -10,7 +10,7 @@
 #define MAX_Y 8
 #define COUNT_TEAM 2
 #define COUNT_FIG 6
-#define AVG_STEP 30
+#define AVG_STEP 50
 
 class ChessGameAI
 {
@@ -18,16 +18,19 @@ public:
 	ChessGameAI(ChessGame* game, double gamma, ChessGame::Team turn, string file = "", double ex = 0.3);
 	void Move(bool train = false);
 	void save(string file_name);
+	void setOpponent(const ChessGameAI* op);
 	~ChessGameAI();
 private:
-	std::vector<const vector<double>*> getInputData(int sizeBach, std::vector<int> index);
-	std::vector<const vector<double>*> getOutputData(int sizeBach, std::vector<int> index);
+	std::vector<const vector<double>*> getInputData(int sizeBach, std::vector<int> index, const ChessGameAI* ai);
+	std::vector<const vector<double>*> getOutputData(int sizeBach, std::vector<int> index, const ChessGameAI* ai);
+
+	ChessGame::Coord getCoord(int indexArr);
 	void updata_history(int limit_count);
+	void _train(const ChessGameAI* ai);
 	int getIndexForArray(int x, int y);
-	int MakeMuve(int indexOfArray);
 	vector<double>* getInputVector();
 	vector<double>* getLegalVector();
-	ChessGame::Coord getCoord(int indexArr);
+	int MakeMuve(int indexOfArray);
 
 	std::vector<uint32_t> sol;
 	ChessGame::Team turn;
@@ -35,6 +38,7 @@ private:
 	double probRand;
 	QModel* qmod;
 	double gamma;
+	const ChessGameAI* _op;
 
 	std::vector<int> history_action;
 	std::vector<int> history_reward;

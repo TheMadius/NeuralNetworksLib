@@ -41,6 +41,7 @@ void  Backpropagation::backpropagate(const vector<const vector<double>*>& ins, c
 				for (size_t k = 0; k < _dw[j].size(); k++)
 					dw[j][k].resize(_dw[j][k].size(), 0);
 			}
+			is_init = true;
 		}
 		for (size_t j = 0; j < _dw.size(); j++)
 			for (size_t k = 0; k < _dw[j].size(); k++)
