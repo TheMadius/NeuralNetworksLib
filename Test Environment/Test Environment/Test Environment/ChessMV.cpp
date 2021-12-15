@@ -212,15 +212,15 @@ void ChessMV::GameBoardTextUpdate()
 
 
 	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2));
-	windowGame->gameTextureAndText.txtInfo->setString("Шашек на доске: " + to_string(game->GetInfo().allFigures));
+	windowGame->gameTextureAndText.txtInfo->setString("Фигур на доске: " + to_string(game->GetInfo().allFigures));
 	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
 
 	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 50);
-	windowGame->gameTextureAndText.txtInfo->setString("Чёрных шашек на доске:" + to_string(game->GetInfo().blackFigures));
+	windowGame->gameTextureAndText.txtInfo->setString("Чёрных фигур на доске:" + to_string(game->GetInfo().blackFigures));
 	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
 
 	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 100);
-	windowGame->gameTextureAndText.txtInfo->setString("Белых шашек на доске:" + to_string(game->GetInfo().whiteFigures));
+	windowGame->gameTextureAndText.txtInfo->setString("Белых фигур на доске:" + to_string(game->GetInfo().whiteFigures));
 	windowGame->app->draw(*windowGame->gameTextureAndText.txtInfo);
 
 	windowGame->gameTextureAndText.txtInfo->setPosition((windowGame->gameBoard.cellSize * 9) + 52, (windowGame->gameBoard.cellSize / 2) + 150);
